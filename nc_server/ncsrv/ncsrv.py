@@ -158,11 +158,21 @@ class NCSrv:
 		log("   skipping notify for non-critical night error.")
 		continue
 
+            level_priority = { 'critical' : 1,
+                               'failure' : 2,
+                               'error' : 3,
+                               'warning' : 4,
+                               'info' : 5 }
+                              
 	    active_count = active_count + 1
 	    errs = []
 	    for err in ierrs:
 		# figure out the real name of the error!
-		errs.append(self.nameForError(err))
+	        trig = err.getTriggerRow()
+                errs.append( (level_priority.get(trig.level,10),self.nameForError(err)) )
+
+            errs.sort()
+            errs = map(lambda x: x[1], errs)
 		
 	    inc_info = "NC[%d] %d errors: %s" % (inc.incident_id, len(ierrs),string.join(errs,", "))
 	    
