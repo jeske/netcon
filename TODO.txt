@@ -1,0 +1,51 @@
+***********************************
+*
+* Netcon - Network Condition Monitoring Tool
+*
+*      ---  TODO  ---
+*
+
+0) Basic bringup
+
+   - (done) database schema/odb
+   - (done) error/incident manager
+   - (done) basic test               #  test.py 
+   - (done) first webpage            #  http://c1.neotonic.com/netcon/index.py
+   - (done) first agent monitor      #  Disk monitor
+   - agent run-loop (cron or daemon)
+   - agent data-submission
+   - basic incident notifications
+   - basic trigger config
+
+2) Server UI
+
+   - incident details / notes
+   - resolve incident / watch timeout
+   - configuration
+     - machine hierarchy
+     - server-side per-agent state configuration
+     - machine roles
+     - role triggers
+   - machine view
+   - role view
+   - stat/source history (data/graph)
+
+3) Features / Designs
+
+   - notification config/shifts/user watch/incident watch timer
+   - hierarchial suppression
+
+4) Agent Data Monitors
+
+   - ping
+   - dns
+   - directory/queue count
+   - memory usage
+   - cpu usage
+   - innodbtablespace
+   - oracletablespace
+   - snmp
+   - process state
+   - tcp chat (connect,request,response)
+   - http
+   - web (http,https)

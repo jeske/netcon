@@ -30,7 +30,7 @@ def main(argv,stdout,environ):
 
     nccm.report()
 
-    ncsrv = nc_srvrpc.NCServerRpc("http://ops.neotonic.com/netcon/agentCheckIn.py")
+    ncsrv = nc_srvrpc.NCServerRpc("http://c1.neotonic.com/netcon/agentCheckIn.py")
     ncsrv.checkIn()
 
 if __name__ == "__main__":

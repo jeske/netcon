@@ -246,7 +246,7 @@ class NCIncidentsTable(Table):
         
         if incident_list:
             incident = incident_list[0]
-            if (incident.end + 30*60) > time.time():
+            if (incident.end + (30*60)) > time.time():
                 if event_time and (event_time > incident.end):
                     incident.end = event_time
                     incident.save()

@@ -38,9 +38,9 @@ report on the user-percieved impact of failures over time.
 
 - data is stored in a MySQL database
 - monitoring is performed by a lightweight data-collection client
-- configuration data about what to monitor is administered locally
-- custom data-collection clients can be written, by merely speaking
-  the Netcon protocol
+- configuration data about what to monitor is administered centrally
+- custom data-collection clients can be written by merely speaking
+  the Netcon http protocol
 - clients can (optionally) save and report data for disconnected periods
 - hierarchial redundant trigger suppression
 
@@ -86,4 +86,9 @@ can indicate the user-percieved result of the failure
 well as the length of time this incident should be watched for. After
 the watch timeout has expired, Netcon will clear the incident and make
 it part of the incident history.
+
+* What is there left to work on?
+
+Check out the TODO.txt file!
+
 
