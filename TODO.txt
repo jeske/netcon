@@ -14,13 +14,14 @@
    - (done) first agent monitor      #  Disk monitor
    - (done) agent cron mode
    - (done) agent data-submission
-   - basic incident notifications
    - basic trigger config
+   - basic incident notifications
    - agent daemon run-loop
    - UI: better display of incident failure
    - UI: incident notes
    - UI: resolve/close incident
    - new data addition optimization (txn?)
+   - data-resolution reduction
 
 2) Agent Data Monitors
 
@@ -98,6 +99,8 @@
               normally
         - shutdown and reboot server
         - remove a server from load balancer
-
-
-
+    - maintain other organizations of machines
+        - ex: rack location, power control, serial console
+        - provide a query interface so tools can use this data easily.
+          - ex: "./powercycle.py c1" finds out what apc port c1 is on from netcon
+            - Provide these plugin tools inside Netcon server
