@@ -50,12 +50,29 @@ class NCSrv:
 
 	return trigger.name
         
-        
-##     Subject: NC- 2 critical, 10 error, 3 warning
+##     Subject: NC[64] 2 critical, 10 error, 3 warning
 ##     (8/15 12:05am)
 ##     2 critical: Web(www.trakken.com), Web(www.neotonic.com)...
 ##     10 error: Disk(c1), Disk(c4)...
 ##     3 warning: Mem(c1), Mem(c4), Bugs(c9)
+
+##     Subject: NC[64] View/Acknowledge (blong)
+##     (8/15 12:30am)
+
+##     Subject: NC[64] RequiresUpdate (blong)
+##     (8/15 12:40am)
+##     Please update the online status or Netcon will escelate!
+
+##     Subject: NC[64] Note (blong)
+##     (8/15 12:42am)
+##     Navisite is aware of the problem, and will call me back...
+
+##     Subject: NC[64] Escelate! (30min) 2 critical, 10 error, 3 warning
+##     (8/15 12:45am)
+##     2 critical: Web(www.trakken.com), Web(www.neotonic.com)...
+##     10 error: Disk(c1), Disk(c4)...
+##     3 warning: Mem(c1), Mem(c4), Bugs(c9)
+
         
     def run_notification(self):
         ndb = self.ndb
@@ -85,7 +102,7 @@ class NCSrv:
 		# figure out the real name of the error!
 		errs.append(self.nameForError(err))
 		
-	    inc_info = "%d errors: %s" % (len(ierrs),string.join(errs,", "))
+	    inc_info = "NC[%d] %d errors: %s" % (inc.incident_id, len(ierrs),string.join(errs,", "))
 	    
 	    if summary is None:
 		summary = inc_info[:50]

@@ -24,16 +24,19 @@
    - (done) triggers/errors should show curent state on index page (red/green)
    - (done) data graph
    - archive state which was not provided during the last agent checkin
+   - method to trigger ncsrv.py re-evaluation
+   - first trend computation
    - DEBUG!
      - bug w/swap trigger
-     - fix graphs to use time properly
-       - should align time for all graphs on a page!
      - total disk space seems to be changing, why? is it "free"?
+   - fix graphs to use time properly
+     - should align time for all graphs on a page!
    - netcon user accounts
    - better display of incident failure
    - incident notes
    - resolve/close incident
    - new data addition optimization (txn?)
+   - show how many minutes/seconds ago the data-collection was on index
 
 1) Edge Cases
 
