@@ -110,6 +110,14 @@ class GraphDataHistoryPage(NCPage):
 	      ('source_id', q_source_id)],
 	    limit_to=200, order_by=["pend desc"])
 
+	try:
+	    cur = self.ndb.monitor_state.fetchRow(
+		[ ('serv_id', q_service_id),
+		  ('source_id', q_source_id)] )
+	    h_data.insert(0,cur)
+	except odb.eNoMatchingRows:
+	    pass
+
 	h_data.hdfExport("CGI.history", self.ncgi.hdf)
 
 	gi = GraphImage(q_width,q_height)

@@ -11,7 +11,6 @@ import neo_cgi,neo_util
 
 import odb
 
-
 class ViewDataHistoryPage(NCPage):
     def display(self):
 	hdf = self.ncgi.hdf
@@ -50,6 +49,15 @@ class ViewDataHistoryPage(NCPage):
 	      [ ('serv_id', q_service_id),
 		('source_id', q_source_id)], limit_to=200,
                 order_by =['pstart desc'] )
+
+          try:
+              cur = self.ndb.monitor_state.fetchRow(
+                  [ ('serv_id', q_service_id),
+                    ('source_id', q_source_id)] )
+              h_data.insert(0,cur)
+          except odb.eNoMatchingRows:
+              pass
+
 
 	  h_data.hdfExport(prefix + ".history", self.ncgi.hdf)
 	

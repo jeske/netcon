@@ -391,6 +391,16 @@ class GraphDataHistoryPage(NCPage):
 	    ('level', level)] ,
 	  skip_to=i, limit_to=incr, order_by=['pend desc'])
 
+	try:
+	    cur = self.ndb.monitor_state.fetchRow(
+		[ ('serv_id', q_service_id),
+		  ('source_id', q_source_id)] )
+	    h_data.insert(0,cur)
+	except odb.eNoMatchingRows:
+	    pass
+
+
+
 	if len(h_data) == 0: break
 
 	rows = rows + h_data
