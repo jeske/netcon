@@ -17,6 +17,7 @@
    - basic trigger config
    - basic incident notifications
    - agent daemon run-loop
+   - UI: show last collection date, and recent history
    - UI: better display of incident failure
    - UI: incident notes
    - UI: resolve/close incident
@@ -34,6 +35,9 @@
    - RAID status
    - http
    - dns
+   - domain check
+     - automatically check for secondary DNS, issue warning
+     - check for redundant MX, RCPT to acceptance, issue warning
    - snmp
    - process state
    - tcp chat (connect,request,response)
@@ -100,7 +104,10 @@
         - shutdown and reboot server
         - remove a server from load balancer
     - maintain other organizations of machines
-        - ex: rack location, power control, serial console
+        - ex, rack location, power control, serial console
         - provide a query interface so tools can use this data easily.
-          - ex: "./powercycle.py c1" finds out what apc port c1 is on from netcon
+          - ex, "./powercycle.py c1" finds out what apc port c1 is on from netcon
             - Provide these plugin tools inside Netcon server
+  - Idea: revive Brandon's old "exception browser" concept for storing
+    and browsing exceptions and other state messages
+    
