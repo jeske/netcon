@@ -104,8 +104,13 @@ class GraphDataHistoryPage(NCPage):
 	h_data.hdfExport("CGI.history", self.ncgi.hdf)
 
 	gi = GraphImage(q_width,q_height)
+
+        # setup fixed scaling
 	if service.type == "pct":
 	    gi.setMinMax(0,100)
+        elif service.type == "state":
+            gi.setMinMax(0,1)
+
 	for data in h_data:
 	    gi.addData(data.value)
 
