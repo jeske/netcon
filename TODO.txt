@@ -5,6 +5,10 @@
 *      ---  TODO  ---
 *
 
+.) Bugs!!@!@@!!!
+   - total disk space seems to be changing, why? is it "free"?
+   - changing a trigger source leaves old trigger errors alive
+
 0) Basic bringup
 
    - (done) database schema/odb
@@ -23,36 +27,46 @@
    - (done) view data history/service info
    - (done) triggers/errors should show curent state on index page (red/green)
    - (done) data graph
-
+   - (done) resolve/close incident
 
    - replace QOS!!!
      - (done) split items onto new incidents (disk/swap->new incident)
      - (done) incident states (new,viewed,watch,acknowledge,resolved)
-     - show how recent the collected data is (relative)
-     - incident notes
-     - expire trigger data from errors
-     - change process monitor to re.search()
      - report on agent checkin failure!
+     - incident notes
+     - expire trigger data from errors which are too old
 
-   - index page should show the service namepath/type
+   - cleanup
+     - show how recent the collected data is (relative)
+     - change process monitor to re.search()
+     - index page should show the service namepath/type
+     - agentConfigPage : to setup what agents are running on a machine
+     - remove machines/agents/services from main page (overview)
+     - add units ( disk/inodes:cur/kb ? )
+     - delete trigger
+     - expire state which was not provided again during the last agent checkin
+
    - disk space trend
      - progressive linear trends
      - linear regression ?
      - http://www.scipy.org/site_content/tutorials/show_doc?input_file=node20.html
      - http://www.scipy.org/site_content/tutorials/show_doc?input_file=index.html
-   - config cleanup
-     - agentConfigPage : to setup what agents are running on a machine
-     - remove machines/agents/services from main page (overview)
-     - add units ( disk/inodes:cur/kb ? )
-     - delete trigger
+
+   - netcon user accounts
+     - currently active user support
+     - audit log of config changes
+     - (see notification schedule/escelation)
+
    - instant data updates
      - change trigger, rerun that trigger
      - change trigger source, set to zero for old source.
      - show the old and new trigger results over time to compare
        before save...
+
    - switch to XML for client/server
      - client -> server : list of monitors, config data for each monitor
      - server -> client : structured configuration
+
    - notifications
      - while netcon does not have connectivity, it should not
        send notifications (single alert)
@@ -67,34 +81,27 @@
      - quick-notes "I'm calling navisite"
      - when the incident is watch w/note, set watch timeout..
      - when the incident is ack, stop paging
-   - online incident notes...
+
    - agent frequency
      - control agent freq (ping-1m, innodb-30m)
      - control data-summarization (ping time - 10m)
-   - improve index
-     - error info
-        - types:
-          - went bad and is bad
-            - time of error creation
-          - went bad and is good
-            - time of error creation
-            - time of good
-          - went bad and is fluctuation
-            - time of error creation
-            - know that it's fluctuating
 
-   - archive state which was not provided during the last agent checkin
-   - method to trigger ncsrv.py re-evaluation
-   - first trend computation
-   - DEBUG!
-     - bug w/swap trigger
-     - total disk space seems to be changing, why? is it "free"?
+   - improve incident details
+     - more specific error info
+      - types of error histories:
+        - went bad and is bad
+          - time of error creation
+        - went bad and is good
+          - time of error creation
+          - time of good
+        - went bad and is fluctuation
+          - time of error creation
+          - know that it's fluctuating
+
    - fix graphs to use time properly
      - should align time for all graphs on a page!
-   - netcon user accounts
-   - better display of incident failure
-   - incident notes
-   - resolve/close incident
+     - maybe we should just use one big graph for most pages
+
    - new data addition optimization (txn?)
    - show how many minutes/seconds ago the data-collection was on index
 
@@ -103,6 +110,7 @@
    - when changing triggers we need to do something with trigger state
      since old state values get "stuck" if you remove the trigger.
      (manually clear? automatically clear? rerun?)
+   - method to trigger ncsrv.py re-evaluation ??
 
 2) Agent Data Monitors and Features
 
