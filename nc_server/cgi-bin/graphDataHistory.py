@@ -101,7 +101,8 @@ class GraphDataHistoryPage(NCPage):
 
         h_data = self.ndb.monitor_history.fetchRows(
 	    [ ('serv_id', q_service_id),
-	      ('source_id', q_source_id)] )
+	      ('source_id', q_source_id)],
+	    limit_to=200, order_by=["pend desc"])
 
 	h_data.hdfExport("CGI.history", self.ncgi.hdf)
 
@@ -113,6 +114,9 @@ class GraphDataHistoryPage(NCPage):
         elif service.type == "state":
             gi.setMinMax(0,1)
 
+	# sort the data ascending in time
+	h_data.sort(lambda a,b: cmp(a.pend,b.pend))
+	    
 	for data in h_data:
 	    gi.addData(data.value)
 

@@ -110,7 +110,6 @@ class IndexPage(NCPage):
 	    order_by =['occured_at desc'])
 
 	events.hdfExport(prefix + ".events",self.ncgi.hdf)
-	
 
 	errs = self.ndb.incident_errors.fetchRows( ('incident_id', incident.incident_id) )
 
