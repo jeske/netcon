@@ -30,6 +30,13 @@ class AdminEditTriggerPage(NCPage):
 	trigger.level           = hdf.getValue("Query.level","")
 
 	trigger.test_type       = hdf.getValue("Query.test_type","")
+	q_unit = hdf.getValue("Query.trend_time_unit","")
+	q_time = hdf.getIntValue("Query.trend_time",0)
+	if q_unit and q_time:
+	    trigger.trend_config    = "%s:%s" % (q_time,q_unit)
+	else:
+	    trigger.trend_config = ""
+	
 	try:
 	    trigger.tvalue      = string.atof(hdf.getValue("Query.tvalue","0"))
 	except ValueError:

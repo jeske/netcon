@@ -69,6 +69,7 @@ create table nc_role_triggers (
   level varchar(255),
 
   test_type varchar(255),
+  trend_config varchar(255) default '',
   tvalue real
 ) TYPE=INNODB;
 

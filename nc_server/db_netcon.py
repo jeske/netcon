@@ -227,6 +227,16 @@ class NCRoleConfigTable(Table):
 	self.d_addColumn("collector", kVarString, 255)
 	self.d_addColumn("collector_config", kVarString, 255)
 
+class NCRoleTriggerRow(HdfRow):
+    def hdfExport(self,prefix,hdf,**x):
+	HdfRow.hdfExport(self,prefix,hdf,**x)
+	try:
+	    time,unit = string.split(self.trend_config,":")
+	    hdf.setValue(prefix + ".trend_config.time",time)
+	    hdf.setValue(prefix + ".trend_config.unit",unit)
+	except ValueError:
+	    pass
+
 class NCRoleTriggersTable(Table):
     def _defineRows(self):
         self.d_addColumn("trigger_id", kInteger, primarykey=1, autoincrement=1)
@@ -237,7 +247,9 @@ class NCRoleTriggersTable(Table):
         self.d_addColumn("level", kVarString, 255)
 
 	self.d_addColumn("test_type", kVarString,255)
+	self.d_addColumn("trend_config", kVarString, 255)
 	self.d_addColumn("tvalue", kReal)
+	
 
 kStateNew = 0
 kStateViewed = 1
@@ -425,7 +437,8 @@ class DB(Database):
 
         self.roles = NCRolesTable(self,"nc_roles")
         self.mach_roles = NCMachRolesTable(self,"nc_mach_roles")
-        self.role_triggers = NCRoleTriggersTable(self,"nc_role_triggers")
+        self.role_triggers = NCRoleTriggersTable(self,"nc_role_triggers",
+						 rowClass=NCRoleTriggerRow)
 	self.role_config = NCRoleConfigTable(self,"nc_role_config")
 
         self.incidents = NCIncidentsTable(self,"nc_incidents",rowClass=NCIncidentRow)

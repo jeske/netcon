@@ -14,3 +14,18 @@ Levels {
   2 = error
   3 = failure
 }
+
+TrendUnits {
+  0 {
+    id = d
+    name [Lang]= days
+  }
+  1 {
+    id = h
+    name [Lang] = hours
+  }
+  2 {
+    id = m
+    name [Lang] = minutes
+  }
+}

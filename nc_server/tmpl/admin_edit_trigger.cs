@@ -44,6 +44,18 @@ If reported value is
 
 <p>
 
+...or trending predicts the event to occur in 
+<input size=5 type=text name="trend_time" value="<?cs var:CGI.trigger.trend_config.time ?>">
+<select name="trend_time_unit">
+  <option> -- select --
+<?cs each:tu = TrendUnits ?>
+  <option <?cs if:CGI.trigger.trend_config.unit == tu.id ?>SELECTED<?cs /if ?> value="<?cs var:tu.id ?>"> <?cs var:tu.name ?>
+<?cs /each ?>
+</select>
+
+
+<p>
+
 ...then trigger an event of severity 
 <select name="level">
 <?cs each:lvl=Levels ?>
