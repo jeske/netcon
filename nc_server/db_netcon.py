@@ -1,10 +1,13 @@
 #!/neo/opt/bin/pythan
 
 from odb import *
+import odb_mysql
 from log import *
 from hdfhelp import HdfRow, HdfItemList
 import profiler
 import socket
+
+import MySQLdb
 
 import neo_cgi,neo_util
 
@@ -466,9 +469,9 @@ class NCIncidentEventAuditTable(Table):
         self.d_addColumn("e_data", kBigString)
         self.d_addColumn("note", kBigString)
 
-class DB(Database):
+class DB(odb_mysql.Database):
     def __init__(self, db, debug=0):
-        Database.__init__(self,db)
+        odb_mysql.Database.__init__(self,db)
 	self.db = db
         self._cursor = None
         self.debug = debug
