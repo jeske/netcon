@@ -16,7 +16,9 @@ class DiskMonitor:
     def collectData(self,config):
         # Get disk usage
         if 'linux2' == sys.platform or 'linux-i386' == sys.platform:
-            (status, output) = commands.getstatusoutput('/bin/df -k -x tmpfs -x swap')
+            DF_CMD = "/bin/df -k -x tmpfs -x swap"
+            # DF_CMD = "/bin/df -k -l"
+            (status, output) = commands.getstatusoutput(DF_CMD)
         elif 'freebsd' == sys.platform[:7] or 'openbsd' == sys.platform[:7] or 'netbsd' == sys.platform[:6]:
             (status, output) = commands.getstatusoutput('/bin/df -kt ufs')
         elif 'sunos5' == sys.platform:
