@@ -40,7 +40,7 @@ class MysqlMonitor:
 # 'Uptime: 2431621  Threads: 3  Questions: 49794953  Slow queries: 98  Opens: 48  Flush tables: 1  Open tables: 42 Queries per second avg: 20.478'
 
         stat_name_map = {
-            'Uptime' : ('uptime','total'),
+            'Uptime' : ('uptime','seconds'),
             'Threads' : ('threads', 'cur'),
             'Questions' : ('queries', 'total'),
             'Slow queries' : ('slow_queries', 'total'),
