@@ -4,9 +4,9 @@
 
 <b>Machines</b>
 <table border=1>
-  <tr><td>ID</td><td>name</td></tr>
+  <tr><td align=center>ID</td><td>name</td></tr>
 <?cs each:m=CGI.machines ?>
-  <Tr><td><a href="viewMachine.py?mach_id=<?cs var:m.mach_id ?>">&nbsp;<?cs var:m.mach_id ?>&nbsp;</a></td><td><?cs var:m.name ?></td></tr>
+  <Tr><td align=center><a href="viewMachine.py?mach_id=<?cs var:m.mach_id ?>">&nbsp;<?cs var:m.mach_id ?>&nbsp;</a></td><td><?cs var:m.name ?></td></tr>
 <?cs /each ?>
 
 </table>
