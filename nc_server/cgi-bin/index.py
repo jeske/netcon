@@ -196,6 +196,38 @@ class IndexPage(NCPage):
 	    n = n + 1
 	    incident.hdfExport(prefix,self.ncgi.hdf)
 
+	    # find out if incident is current good or bad...
+	    errs = self.ndb.incident_errors.fetchRows( ('incident_id',
+							incident.incident_id) )
+
+	    good_count = 0
+	    bad_count = 0
+	    for an_err in errs:
+		# unpack error info
+		ehdf = an_err.unpackErrorInfo()
+		trigger_serv_id = ehdf.getIntValue("trigger_serv_id",-1)
+		source_id = ehdf.getIntValue("source",-1)
+
+		# export trigger details
+		trigger_id = ehdf.getIntValue("trigger_id",-1)
+
+		# export current trigger data for this trigger!
+		tsrc = self.ndb.services.getService("trigger/%s:state" % trigger_id)
+		try:
+		    tdata = self.ndb.monitor_state.fetchRow(
+			[ ('source_id', source_id),
+			  ('serv_id', tsrc.serv_id) ])
+		    if tdata.value:
+			bad_count = bad_count + 1
+		    else:
+			good_count = good_count + 1
+		except odb.eNoMatchingRows:
+		    pass
+
+	    self.ncgi.hdf.setValue(prefix + ".bad_count", str(bad_count))
+	    self.ncgi.hdf.setValue(prefix + ".good_count", str(good_count))
+
+
 	if q_incident_id != -1:
 	    cur_incident = self.ndb.incidents.fetchRow(
 		('incident_id', q_incident_id) )

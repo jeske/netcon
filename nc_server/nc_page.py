@@ -8,7 +8,7 @@ from CSPage import CSPage
 class NCPage(CSPage):
     def subclassinit(self):
         cwd = os.getcwd()
-        if cwd.find('blong'):
+        if cwd.find('blong') != -1:
             self.setPaths(["/home/blong/netcon/nc_server/tmpl"])
         else:
             self.setPaths(["/home/jeske/netcon/nc_server/tmpl"])

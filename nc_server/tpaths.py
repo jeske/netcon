@@ -5,7 +5,7 @@ import os
 def paths(root_dir):
     p = []
     cwd = os.getcwd()
-    if cwd.find('blong'):
+    if cwd.find('blong') != -1:
       p.append("/home/blong/neotonic/python/examples/base") # base
       p.append("/home/blong/neotonic/python/") # neo_cgi.so
     else:

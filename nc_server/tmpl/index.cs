@@ -77,13 +77,17 @@ No such Incident Id '<?cs var:CGI.Error.no_such_incident_id ?>'<br>
 </form>
 
 </td><td valign=top align=right>
+
+<?cs # ---- the mini-active incidents nav list ---- ?>
 <?cs if:?CGI.active_incidents.0.incident_id ?>
 <b>Active Incidents</b><br>
 <table border=1>
-  <tr><td>Incident</td><td>First Event</td></tr>
+  <tr><td>Incident</td><td colspan=2>Cur</td><td>First Event</td></tr>
   <?cs each:ainc = CGI.active_incidents ?>
   <tr <?cs if:ainc.incident_id==Query.incident_id ?>BGCOLOR=#FFCCCC<?cs /if ?>>
       <td align=center><a href="index.py?incident_id=<?cs var:ainc.incident_id ?>">&nbsp;<?cs var:ainc.incident_id ?>&nbsp;</a></td>
+      <td align=right><?cs if:ainc.good_count ?><b style="color:green"><?cs var:ainc.good_count ?></b><?cs else ?>&nbsp;<?cs /if ?></td>
+      <Td align=left><?cs if:ainc.bad_count ?><b style="color:red"><?cs var:ainc.bad_count ?><?cs else ?>&nbsp;<?cs /if ?></td>
       <td><?cs var:ainc.start.string ?></td>
   </tr>
 
