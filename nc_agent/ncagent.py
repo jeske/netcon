@@ -28,10 +28,10 @@ def main(argv,stdout,environ):
     mon = DiskMonitor.makeMonitor(nccm)
     mon.collectData()
 
-    nccm.report()
+    print nccm.postdata()
 
     ncsrv = nc_srvrpc.NCServerRpc("http://c1.neotonic.com/netcon/agentCheckIn.py")
-    ncsrv.checkIn()
+    ncsrv.checkIn(nccm)
 
 if __name__ == "__main__":
     main(sys.argv, sys.stdout, os.environ)

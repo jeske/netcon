@@ -1,5 +1,5 @@
 
-import urllib
+import postdata
 
 class NCServerRpc:
     def __init__(self,urlpath):
@@ -7,10 +7,10 @@ class NCServerRpc:
 
         # make sure we can resolve the server hostname!
 
-    def checkIn(self):
-        fp = urllib.urlopen(self._urlpath)
-        print fp.read()
-        
+    def checkIn(self,ncmgr):
+        result = postdata.post_multipart("c1.neotonic.com","/netcon/agentCheckIn.py",
+                            [],[('data','data.txt',ncmgr.postdata())])
+        print result
                           
         
         
