@@ -26,12 +26,13 @@
 
 
    - replace QOS!!!
-     - split items onto new incidents (disk/swap->new incident)
+     - (done) split items onto new incidents (disk/swap->new incident)
      - incident states (new,viewed,watch,acknowledge,resolved)
      - show how recent the collected data is (relative)
      - incident notes
      - expire trigger data from errors
      - change process monitor to re.search()
+     - report on agent checkin failure!
 
    - index page should show the service namepath/type
    - disk space trend
