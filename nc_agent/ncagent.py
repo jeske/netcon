@@ -11,7 +11,7 @@
 import os, sys, string, getopt
 import time
 
-import nc_cmgr
+import nc_cmgr, nc_srvrpc
 
 sys.path.insert(0,"MonitorPlugins/unix")
 import DiskMonitor
@@ -29,6 +29,9 @@ def main(argv,stdout,environ):
     mon.collectData()
 
     nccm.report()
+
+    ncsrv = nc_srvrpc.NCServerRpc("http://ops.neotonic.com/netcon/agentCheckIn.py")
+    ncsrv.checkIn()
 
 if __name__ == "__main__":
     main(sys.argv, sys.stdout, os.environ)
