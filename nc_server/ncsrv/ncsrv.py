@@ -177,11 +177,11 @@ class NCSrv:
     # main run!!!
 
     def run(self):
-	# self.run_trends()
+	self.run_trends()
 	
-	# self.run_triggers()  # run triggers and generate errors..
+	self.run_triggers()  # run triggers and generate errors..
 
-	# self.run_incident_management() # coalesc errors into incidents
+	self.run_incident_management() # coalesc errors into incidents
 
 	self.run_notification() # check current incidents and generate notifications
 
