@@ -150,7 +150,7 @@
 6) Neotonic QOS Config:
 
    TODO:
-     - proc monitor
+     - (done) proc monitor
      - innodb monitor
      - 3ware raid monitor
      - smtp host check
