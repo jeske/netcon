@@ -10,6 +10,12 @@
   self.setTimeout("window.location.reload(true);", (30 * 1000));
 </script>
 
+<center><font color=red><b>
+<?cs if:?CGI.Error.no_such_incident_id ?>
+No such Incident Id '<?cs var:CGI.Error.no_such_incident_id ?>'<br>
+<?cs /if ?>
+</b></font></center>
+
 <?cs include:"actinclist.cs" ?>
 <p>
 <?cs /if ?>

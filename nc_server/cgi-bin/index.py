@@ -19,12 +19,19 @@ class IndexPage(NCPage):
 	q_incident_id = hdf.getIntValue("Query.incident_id",-1)
 
 	if q_incident_id != -1:
-	    incident = self.ndb.incidents.fetchRow(
-		('incident_id', q_incident_id) )
-	    if incident.state == db_netcon.kStateNew:
-		incident.state = db_netcon.kStateViewed
-		# make note!
-		incident.save()
+	    try:
+		incident = self.ndb.incidents.fetchRow(
+		    ('incident_id', q_incident_id) )
+		if incident.state == db_netcon.kStateNew:
+		    incident.state = db_netcon.kStateViewed
+		    # make note!
+		    incident.save()
+	    except odb.eNoMatchingRows:
+		#  no such incident id
+		hdf.setValue("CGI.Error.no_such_incident_id",str(q_incident_id))
+		q_incident_id = -1
+		hdf.setValue("Query.incident_id","")
+		pass
 	
     def Action_SaveInfo(self):
 	hdf = self.ncgi.hdf
