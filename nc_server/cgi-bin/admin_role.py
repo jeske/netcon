@@ -21,6 +21,12 @@ class AdminRolePage(NCPage):
 	    a_service.hdfExport("CGI.services.%d" % a_service.serv_id,
 				self.ncgi.hdf)
 
+	# export role config
+
+	rclist = self.ndb.role_config.fetchRows(
+	    ('role_id', role.role_id) )
+	rclist.hdfExport("CGI.role_config",self.ncgi.hdf)
+
 	# fetch machines in role...
 	rm_map = self.ndb.mach_roles.fetchRows(
 	    ('role_id', role.role_id ) )

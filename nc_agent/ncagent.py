@@ -29,19 +29,28 @@ def usage(progname):
 def main(argv,stdout,environ):
     hostname = "c1" 
     nccm = nc_cmgr.NCCollectionManager(hostname)
-    
-    mon = DiskMonitor.makeMonitor(nccm)
-    mon.collectData()
-
-    mon = MemMonitor.makeMonitor(nccm)
-    mon.collectData()
-
-    mon = CpuMonitor.makeMonitor(nccm)
-    mon.collectData()
-
-    print nccm.postdata()
-
     ncsrv = nc_srvrpc.NCServerRpc(hostname)
+
+    config = ncsrv.getConfig()
+
+    for module,module_config in config:
+	if module == "disk":
+	    mon = DiskMonitor.makeMonitor(nccm)
+	    mon.collectData(module_config)
+	elif module == "mem":
+	    mon = MemMonitor.makeMonitor(nccm)
+	    mon.collectData(module_config)
+	elif module == "cpu":
+	    mon = CpuMonitor.makeMonitor(nccm)
+	    mon.collectData(module_config)
+	elif module == "tcp":
+	    mon = TcpMonitor.makeMonitor(nccm)
+	    mon.collectData(module_config)
+	else:
+	    print "unknown config: %s %s" % (module,module_config)
+		
+    print "=================\n" + nccm.postdata() + "\n==============\n"
+    
     ncsrv.checkIn(nccm)
 
 if __name__ == "__main__":

@@ -217,6 +217,14 @@ class NCMachRolesTable(Table):
             machine_ids.append(a_row.mach_id)
         return machine_ids
 
+class NCRoleConfigTable(Table):
+    def _defineRows(self):
+	self.d_addColumn("role_config_id", kInteger,
+			 primarykey=1, autoincrement=1)
+	self.d_addColumn("role_id", kInteger)
+	self.d_addColumn("collector", kVarString, 255)
+	self.d_addColumn("collector_config", kVarString, 255)
+
 class NCRoleTriggersTable(Table):
     def _defineRows(self):
         self.d_addColumn("trigger_id", kInteger, primarykey=1, autoincrement=1)
@@ -325,6 +333,7 @@ class DB(Database):
         self.roles = NCRolesTable(self,"nc_roles")
         self.mach_roles = NCMachRolesTable(self,"nc_mach_roles")
         self.role_triggers = NCRoleTriggersTable(self,"nc_role_triggers")
+	self.role_config = NCRoleConfigTable(self,"nc_role_config")
 
         self.incidents = NCIncidentsTable(self,"nc_incidents")
         self.incident_errors = NCIncidentErrorsTable(self,"nc_incident_errors")

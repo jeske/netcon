@@ -43,7 +43,7 @@ class CpuMonitor:
 
         # self.uptime = self.uptime * 60
         
-    def collectData(self):
+    def collectData(self,config):
 
         # Get the 5 min load average
         if 'linux2' == sys.platform or 'linux-i386' == sys.platform:

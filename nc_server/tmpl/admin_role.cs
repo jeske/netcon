@@ -2,12 +2,16 @@
 
 <b>Admin Role '<?cs var:CGI.role.name ?>'</b><p>
 
-<b>machines</b><br>
+<b>collector config</b> <a href="admin_edit_config.py?role_id=<?cs var:CGI.role.role_id ?>">Edit</a><br>
 <table border=1>
-<?cs each:mach=CGI.role_machines ?>
- <tr><Td><?cs var:mach.name ?></td></tr>
+<?cs each:rc=CGI.role_config ?>
+  <tr>
+   <Td><?cs var:rc.collector ?></td>
+   <td><?cs var:rc.collector_config ?></td>
+  </tr>
 <?cs /each ?>
 </table>
+
 
 <p>
 <b>triggers</b> <a href="admin_edit_trigger.py?create=1&role_id=<?cs var:CGI.role.role_id ?>">create new</a><br>
@@ -24,5 +28,15 @@
 <?cs /each ?>
 
 </table>
+
+
+<b>machines</b><br>
+<table border=1>
+<?cs each:mach=CGI.role_machines ?>
+ <tr><Td><?cs var:mach.name ?></td></tr>
+<?cs /each ?>
+</table>
+
+
 
 <?cs include:"footer.cs" ?>

@@ -72,6 +72,13 @@ create table nc_role_triggers (
   tvalue real
 ) TYPE=INNODB;
 
+create table nc_role_config (
+  role_config_id integer not null primary key auto_increment,
+  role_id integer not null,
+  collector varchar(255),
+  collector_config varchar(255)
+) TYPE=INNODB;
+
 create table nc_incidents (
   incident_id integer not null primary key auto_increment,
   start integer not null,

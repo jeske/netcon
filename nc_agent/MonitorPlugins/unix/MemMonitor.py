@@ -26,7 +26,7 @@ class MemMonitor:
         self.sfree = 0
         self.total = self.used + self.free
 
-    def collectData(self):
+    def collectData(self,config):
 
         # Get the 5 min load average
 

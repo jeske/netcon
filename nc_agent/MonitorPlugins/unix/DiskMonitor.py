@@ -13,7 +13,7 @@ class DiskMonitor:
         self.reg1 = re.compile("(\d+).")
         self.reg2 = re.compile(".+/(.+)")
 
-    def collectData(self):
+    def collectData(self,config):
         # Get disk usage
         if 'linux2' == sys.platform or 'linux-i386' == sys.platform:
             (status, output) = commands.getstatusoutput('/bin/df -kt ext2')

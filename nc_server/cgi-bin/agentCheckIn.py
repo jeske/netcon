@@ -7,18 +7,48 @@ import string
 from CSPage import Context
 from nc_page import NCPage
 
+import CSPage
+
 import nc_datamgr
 
 
 class AgentCheckInPage(NCPage):
     def display(self):
+        record_host = self.ncgi.hdf.getValue("Query.hostname","unknown")
+
+	# find machine
+	mach = self.ndb.machines.getMachine(record_host)
+
+	# build config response...
+	roles = self.ndb.mach_roles.fetchRows(
+	    ('mach_id', mach.mach_id) )
+
+	config_keys = {}
+
+	for a_role in roles:
+	    rcs = self.ndb.role_config.fetchRows( ('role_id', a_role.role_id) )
+	    for rc in rcs: 
+		config_keys[ (rc.collector,rc.collector_config) ] = 1
+
+	config_data = config_keys.keys()
+	config_data.sort()
+	n = 0
+	for col,colc in config_data:
+	    self.ncgi.hdf.setValue("CGI.AgentConfig.%d.collector" % n,col)
+	    self.ncgi.hdf.setValue("CGI.AgentConfig.%d.collector_config" % n,colc)
+	    n = n + 1
+	
         pathname = self.ncgi.hdf.getValue("Query.data","")
+
         if pathname:
             # handle the file upload...
             data = self.handle_upload("data")
             self.ncgi.hdf.setValue("CGI.data",data)
 
             self.parse_data(data)
+
+	
+	
 
     def handle_upload(self, varname):
         pathname = self.ncgi.hdf.getValue("Query.%s" % varname,"")
@@ -53,12 +83,14 @@ class AgentCheckInPage(NCPage):
         lines = string.split(data,"\n")
         for a_line in lines:
             a_line = string.strip(a_line)
-            at,service,source_host,source,value = string.split(a_line," ")
+	    if a_line:
+		try:
+		    at,service,source_host,source,value = string.split(a_line," ")
+		    datamanager.handleRawData(record_host,service,
+					      source_host,source,value,at=at)
+		except ValueError:
+		    log("invalid line: %s" % a_line)
 
-            # add some new data
-            datamanager.handleRawData(record_host,service,source_host,source,value,at=at)
-
-            
 
 
 if __name__ == "__main__":
