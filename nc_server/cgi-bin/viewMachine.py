@@ -10,6 +10,13 @@ class ViewMachinePage(NCPage):
         q_machine = self.ncgi.hdf.getIntValue("Query.mach_id",0)
         if q_machine:
 
+	    # export the services
+	    services = self.ndb.services.fetchRows(order_by=['namepath','type'])
+	    serv_hash = {}
+	    for a_service in services:
+		a_service.hdfExport("CGI.services.%d" % a_service.serv_id,self.ncgi.hdf)
+		serv_hash[a_service.serv_id] = a_service
+
 	    # export this machine info..
             machine = self.ndb.machines.fetchRow( ('mach_id',q_machine) )
             machine.hdfExport("CGI.machine",self.ncgi.hdf)
@@ -17,6 +24,8 @@ class ViewMachinePage(NCPage):
 	    # fetch the sources
 	    sources = self.ndb.monitor_sources.fetchRows( ('source_mach_id',
 							   machine.mach_id) )
+
+               
 
 	    fetch_agents = {}
 	    for a_source in sources: fetch_agents[a_source.agent_id] = 1
@@ -27,6 +36,8 @@ class ViewMachinePage(NCPage):
 		agent.hdfExport("CGI.agent.%d" % agent.agent_id,self.ncgi.hdf)
 		machine = self.ndb.machines.fetchRow( ('mach_id', agent.mach_id) )
 		machine.hdfExport("CGI.agents.%d.mach_id" % agent.agent_id, self.ncgi.hdf)
+
+	    # go through each source and find the data for the source.
 
 	    stn = 0
 	    for a_source in sources:
@@ -45,9 +56,9 @@ class ViewMachinePage(NCPage):
 		    self.ncgi.hdf.setValue(prefix + ".services.%d.sources.%d.states.%s.value" % (a_state.serv_id,a_state.source_id,stn),"%f" % a_state.value)
 	    # export services
 
-	    services = self.ndb.services.fetchAllRows()
-	    for a_service in services:
-		a_service.hdfExport("CGI.services.%d" % a_service.serv_id,self.ncgi.hdf)
+
+                
+
 
         # load current incidents
         active = self.ndb.incidents.getAllActiveIncidents()

@@ -6,8 +6,15 @@ from log import *
 import time, string
 import db_netcon
 
+import wordwrap
+
 import whrandom
 import nc_datamgr, nc_triggermgr, nc_incidentmgr
+
+import neo_cgi, neo_util
+
+import odb
+
 
 class NCSrv:
     def __init__(self):
@@ -29,6 +36,21 @@ class NCSrv:
 
         incidentmanager = nc_incidentmgr.NCIncidentManager(ndb)
         incidentmanager.updateIncidents()
+
+    def nameForError(self,inc_error_obj):
+        # look up the trigger name
+	ehdf = neo_util.HDF()
+	ehdf.readString(inc_error_obj.error_spec)
+	trigger_id = ehdf.getIntValue("trigger_id",-1)
+
+	try:
+	    trigger = self.ndb.role_triggers.fetchRow( ('trigger_id', trigger_id) )
+	except odb.eNoMatchingRows:
+	    return "(unknown)"
+
+	return trigger.name
+        
+        
         
     def run_notification(self):
         ndb = self.ndb
@@ -56,9 +78,10 @@ class NCSrv:
 	    errs = []
 	    for err in ierrs:
 		# figure out the real name of the error!
-		errs.append(str(err.incident_error_map_id))
+		errs.append(self.nameForError(err))
 		
-	    inc_info = "%d errors: %s" % (len(ierrs),string.join(errs,","))
+	    inc_info = "%d errors: %s" % (len(ierrs),string.join(errs,", "))
+	    
 	    if summary is None:
 		summary = inc_info[:50]
 	    notification = notification + inc_info + "\n"
@@ -71,7 +94,7 @@ class NCSrv:
 	    bodyp.append("From: netcon@neotonic.com")
 	    bodyp.append("Subject: %s" % summary)
 	    bodyp.append("")
-	    bodyp.append(notification)
+	    bodyp.append(wordwrap.WordWrap(notification))
 
 	    body = string.join(bodyp,"\n")
 

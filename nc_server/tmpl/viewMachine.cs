@@ -6,7 +6,8 @@ Data for Machine &nbsp; <b><?cs var:CGI.machine.name ?></b>
 
 <p>
 <?cs each:agent = CGI.agents ?>
-Collected By <?cs var:agent.mach_id.name ?><p>
+<p>
+Collected By <?cs var:agent.mach_id.name ?><br>
 
 <table border=1>
 <?cs each:srv=agent.services ?>
