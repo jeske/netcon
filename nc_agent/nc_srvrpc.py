@@ -10,7 +10,7 @@ class NCServerRpc:
         # make sure we can resolve the server hostname!
 
     def getConfig(self):
-	result = postdata.post_multipart("c1.neotonic.com",
+	result = postdata.post_multipart("netcon.dotfunk.com",
 					 "/netcon/agentCheckIn.py",
 					 [('hostname',self._myhostname)],[])
 	print result
@@ -37,7 +37,7 @@ class NCServerRpc:
 
     def checkIn(self,ncmgr):
         now = int(time.time())
-        result = postdata.post_multipart("c1.neotonic.com","/netcon/agentCheckIn.py",
+        result = postdata.post_multipart("netcon.dotfunk.com","/netcon/agentCheckIn.py",
                             [('hostname',self._myhostname), ('now',str(now))],[('data','data.txt',ncmgr.postdata())])
         print result
 
