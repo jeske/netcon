@@ -417,6 +417,7 @@ class NCIncidentEventAuditRow(HdfRow):
     def hdfExport(self,prefix,hdf,**x):
 	HdfRow.hdfExport(self,prefix,hdf,**x)
         # format the note 
+        hdf.setValue(prefix + ".note.length", str(len(self.note)))
 
 class NCIncidentEventAuditTable(Table):
     def _defineRows(self):
