@@ -35,6 +35,12 @@ def usage(progname):
     print "usage: %s" % progname
     print __doc__
 
+import ihooks
+def fallback_monitor(mon_name, nccm, module_config):
+    ml = ihooks.ModuleImporter()
+    mod = ml.import_module("%sMonitor" % mon_name)
+    mon = mod.makeMonitor(nccm)
+    mon.collectData(module_config)
 
 def main(argv,stdout,environ):
     hostname = myhost()
@@ -67,8 +73,8 @@ def main(argv,stdout,environ):
             elif module == "InnoTbSpc":
                 mon = InnoTbSpcMonitor.makeMonitor(nccm)
                 mon.collectData(module_config)
-	    else:
-		print "unknown config: %s %s" % (module,module_config)
+            else:
+                fallback_monitor(module, nccm, module_config)
 	except:
             import handle_error
             handle_error.handleException()
