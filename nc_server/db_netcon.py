@@ -401,6 +401,7 @@ class NCIncidentErrorsTable(Table):
 class NCIncidentEventAuditTable(Table):
     def _defineRows(self):
         self.d_addColumn("audit_id", kInteger, primarykey=1,autoincrement=1)
+	self.d_addColumn("incident_id", kInteger)
         self.d_addColumn("occured_at", kInteger, int_date=1)
         self.d_addColumn("e_type", kVarString,255)
         self.d_addColumn("e_data", kBigString)

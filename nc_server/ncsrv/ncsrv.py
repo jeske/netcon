@@ -103,7 +103,7 @@ class NCSrv:
 	# for all active incidents...
 	act_inc = ndb.incidents.getIncidentsForNotification()
 
-        log("%d incidents to notify about" % len(act_inc))
+        log("%d active incidents to check" % len(act_inc))
 
 	if not act_inc:
 	    return
@@ -151,12 +151,16 @@ class NCSrv:
 	    notification = notification + inc_info + "\n"
 	# compose real msg
 
+        if summary is None:
+            # no notification to send!
+            return
+
 	import sendmail
 	
 	RECIP = ["blong-page@fiction.net", "jeske-pagenc@neotonic.com"]
 
         # for debugging only:
-	# RECIP = ["jeske@neotonic.com"]
+	RECIP = ["jeske@neotonic.com"]
 	
 	for recip in RECIP:
 	    bodyp = []

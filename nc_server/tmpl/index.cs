@@ -61,7 +61,7 @@
 <?cs /if ?>
   </td></tr>
 <tr><Td colspan=2 align=center>
-<textarea style="width:100%;" cols=30 rows=2>(notes don't work yet)</textarea>
+<textarea style="width:100%;" name=note cols=30 rows=2></textarea>
 </td></tr>   
    
 <tr><td colspan=2 align=center bgcolor=#eeeeee>
@@ -89,20 +89,18 @@
 
 </td></tr></table>
 
-<?cs if:CGI.incnotes.0.text ?>
-<p><b>Notes</b><br>
+
+<?cs if:CGI.incident.events.0.occured_at ?>
+<b>Notes</b><br>
 <table border=1>
- <?cs each:note=CGI.incnotes ?>
-   <tr><Td><?cs var:note.text ?></td></tr>A
+ <?cs each:evt=CGI.incident.events ?>
+   <tr><TD><?cs var:evt.occured_at.string ?></td><Td><?cs var:evt.note ?></td></tr>
  <?cs /each ?>
 </table>
 
+<p>
 <?cs /if ?>
 
-<p>
-
-
-<p>
 <b>Errors for Incident <?cs var:inc.incident_id ?></b>
 <table border=1>
 <form method=post action="index.py">

@@ -5,7 +5,7 @@ import tstart
 from CSPage import Context
 from nc_page import NCPage
 
-import re,time
+import re,time,string
 
 import neo_cgi,neo_util
 import db_netcon
@@ -31,6 +31,7 @@ class IndexPage(NCPage):
 	q_incident_id = hdf.getIntValue("Query.incident_id",-1)
 	q_name = hdf.getValue("Query.inc_name","")
 	q_newstate = hdf.getValue("Query.newstate","")
+	q_note = string.strip(hdf.getValue("Query.note",""))
 
 	incident = self.ndb.incidents.fetchRow(
 	    ('incident_id', q_incident_id) )
@@ -44,8 +45,17 @@ class IndexPage(NCPage):
 	    incident.state = db_netcon.kStateResolved
 	    incident.is_active = 0
 	incident.save()
+
+	if q_note:
+	    event = self.ndb.incident_event_audit.newRow()
+	    event.incident_id = incident.incident_id
+	    event.occured_at = int(time.time())
+	    event.note = q_note
+	    event.save()
 	
 	self.redirectUri("index.py?incident_id=%s" % hdf.getValue("Query.incident_id", ""))
+
+	
     def Action_MoveTo(self):
 	hdf = self.ncgi.hdf
 	q_move_dest = hdf.getIntValue("Query.move_dest",-1)
@@ -87,6 +97,13 @@ class IndexPage(NCPage):
 	
     def exportIncident(self,incident,prefix):
 	incident.hdfExport(prefix,self.ncgi.hdf)
+
+	events = self.ndb.incident_event_audit.fetchRows(
+	    ('incident_id', incident.incident_id),
+	    order_by =['occured_at desc'])
+
+	events.hdfExport(prefix + ".events",self.ncgi.hdf)
+	
 
 	errs = self.ndb.incident_errors.fetchRows( ('incident_id', incident.incident_id) )
 

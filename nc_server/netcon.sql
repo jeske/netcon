@@ -102,10 +102,12 @@ create table nc_incident_errors (
 
 create table nc_incident_event_audit (
   audit_id integer not null primary key auto_increment,
+  incident_id integer not null,
   occured_at integer not null,
   e_type varchar(255),
   e_data text,
-  note text
+  note text,
+  index (incident_id)
 ) TYPE=INNODB;
 
 
