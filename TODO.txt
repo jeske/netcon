@@ -76,6 +76,16 @@
          (on which frequency?)
      - incident actions/notes should include user
 
+   - trend prediction
+     - (done) linear trends (linear and non-linear regression)
+     - (done) configuration
+     - ignore values with high-error rates
+     - display trend data (days, graph) next to triggers in incidents
+     - proper handling of lt/gt/lte/gte tests
+     - progressive linear trends
+     - display trend line and target on data-graph
+
+
  ----- RELEASE v0.1 --------------------------
 
    - cleanup
@@ -97,13 +107,6 @@
      - list of currently active users
      - audit log of config changes
      - (see notification schedule/escelation)
-
-   - disk space trend
-     - (done) linear trends (linear and non-linear regression)
-     - (done) configuration
-     - ignore values with high-error rates
-     - proper handling of lt/gt/lte/gte tests
-     - progressive linear trends
 
   - switch to XML for client/server
      - client -> server : list of monitors, config data for each monitor
