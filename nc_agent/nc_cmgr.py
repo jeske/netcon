@@ -9,11 +9,11 @@ import re, time
 from log import *
 
 class NCCollectionManager:
-    def __init__(self):
+    def __init__(self,myhostname):
         self._data = []
-    
+        self._myhostname = myhostname
 
-    def newData(self,service_name,source_name,value):
+    def newData(self,service_name,source_name,value,hostname=None):
         if type(value) == type(""):
             m = re.match("\+?(-?[0-9.]+)[%]?",value)
 
@@ -27,7 +27,10 @@ class NCCollectionManager:
         else:
             value = float(value)
 
-        self._data.append( (int(time.time()), service_name,source_name,value) )
+        if hostname is None:
+            hostname = self._myhostname
+
+        self._data.append( (int(time.time()), service_name,hostname, source_name,value) )
 
     def report(self):
         for a_line in self._data:

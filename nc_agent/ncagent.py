@@ -23,14 +23,15 @@ def usage(progname):
 
 
 def main(argv,stdout,environ):
-    nccm = nc_cmgr.NCCollectionManager()
+    hostname = "c1" 
+    nccm = nc_cmgr.NCCollectionManager(hostname)
     
     mon = DiskMonitor.makeMonitor(nccm)
     mon.collectData()
 
     print nccm.postdata()
 
-    ncsrv = nc_srvrpc.NCServerRpc("http://c1.neotonic.com/netcon/agentCheckIn.py")
+    ncsrv = nc_srvrpc.NCServerRpc(hostname)
     ncsrv.checkIn(nccm)
 
 if __name__ == "__main__":

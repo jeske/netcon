@@ -1,5 +1,4 @@
-
-Netcon <p>
+<?cs include:"header.cs" ?>
 
 <?cs if:?CGI.active_incidents.0.incident_id ?>
 <table border=1>
@@ -30,10 +29,11 @@ Netcon <p>
 <table border=1>
   <tr><td>ID</td><td>name</td></tr>
 <?cs each:m=CGI.machines ?>
-  <Tr><td><?cs var:m.mach_id ?></td><td><?cs var:m.name ?></td></tr>
+  <Tr><td><a href="viewMachine.py?mach_id=<?cs var:m.mach_id ?>">&nbsp;<?cs var:m.mach_id ?>&nbsp;</a></td><td><?cs var:m.name ?></td></tr>
 <?cs /each ?>
 
 </table>
 
 
 
+<?cs include:"footer.cs" ?>

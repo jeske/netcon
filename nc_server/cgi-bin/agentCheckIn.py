@@ -42,19 +42,21 @@ class AgentCheckInPage(NCPage):
 
     # the lines look like this:
     # 
-    # 1061359721 disk/inodes:total sda6 2820957.0
-    #  <time>      <service>       <source>  <value>
+    # 1061359721 disk/inodes:total c1 sda6 2820957.0
+    # <time> <service> <source host> <source> <value>
 
     def parse_data(self,data):
         datamanager = nc_datamgr.NCDataManager(self.ndb)
+
+        record_host = self.ncgi.hdf.getValue("Query.hostname","unknown")
         
         lines = string.split(data,"\n")
         for a_line in lines:
             a_line = string.strip(a_line)
-            at,service,source,value = string.split(a_line," ")
+            at,service,source_host,source,value = string.split(a_line," ")
 
             # add some new data
-            datamanager.handleRawData("c2",service,"c2",source,value,at=at)
+            datamanager.handleRawData(record_host,service,source_host,source,value,at=at)
 
             
 
