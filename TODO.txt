@@ -41,6 +41,15 @@
      - fix incident form post from sidekick
      - fix graph time-range problem
 
+   - suppression cleanup
+     - states: (new, viewed, suppress, resolved)
+     - per-user "incident_sub", w/last notification state, and ack/view state
+     - user-actions send notifications to everyone _else_
+     - severity schedules
+       - info     -> never page
+       - error    -> page 8am-1am
+       - critical -> page 24 hours
+
    - cleanup
      - instant data updates
        - change trigger, rerun that trigger
