@@ -1,0 +1,9 @@
+
+IncidentStates {
+  new [Lang]     = New
+  viewed [Lang]  = Viewed
+  ack [Lang]     = Acknowledged
+  watched [Lang] = Watched
+  resolved [Lang] = Resolved
+  
+}

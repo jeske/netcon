@@ -237,19 +237,45 @@ class NCRoleTriggersTable(Table):
 	self.d_addColumn("test_type", kVarString,255)
 	self.d_addColumn("tvalue", kReal)
 
+kStateNew = 0
+kStateViewed = 1
+kStateWatched = 2
+kStateAck = 3
+kStateResolved = 4
+kState_enum = { 
+    kStateNew : "new",
+    kStateViewed : "viewed",
+    kStateWatched : "watched",
+    kStateAck : "ack",
+    kStateResolved : "resolved" }
+
+
 class NCIncidentsTable(Table):
     def _defineRows(self):
         self.d_addColumn("incident_id",kInteger, primarykey=1, autoincrement=1)
         self.d_addColumn("start",kInteger,int_date=1)
         self.d_addColumn("end",kInteger,int_date=1)
         self.d_addColumn("is_active",kInteger,indexed=1)
+	self.d_addColumn("name",kVarString,255)
+	self.d_addColumn("state",kInteger, default=0,
+			 enum_values=kState_enum)
+	self.d_addColumn("until",kInteger, int_date=1) # 0 = none
+
+    def _activeWhere(self):
+	return 'state in (%s)' % string.join(map(lambda x:str(x),[kStateNew,kStateViewed]),",")
+
+    def getIncidentsForNotification(self):
+        return self.fetchRows(
+	    ('is_active', 1),
+	    where=[self._activeWhere()])
 
     def getAllActiveIncidents(self):
         return self.fetchRows( ('is_active', 1) )
 
     def getActiveIncident(self,create=0,event_time=None):
-        incident_list = self.fetchRows( ('is_active', 1),
-                                        order_by = ['end desc'], limit_to=1 )
+        incident_list = self.fetchRows(
+	    ('is_active', 1), order_by = ['end desc'], limit_to=1,
+	    where=[self._activeWhere()])
 
         if event_time is None:
             use_time = int(time.time())

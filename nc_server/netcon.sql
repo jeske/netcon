@@ -84,6 +84,9 @@ create table nc_incidents (
   start integer not null,
   end integer not null,
   is_active integer not null default 1,
+  name varchar(255) default '',
+  state integer not null default 0,
+  until integer not null default 0,
   index (is_active)
   
 ) TYPE=INNODB;

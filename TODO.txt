@@ -27,7 +27,7 @@
 
    - replace QOS!!!
      - (done) split items onto new incidents (disk/swap->new incident)
-     - incident states (new,viewed,watch,acknowledge,resolved)
+     - (done) incident states (new,viewed,watch,acknowledge,resolved)
      - show how recent the collected data is (relative)
      - incident notes
      - expire trigger data from errors

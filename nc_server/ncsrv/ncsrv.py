@@ -80,7 +80,8 @@ class NCSrv:
 	# this needs to be changed to retain state per user
         
 	# for all active incidents...
-	act_inc = ndb.incidents.getAllActiveIncidents()
+	act_inc = ndb.incidents.getIncidentsForNotification()
+
 
 	if not act_inc:
 	    return
