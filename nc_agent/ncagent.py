@@ -10,6 +10,7 @@
 
 import os, sys, string, getopt
 import time
+import socket
 
 import nc_cmgr, nc_srvrpc
 
@@ -23,6 +24,12 @@ import ProcMonitor
 sys.path.insert(0,"MonitorPlugins/db")
 import InnoTbSpcMonitor
 
+def myhost():
+    host = socket.gethostname()
+    hp = string.split(host,".")
+    if len(hp) > 2:
+        hp = hp[:-2]
+    return string.join(hp,".")
 
 def usage(progname):
     print "usage: %s" % progname
@@ -30,7 +37,7 @@ def usage(progname):
 
 
 def main(argv,stdout,environ):
-    hostname = "c1" 
+    hostname = myhost()
     nccm = nc_cmgr.NCCollectionManager(hostname)
     ncsrv = nc_srvrpc.NCServerRpc(hostname)
 
