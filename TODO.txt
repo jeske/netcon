@@ -21,7 +21,7 @@
    - (done) basic role creation/machine assignment
    - (done) setup entire neotonic QOS config (see below)                
    - (done) view data history/service info
-   - errors should show curent state on index page (red/green)
+   - (done) triggers/errors should show curent state on index page (red/green)
    - archive state which was not provided during the last agent checkin
    - DEBUG!
      - bug w/swap trigger

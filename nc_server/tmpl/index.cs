@@ -20,6 +20,7 @@
   <?cs each:ierr=inc.errors ?>
     <tr>
       <td><?cs var:ierr.incident_error_map_id ?></td>
+      <td><?cs if:ierr.tdata.value=="1.0" ?><font color=red>err</font><?cs else ?><font color=green>ok</font><?cs /if ?>
       <td><?cs var:ierr.trigger.level ?></td>
       <td><b><?cs var:ierr.trigger.name ?></b></td>
       <td><?cs var:CGI.machines[ierr.source.source_mach_id].name ?></td>

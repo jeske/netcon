@@ -69,11 +69,20 @@ class IndexPage(NCPage):
 		    # the trigger must have been deleted!
 		    continue
 
+		# export current trigger data for this trigger!
+		tsrc = self.ndb.services.getService("trigger/%s:state" % trigger_id)
+		try:
+		    tdata = self.ndb.monitor_state.fetchRow(
+			[ ('source_id', source_id),
+			  ('serv_id', tsrc.serv_id) ])
+		    tdata.hdfExport(eprefix + ".tdata", self.ncgi.hdf)
+		except odb.eNoMatchingRows:
+		    pass
+
 		# export source information
 		tsrc = self.ndb.monitor_sources.fetchRow(
 		    ('source_id', source_id) )
 		tsrc.hdfExport(eprefix + ".source", self.ncgi.hdf)
-
 
 		# export current data for this source!
 		try:
