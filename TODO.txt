@@ -23,6 +23,62 @@
    - (done) view data history/service info
    - (done) triggers/errors should show curent state on index page (red/green)
    - (done) data graph
+
+
+   - replace QOS!!!
+     - split items onto new incidents (disk/swap->new incident)
+     - incident states (new,viewed,watch,acknowledge,resolved)
+     - show how recent the collected data is (relative)
+
+   - index page should show the service namepath/type
+   - disk space trend
+     - progressive linear trends
+     - linear regression ?
+     - http://www.scipy.org/site_content/tutorials/show_doc?input_file=node20.html
+     - http://www.scipy.org/site_content/tutorials/show_doc?input_file=index.html
+   - config cleanup
+     - agentConfigPage : to setup what agents are running on a machine
+     - remove machines/agents/services from main page (overview)
+     - add units ( disk/inodes:cur/kb ? )
+     - delete trigger
+   - instant data updates
+     - change trigger, rerun that trigger
+     - change trigger source, clear data for old source.
+     - show the old and new trigger results over time to compare
+       before save...
+   - switch to XML for client/server
+     - client -> server : list of monitors, config data for each monitor
+     - server -> client : structured configuration
+   - notifications
+     - while netcon does not have connectivity, it should not
+       send notifications (single alert)
+     - add trigger "time to severity" (5m->info,30m->critical)
+       - how is this different for triggers than for wall time?
+     - ex
+       - upn network goes down at night -- no pages
+       - our upn switch goes down -- at night 30m, day 5m
+       - gator.trakken.com is down -- page in 5m
+       - when everything goes good, send page
+     - once the incident is viewed, raise freq to 30m
+     - quick-notes "I'm calling navisite"
+     - when the incident is watch w/note, set watch timeout..
+     - when the incident is ack, stop paging
+   - online incident notes...
+   - agent frequency
+     - control agent freq (ping-1m, innodb-30m)
+     - control data-summarization (ping time - 10m)
+   - improve index
+     - error info
+        - types:
+          - went bad and is bad
+            - time of error creation
+          - went bad and is good
+            - time of error creation
+            - time of good
+          - went bad and is fluctuation
+            - time of error creation
+            - know that it's fluctuating
+
    - archive state which was not provided during the last agent checkin
    - method to trigger ncsrv.py re-evaluation
    - first trend computation
@@ -54,6 +110,7 @@
    - (done) directory/queue count
    - (done) process state
    - tcp chat (connect,request,response)
+   - ping/packet loss monitor
    - extended http/https (apache server status?)
    - extended dns
    - RAID status (3ware, promise)
@@ -69,6 +126,7 @@
 
    - incident details / notes
    - resolve incident / watch timeout
+   - search past incidents, search knowledge information
    - configuration
      - machine hierarchy
      - server-side per-agent state configuration
