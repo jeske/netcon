@@ -15,8 +15,9 @@ from PIL import Image, ImageDraw
 
 class GraphImage:
     def __init__(self,width,height):
-	self.width = width * 4
-	self.height = height * 4
+	self.antialias_factor = 4
+	self.width = width * self.antialias_factor
+	self.height = height * self.antialias_factor
 	self.data = []
 	self.max = None
 	self.min = None
@@ -55,7 +56,7 @@ class GraphImage:
 
 	def wideline( imd, linedata, **param):
 	    x1,y1,x2,y2 = linedata
-	    for x in range(4):
+	    for x in range(self.antialias_factor):
 		imd.line( (x1+x,y1+x,x2+x,y2+x), **param)
 		
 	curx = 0
@@ -63,10 +64,8 @@ class GraphImage:
 
 	    cury = (self.data[0]-self.min) * vscale
 	    if len(self.data) > 1:
-		hscale = (float(self.width) / (len(self.data)-1))
+		hscale = (float(self.width) / float(len(self.data)-1))
 		for dp in self.data[1:]:
-		    if (curx + 1) >= self.width:
-			break
 		    pos = (dp-self.min) * vscale
 
 		    wideline(imd,((curx*hscale),self.height-cury,
@@ -79,7 +78,7 @@ class GraphImage:
 			      ((curx+1)*hscale),self.height-cury),fill=128)
 
         
-	return im.resize((self.width/4,self.height/4),Image.ANTIALIAS)
+	return im.resize((self.width/self.antialias_factor,self.height/self.antialias_factor),Image.ANTIALIAS)
 
 class GraphDataHistoryPage(NCPage):
     def display(self):
