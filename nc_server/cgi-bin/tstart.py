@@ -5,9 +5,19 @@
 
 import sys
 
-sys.path.insert(0, "../") # pickup our application code
-sys.path.insert(0, "../../../../") # pickup neo_cgi.so
-sys.path.insert(0, "../../../base") # pickup base libs
+ROOT_DIR = "../"
+sys.path.insert(0, ROOT_DIR)
+from tpaths import paths
+sys.path = paths(ROOT_DIR) + sys.path
 
 # don't put anything above this because the path isn't
 # extended yet...
+
+import neo_cgi
+try:
+  # newer versions have an update function that will guaruntee that
+  # neo_util and neo_cs are also loaded when used with non single interpreter
+  # versions of PyApache
+  neo_cgi.update()
+except:
+  pass
