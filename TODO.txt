@@ -33,7 +33,34 @@
 3) Features / Designs
 
    - notification config/shifts/user watch/incident watch timer
+   - redundant role triggers
+      - ex: 10 machines in "Public UI" role, any one of them
+            failing is a warning, > 40% failing is an error
+   - separation of triggers/incidents by level and/or hierarchy
    - hierarchial suppression
+   - 'derivative values' plugin system
+      - spike detection
+        - width/height of spike
+        - abs, or relative to current values
+        - ex: queue size jump
+      - trend prediction
+        - trend computation paramaters (smoothing, window, decay)
+        - predict time to target value
+        - ex: time to run out of disk space
+           - easy to view the current window
+           - sort machines by their time to run out of space
+           - create basic triggers on the time (<48hours)
+           - create multiple trend predictors "short term" and 
+             "long term" by tuning values
+      - cyclic trend prediction
+        - ex: will the system have capacity tomorrow morning?
+        - ex: will the system have capacity next holiday?
+    - trigger based fixes...
+        - ex: single webserver has really long timeouts, but
+              all the other servers in the role are functioning
+              normally
+        - shutdown and reboot server
+        - remove a server from load balancer
 
 4) Agent Data Monitors
 
