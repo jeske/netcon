@@ -19,7 +19,9 @@
    - (done) basic ping agent w/ping host configuration
    - (done) basic queue directory watcher w/dir configuration
    - (done) basic role creation/machine assignment
-   - setup entire neotonic QOS config (see below)                
+   - (done) setup entire neotonic QOS config (see below)                
+   - DEBUG!
+     - errors should show curent state on index page (red/green)
    - netcon user accounts
    - UI: show last collection date, and recent history
    - UI: better display of incident failure

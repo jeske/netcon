@@ -55,12 +55,7 @@ class IndexPage(NCPage):
 		source_id = ehdf.getIntValue("source",-1)
 
 		# export trigger details
-		tserv = self.ndb.services.fetchRow( ('serv_id', trigger_serv_id) )
-		tserv.hdfExport(eprefix + ".trigger_service",self.ncgi.hdf)
-		m = re.match("trigger/([0-9])+",tserv.namepath)
-		if not m:
-		    raise "incident trigger does not match pattern!"
-		trigger_id = int(m.group(1))
+		trigger_id = ehdf.getIntValue("trigger_id",-1)
 		try:
 		    trig = self.ndb.role_triggers.fetchRow(
 			('trigger_id', trigger_id) )

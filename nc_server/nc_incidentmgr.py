@@ -32,6 +32,7 @@ class NCIncidentManager:
             except odb.eNoMatchingRows:
                 log("no such trigger_id: %s" % trigger_id)
                 continue
+            log("\n")
             log("--[ check service: (%s) %s ]--" % (a_service.namepath,trigger.name))
 
             statedata = ndb.monitor_state.fetchRows( ('serv_id', a_service.serv_id) )
@@ -40,6 +41,7 @@ class NCIncidentManager:
 		ehdf = neo_util.HDF()
 		ehdf.setValue("trigger_serv_id", str(a_service.serv_id))
 		ehdf.setValue("source", str(edata.source_id))
+                ehdf.setValue("trigger_id", str(trigger_id))
 
 		incident_error_key = ehdf.dump()
 
