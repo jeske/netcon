@@ -31,18 +31,36 @@ telling you how many service failures are still pending on that
 incident, followed by a page indicating that the incident is resolved
 and cleared.
 
-By indicating to Netcon the user-impact of an incident, Netcon can
+The Netcon server uses a uniform and extendable metric naming 
+scheme.  The same history that records the CPU usage of a machine 
+over time is used to record the duration of a trigger or 
+failure -- allowing either to leverage display or graphing capabilities. 
+This makes it easy to build up many layers to the system.  For example, 
+by indicating to Netcon the user-impact of an incident, Netcon can 
 report on the user-percieved impact of failures over time.
+
+Netcon's basic architecture borrows my favorite features from other
+tools. Like QOS, it has a lightweight data-collection agent which
+is deployed as needed to query data, and which can be easily
+extended with application-specific collectors. Like Netsaint/Nagios, 
+it has an SQL backend database and a configuration and information 
+browsing UI. Like some larger commercial counterparts, configuration 
+is performed from the Netcon web user-interface.  This means it is 
+easy to configure, and since this configuration is stored in the 
+database, this means it is easy to write scripts which modify 
+configuration without fear of breaking a big configuration file. 
 
 * What are the other basic features of Netcon?
 
 - data is stored in a MySQL database
 - monitoring is performed by a lightweight data-collection client
 - configuration data about what to monitor is administered centrally
-- custom data-collection clients can be written by merely speaking
+- custom data-collection clients can be written by extending 
+  the Netcon data-collection agent in Python, or by merely speaking
   the Netcon http protocol
 - clients can (optionally) save and report data for disconnected periods
 - hierarchial redundant trigger suppression
+- services are specified in role-groups and applied to a set of machines
 
 * How does Netcon work?
 

@@ -30,6 +30,7 @@
    - ping
    - innodbtablespace
    - directory/queue count
+   - RAID status
    - http
    - dns
    - snmp
@@ -51,7 +52,22 @@
    - role view
    - stat/source history (data/graph)
 
-4) Features / Designs
+4) Notification System
+
+   - multiple levels of triggers, 'info', 'warning', 'error', 'failure'
+   - ex: wait longer to notify at night (in case it resolves), for example,
+         a network failure might have longer timeouts at night
+   - ex: automatic cyclic shift descriptions, pick period (daily,weekly,monthly,etc),
+         then fill in slots on that period
+   - ex: incident/notification domains - match into incident domains based
+         on service type (network, vs machine, vs db, vs service), or based on
+         machine subtree. Notification list is different for different incident
+         domains.
+   - ex: priority fallbacks for non-responsive oncall personel
+         (i.e. 5min : alert of problem, 10min : alert of non-response to problem,
+               15min : alert of next on-call person)
+
+5) Features / Designs
 
    - notification config/shifts/user watch/incident watch timer
    - redundant role triggers
