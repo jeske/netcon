@@ -8,6 +8,7 @@ from CSPage import Context
 from nc_page import NCPage
 
 import CSPage
+from log import log
 
 import nc_datamgr
 
