@@ -1,4 +1,10 @@
 <html>
+<head>
+<title>Netcon</title>
+</head>
+
+<?cs # ----------------- BODY ----------------------- ?>
+
 <body topmargin=0 leftmargin=0 marginheight=0 marginwidth=0>
 
 <table style="border-bottom:2px solid black;" cellspacing=4 cellpadding=0 
