@@ -23,6 +23,7 @@ import DiskMonitor, MemMonitor, CpuMonitor, TcpMonitor, DirQueueMonitor
 import ProcMonitor
 sys.path.insert(0,"MonitorPlugins/db")
 import InnoTbSpcMonitor
+import MysqlMonitor
 
 def myhost():
     host = socket.gethostname()
@@ -72,6 +73,9 @@ def main(argv,stdout,environ):
                 mon.collectData(module_config)
             elif module == "InnoTbSpc":
                 mon = InnoTbSpcMonitor.makeMonitor(nccm)
+                mon.collectData(module_config)
+            elif module == "Mysql":
+                mon = MysqlMonitor.makeMonitor(nccm)
                 mon.collectData(module_config)
             else:
                 fallback_monitor(module, nccm, module_config)
