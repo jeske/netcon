@@ -48,11 +48,11 @@
   <br>
 <?cs /if ?>
 <?cs if:inc.state.enum != "resolved" ?>
-   <input name=newstate value=watched type=radio>Resolve (include note!)
+   <input name=newstate value=resolved type=radio>Resolve (include note!)
 <?cs /if ?>
   </td></tr>
 <tr><Td colspan=2 align=center>
-<textarea style="width:100%;" cols=30 rows=2></textarea>
+<textarea style="width:100%;" cols=30 rows=2>(notes don't work yet)</textarea>
 </td></tr>   
    
 <tr><td colspan=2 align=center bgcolor=#eeeeee>
