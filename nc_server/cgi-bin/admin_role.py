@@ -39,7 +39,8 @@ class AdminRolePage(NCPage):
 
 
 	# fetch triggers in role...
-	triggers = self.ndb.role_triggers.fetchRows( ('role_id', role.role_id) )
+	triggers = self.ndb.role_triggers.fetchRows( ('role_id', role.role_id) ,
+                      order_by=['level'])
 	triggers.hdfExport("CGI.role_triggers", self.ncgi.hdf)
 	
 

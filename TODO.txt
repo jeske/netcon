@@ -19,6 +19,7 @@
    - (done) basic ping agent w/ping host configuration
    - (done) basic queue directory watcher w/dir configuration
    - (done) basic role creation/machine assignment
+   - setup entire neotonic QOS config (see below)                
    - UI: show last collection date, and recent history
    - UI: better display of incident failure
    - UI: incident notes
@@ -70,8 +71,8 @@
    - multiple levels of triggers, 'info', 'warning', 'error', 'failure'
    - ex: wait longer to notify at night (in case it resolves), for example,
          a network failure might have longer timeouts at night
-   - ex: automatic cyclic shift descriptions, pick period (daily,weekly,monthly,etc),
-         then fill in slots on that period
+   - ex: automatic cyclic shift descriptions, pick period 
+         (daily,weekly,monthly,etc), then fill in slots on that period
    - ex: incident/notification domains - match into incident domains based
          on service type (network, vs machine, vs db, vs service), or based on
          machine subtree. Notification list is different for different incident
@@ -79,6 +80,32 @@
    - ex: priority fallbacks for non-responsive oncall personel
          (i.e. 5min : alert of problem, 10min : alert of non-response to problem,
                15min : alert of next on-call person)
+
+   - need to address:
+       - selection
+         - rotation
+         - escelation
+       - urgency
+         - method
+         - frequency
+
+   - strawman 1:
+       - selection    : role can select the notification group
+         - rotation   : notification group has an ordered rotating
+                        schedule, with a period. 
+         - escelation : escelate between people in the escelation group.
+                        additional "escelation notification groups" with
+                        timeouts. (i.e. page the VP in 30 minutes, page the
+                        CEO in 2 hours)
+       - urgency      : each level indicates how urgent the response is
+         - method     : info,warning -> normal, error,failure -> pager
+         - frequency  : info,warning -> new incident, daily reminder
+                        error,failure -> every 5 minutes
+
+     Questions/Issues:
+       - isn't the rotating notification group only for urgent
+         issues? Shouldn't every get an info update?
+
 
 5) Features / Designs
 
@@ -120,3 +147,39 @@
     and browsing exceptions and other state messages
   - data-resolution reduction
     
+6) Neotonic QOS Config:
+
+   TODO:
+     - proc monitor
+     - innodb monitor
+     - 3ware raid monitor
+     - smtp host check
+     - smtp address delivery (dns,smtp,rcpt to)
+
+   Roles:
+     - All: cpu,mem,disk,dir(bugs,maildir)
+     - stdproc: proc (httpd,xntpd,master)
+     - trkproc: proc (search_index,inject,popinject,mysqld)
+     - trakdb: MyInnoTbSpc
+     - trakpub: proc (public_update.py)
+     - 3ware: proc 3dmd, 3w-raid
+     - mailcheck: smtp c1,c2,c5,c4,c6,c8,c9,c12
+     - dns: ns3,ns4
+     - webcheck:  web / : neotonic.com, trakken.com,google.trakken.com,
+           web unsup: c5.neotonic.com,wu.trakken.com,youwinit.trakken.com,
+                      wu.trakhelp.com
+     - minimailcheck: smtp c1,c2
+
+     - "localhost mailcheck" ?
+
+   Machines:
+     - c1: All,Stdproc, mailcheck, dns, webcheck
+     - c2: All, stdproc, trakproc, minimailcheck
+     - c4: All, stdproc, trakproc, 3ware, trakdb
+     - c5: All, stdproc, trakproc, 3ware, trakdb
+     - c6: All, stdproc, trakproc, dns, trakdb
+     - c7: All, stdproc, trakpub, minimailcheck
+     - c8: All, stdproc, trakproc, trakdb
+     - c9: All, stdproc
+     - c12: All, stdproc, dns, mailcheck, webcheck
+     - g3: All, stdproc, trakproc, trakdb
