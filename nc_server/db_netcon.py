@@ -411,7 +411,12 @@ class NCIncidentErrorsTable(Table):
             return active_error_list[0]
         else:
             raise eNoMatchingRows, "no active error matching spec: %s" % error_spec
-        
+
+
+class NCIncidentEventAuditRow(HdfRow):
+    def hdfExport(self,prefix,hdf,**x):
+	HdfRow.hdfExport(self,prefix,hdf,**x)
+        # format the note 
 
 class NCIncidentEventAuditTable(Table):
     def _defineRows(self):
@@ -448,7 +453,8 @@ class DB(Database):
         self.incident_errors = NCIncidentErrorsTable(self,"nc_incident_errors",
 						     rowClass=NCIncidentErrorRow)
         self.incident_event_audit = NCIncidentEventAuditTable(self,
-							      "nc_incident_event_audit")
+							      "nc_incident_event_audit",
+                                                     rowClass=NCIncidentEventAuditRow)
 
     def defaultRowClass(self):
         return HdfRow

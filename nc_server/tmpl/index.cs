@@ -94,7 +94,7 @@
 <b>Notes</b><br>
 <table border=1>
  <?cs each:evt=CGI.incident.events ?>
-   <tr><TD><?cs var:evt.occured_at.string ?></td><Td><?cs var:evt.note ?></td></tr>
+   <tr><TD><?cs var:evt.occured_at.string ?></td><Td><pre style="font-family:Courier;"><?cs var:evt.note ?></pre></td></tr>
  <?cs /each ?>
 </table>
 
