@@ -6,7 +6,7 @@ from CSPage import CSPage
 
 class NCPage(CSPage):
     def subclassinit(self):
-        self.setPaths(["/home/jeske/neotonic/python/examples/netcon/server/tmpl"])
+        self.setPaths(["/home/jeske/neotonic/python/examples/netcon/nc_server/tmpl"])
 
         self.ndb = db_netcon.netcon_connect()
 
