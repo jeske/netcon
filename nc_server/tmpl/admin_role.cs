@@ -1,8 +1,8 @@
 <?cs include:"header.cs" ?>
 
-<b>Admin Role '<?cs var:CGI.role.name ?>'</b> <a href="admin_edit_role.py?role_id=<?cs var:CGI.role.role_id ?>">edit</a><p>
+<b>Admin Role '<?cs var:CGI.role.name ?>'</b> <a href="admin_edit_role.py?role_id=<?cs var:CGI.role.role_id ?>">Edit</a> &nbsp; &nbsp; <a href="admin_delete_role.py?role_id=<?cs var:CGI.role.role_id ?>">Delete</a><p> 
 
-<b>collector config</b> <a href="admin_edit_config.py?role_id=<?cs var:CGI.role.role_id ?>">Edit</a><br>
+<b>collector config</b> <a href="admin_edit_config.py?role_id=<?cs var:CGI.role.role_id ?>">Edit</a> 
 <table border=1>
 <?cs each:rc=CGI.role_config ?>
   <tr>
