@@ -1,0 +1,38 @@
+#!/bin/sh
+# init file for QOS
+#
+#
+# chkconfig: 345 95 70
+# description: QOS Agent
+#
+# processname: qos.py
+# config: 
+
+PREFIX=/neo/qos
+
+case "$1" in
+  start)
+	/bin/echo "Starting qos agent: "
+        /neo/opt/bin/python ${PREFIX}/qosagent/qos.py `cat ${PREFIX}/QOS_Server`
+	echo
+	;;
+  stop)
+	/bin/echo "Shutting down qosagent: "
+	kill `cat /var/run/qosagent.pid`
+	rm -f /var/run/qosagent.pid
+	echo
+	;;
+  restart)
+        $0 stop
+        $0 start
+        ;;
+  status)
+        echo "Status is not implemented"
+        ;;
+  *)
+	echo "Usage: qosagent {start|stop|restart|status}"
+	exit 1
+esac
+
+exit 0
+
