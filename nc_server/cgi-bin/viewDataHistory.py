@@ -15,26 +15,42 @@ import odb
 class ViewDataHistoryPage(NCPage):
     def display(self):
 	hdf = self.ncgi.hdf
-	q_service_id = hdf.getIntValue("Query.serv_id",-1)
-	q_source_id  = hdf.getIntValue("Query.source_id",-1)
+	sets = []
 
-	service = self.ndb.services.fetchRow( ('serv_id', q_service_id) )
-	service.hdfExport("CGI.service", self.ncgi.hdf)
+	nset = 0
+	while 1:
+	  q_service_id = hdf.getIntValue("Query.serv_id.%s" % nset,-1)
+	  if q_service_id == -1: break
+	  q_source_id  = hdf.getIntValue("Query.source_id.%s" % nset,-1)
 
-	source = self.ndb.monitor_sources.fetchRow(
-	    ('source_id', q_source_id) )
-	source.hdfExport("CGI.source", self.ncgi.hdf)
+	  sets.append((nset, q_service_id, q_source_id))
+	  nset = nset + 1
 
-	smach = self.ndb.machines.fetchRow(
-	    ('mach_id', source.source_mach_id) )
-	smach.hdfExport("CGI.source.machine",self.ncgi.hdf)
 
-        h_data = self.ndb.monitor_history.fetchRows(
-	    [ ('serv_id', q_service_id),
-	      ('source_id', q_source_id)],
-	    limit_to=200, order_by=["pend desc"])
+	if len(sets) == 0:
+	  q_service_id = hdf.getIntValue("Query.serv_id",-1)
+	  q_source_id  = hdf.getIntValue("Query.source_id",-1)
 
-	h_data.hdfExport("CGI.history", self.ncgi.hdf)
+	  sets.append((0, q_service_id, q_source_id))
+
+	for (nset, q_service_id, q_source_id) in sets:
+	  prefix = "CGI.dataset.%s" % nset
+	  service = self.ndb.services.fetchRow( ('serv_id', q_service_id) )
+	  service.hdfExport(prefix + ".service", self.ncgi.hdf)
+
+	  source = self.ndb.monitor_sources.fetchRow(
+	      ('source_id', q_source_id) )
+	  source.hdfExport(prefix + ".source", self.ncgi.hdf)
+
+	  smach = self.ndb.machines.fetchRow(
+	      ('mach_id', source.source_mach_id) )
+	  smach.hdfExport(prefix + ".source.machine",self.ncgi.hdf)
+
+	  h_data = self.ndb.monitor_history.fetchRows(
+	      [ ('serv_id', q_service_id),
+		('source_id', q_source_id)] )
+
+	  h_data.hdfExport(prefix + ".history", self.ncgi.hdf)
 	
 	
 
