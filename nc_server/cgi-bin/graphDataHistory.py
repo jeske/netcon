@@ -44,6 +44,9 @@ class GraphImage:
 	    else:
 		self.min = self.min - 15
 		self.max = self.max + 15
+        else:
+            if (self.max * 2) < self.height:
+                self.min = 0
 	    
 	# vertical scaling
 	vscale = (float(self.height) / float(self.max - self.min))
