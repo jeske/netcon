@@ -61,6 +61,10 @@ class NCTriggerManager:
 	    tester = NCTriggerTest(a_trigger)
 	    
             for cdata in alldata:
+		# check if data is current!
+		if (cdata.pend + 30*60) < time.time():
+		    continue
+		
 		state = tester.checkMatch(cdata.value)
 
                 tsrv = ndb.services.getService("trigger/%s:state" % a_trigger.trigger_id)

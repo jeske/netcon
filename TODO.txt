@@ -14,8 +14,8 @@
    - (done) first agent monitor      #  Disk monitor
    - (done) agent cron mode
    - (done) agent data-submission
-   - basic trigger config
-   - basic incident notifications
+   - (done) basic trigger config
+   - (done) basic incident notifications
    - agent daemon run-loop
    - UI: show last collection date, and recent history
    - UI: better display of incident failure
