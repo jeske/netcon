@@ -6,6 +6,8 @@ from hdfhelp import HdfRow, HdfItemList
 import profiler
 import socket
 
+import neo_cgi,neo_util
+
 USER = 'root'
 PASSWORD = ''
 DATABASE = 'netcon'
@@ -250,6 +252,10 @@ kState_enum = {
     kStateResolved : "resolved" }
 
 
+class NCIncidentRow(HdfRow):
+    def getErrors(self):
+	return self._table.db.incident_errors.fetchRows( ('incident_id', self.incident_id) )
+
 class NCIncidentsTable(Table):
     def _defineRows(self):
         self.d_addColumn("incident_id",kInteger, primarykey=1, autoincrement=1)
@@ -304,6 +310,64 @@ class NCIncidentsTable(Table):
             return new_incident
 
         raise eNoMatchingRows, "no active incident"
+
+
+class NCIncidentErrorRow(HdfRow):
+
+    def unpackErrorInfo(self):
+	# unpack error info
+	ehdf = neo_util.HDF()
+	ehdf.readString(self.error_spec)
+
+	# these values should be contained!
+	trigger_id = ehdf.getIntValue("trigger_id",-1)
+	source_id = ehdf.getIntValue("source",-1)
+	trigger_serv_id = ehdf.getIntValue("trigger_serv_id",-1)
+	
+	return ehdf
+
+    def getSourceRow(self):
+	ehdf = self.unpackErrorInfo()
+	source_id = ehdf.getIntValue("source",-1)
+	
+	tsrc = self._table.db.monitor_sources.fetchRow(
+	    ('source_id', source_id) )
+
+	return tsrc
+	
+    def getSourceStateRow(self):
+	ehdf = self.unpackErrorInfo()
+	source_id = ehdf.getIntValue("source",-1)
+
+	trig = self.getTriggerRow()
+	
+	cdata = self._table.db.monitor_state.fetchRow(
+	    [ ('source_id', source_id ),
+	      ('serv_id', trig.serv_id ) ] )
+	return cdata
+	
+
+    def getTriggerRow(self):
+	ehdf = self.unpackErrorInfo()
+	# load trigger details
+	trigger_id = ehdf.getIntValue("trigger_id",-1)
+	trig = self._table.db.role_triggers.fetchRow(
+	    ('trigger_id', trigger_id) )
+	return trig
+    
+    def getStateRow(self):
+	ehdf = self.unpackErrorInfo()
+	trigger_id = ehdf.getIntValue("trigger_id",-1)
+	source_id = ehdf.getIntValue("source",-1)
+
+	# load service 
+	tsrc = self._table.db.services.getService("trigger/%s:state" % trigger_id)
+	# now load the trigger state
+	tdata = self._table.db.monitor_state.fetchRow(
+	    [ ('source_id', source_id),
+	      ('serv_id', tsrc.serv_id) ])
+
+	return tdata
 
 class NCIncidentErrorsTable(Table):
     def _defineRows(self):
@@ -363,9 +427,11 @@ class DB(Database):
         self.role_triggers = NCRoleTriggersTable(self,"nc_role_triggers")
 	self.role_config = NCRoleConfigTable(self,"nc_role_config")
 
-        self.incidents = NCIncidentsTable(self,"nc_incidents")
-        self.incident_errors = NCIncidentErrorsTable(self,"nc_incident_errors")
-        self.incident_event_audit = NCIncidentEventAuditTable(self,"nc_incident_event_audit")
+        self.incidents = NCIncidentsTable(self,"nc_incidents",rowClass=NCIncidentRow)
+        self.incident_errors = NCIncidentErrorsTable(self,"nc_incident_errors",
+						     rowClass=NCIncidentErrorRow)
+        self.incident_event_audit = NCIncidentEventAuditTable(self,
+							      "nc_incident_event_audit")
 
     def defaultRowClass(self):
         return HdfRow

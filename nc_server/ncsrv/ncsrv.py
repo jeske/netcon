@@ -50,17 +50,25 @@ class NCSrv:
         incidentmanager.updateIncidents()
 
     def nameForError(self,inc_error_obj):
-        # look up the trigger name
-	ehdf = neo_util.HDF()
-	ehdf.readString(inc_error_obj.error_spec)
-	trigger_id = ehdf.getIntValue("trigger_id",-1)
-
+	name = "(unknown)"
 	try:
-	    trigger = self.ndb.role_triggers.fetchRow( ('trigger_id', trigger_id) )
-	except odb.eNoMatchingRows:
-	    return "(unknown)"
+	    trigger = inc_error_obj.getTriggerRow()
+	    source  = inc_error_obj.getSourceRow()
+	    state   = inc_error_obj.getSourceStateRow()
+	    serv    = self.ndb.services.fetchRow(
+		('serv_id', state.serv_id) )
+	    mach    = self.ndb.machines.fetchRow(
+		('mach_id', source.source_mach_id) )
 
-	return trigger.name
+	    name = "%s(%s:%s) %s:%s=%s" % \
+		    (trigger.name,mach.name,source.source_name,
+		     serv.namepath,serv.type,state.value)
+	    log("name = %s" % name)
+	    
+	except odb.eNoMatchingRows:
+	    pass
+
+	return name
         
 ##     Subject: NC[64] 2 critical, 10 error, 3 warning
 ##     (8/15 12:05am)
@@ -110,8 +118,27 @@ class NCSrv:
 	# compose information about errors...
 
 	for inc in act_inc:
-	    ierrs = self.ndb.incident_errors.fetchRows(
-		('incident_id', inc.incident_id) )
+	    ierrs = inc.getErrors()
+
+	    # find out the current states of the errors
+	    count = 0
+	    bad_count = 0
+	    for err in ierrs:
+		try:
+		    state = err.getStateRow()
+		    count = count + 1
+		    if state.value != 0:
+			bad_count = bad_count + 1
+		except odb.eNoMatchingRows:
+		    pass
+
+	    log("incident %s:%s,  count=%s,bad_count=%s" %
+		(inc.incident_id,inc.name,count,bad_count))
+		
+	    if bad_count == 0:
+		log("   skipping incident notify...")
+		continue
+	    
 	    errs = []
 	    for err in ierrs:
 		# figure out the real name of the error!
@@ -125,7 +152,13 @@ class NCSrv:
 	# compose real msg
 
 	import sendmail
-	for recip in ["blong-page@fiction.net", "jeske-pagenc@neotonic.com"]:
+	
+	RECIP = ["blong-page@fiction.net", "jeske-pagenc@neotonic.com"]
+
+        # for debugging only:
+	# RECIP = ["jeske@neotonic.com"]
+	
+	for recip in RECIP:
 	    bodyp = []
 	    bodyp.append("To: %s" % recip)
 	    bodyp.append("From: netcon@neotonic.com")
@@ -144,11 +177,11 @@ class NCSrv:
     # main run!!!
 
     def run(self):
-	self.run_trends()
+	# self.run_trends()
 	
-	self.run_triggers()  # run triggers and generate errors..
+	# self.run_triggers()  # run triggers and generate errors..
 
-	self.run_incident_management() # coalesc errors into incidents
+	# self.run_incident_management() # coalesc errors into incidents
 
 	self.run_notification() # check current incidents and generate notifications
 

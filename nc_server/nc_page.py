@@ -10,5 +10,5 @@ class NCPage(CSPage):
 
         self.ndb = db_netcon.netcon_connect()
 
-        self.ncgi.hdf.setValue("page.debug","1")
+        # self.ncgi.hdf.setValue("page.debug","1")
 
