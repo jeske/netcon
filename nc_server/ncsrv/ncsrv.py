@@ -25,9 +25,12 @@ class NCSrv:
 	ndb = self.ndb
 
 	print "---------- TREND STAGE -----------------"
-
-	trendsmanager = nc_trends.NCTrendsManager(ndb)
-	trendsmanager.computeAllTrends()
+	try:
+	    trendsmanager = nc_trends.NCTrendsManager(ndb)
+	    trendsmanager.computeAllTrends()
+	except:
+	    import handle_error
+	    handle_error.handleException()
 	
 
     def run_triggers(self):

@@ -76,7 +76,7 @@ class Simplex:
             self.errors.append(0)
         self.calculate_errors_at_vertices()
 
-    def minimize(self, epsilon = 0.0001, maxiters = 250, monitor = 1):
+    def minimize(self, epsilon = 0.0001, maxiters = 250, monitor = 0):
         """Walks to the simplex down to a local minima.
         INPUTS
         ------

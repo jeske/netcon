@@ -53,11 +53,14 @@ class ViewMachinePage(NCPage):
 		    self.ncgi.hdf.setValue(prefix + ".services.%d.serv_id" % (a_state.serv_id),str(a_state.serv_id))
 		    a_source.hdfExport(prefix + ".services.%d.sources.%d" % (a_state.serv_id,a_state.source_id),self.ncgi.hdf)
 		    a_state.hdfExport(prefix + ".services.%d.sources.%d.states.%s" % (a_state.serv_id,a_state.source_id,stn),self.ncgi.hdf)
-		    self.ncgi.hdf.setValue(prefix + ".services.%d.sources.%d.states.%s.value" % (a_state.serv_id,a_state.source_id,stn),"%f" % a_state.value)
+
+		    if serv_hash[a_state.serv_id].type == "seconds":
+			vf = "%f days" % (a_state.value/86400.0)
+		    else:
+			vf = "%f" % a_state.value
+		    
+		    self.ncgi.hdf.setValue(prefix + ".services.%d.sources.%d.states.%s.value" % (a_state.serv_id,a_state.source_id,stn),vf)
 	    # export services
-
-
-                
 
 
         # load current incidents

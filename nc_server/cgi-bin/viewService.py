@@ -37,6 +37,19 @@ class ViewServicePage(NCPage):
 
 	# don't forget to export the data
 	cdata.hdfExport("CGI.cdata", self.ncgi.hdf)
+	n = 0
+	for acd in cdata:
+	    prefix = "CGI.cdata.%d" % n
+	    n = n + 1
+	    acd.hdfExport(prefix,self.ncgi.hdf)
+	    
+	    if service.type == "seconds":
+		vf = "%f days" % (acd.value/86400.0)
+	    else:
+		vf = "%f" % acd.value
+
+	    self.ncgi.hdf.setValue(prefix + ".value",vf)
+
 	
 	
 
