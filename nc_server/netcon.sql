@@ -2,7 +2,8 @@ create table nc_machines (
   mach_id integer not null primary key auto_increment,
   network_parent_id integer default 0,
   name varchar(255),
-  ip varchar(255)
+  ip varchar(255),
+  unique (name)
 ) TYPE=INNODB;
 
 create table nc_agents (
@@ -14,7 +15,9 @@ create table nc_agents (
 create table nc_services (
   serv_id integer not null primary key auto_increment,
   namepath text,
-  type varchar(255)
+  type varchar(255),
+  unique (namepath,type)
+
 ) TYPE=INNODB;
 
 create table nc_monitor_sources (
@@ -25,19 +28,21 @@ create table nc_monitor_sources (
 ) TYPE=INNODB;
 
 create table nc_monitor_state (
+  serv_id integer not null,
   source_id integer not null,
   pstart integer not null,
   pend   integer not null,
-  primary key (source_id,pstart,pend),
+  primary key (serv_id,source_id),
 
   value real
 ) TYPE=INNODB;
 
 create table nc_monitor_history (
+  serv_id integer not null,
   source_id integer not null,
   pend   integer not null,
   pstart integer not null,
-  primary key (source_id,pend,pstart),
+  primary key (serv_id,source_id,pend,pstart),
 
   value real
 
@@ -76,7 +81,8 @@ create table nc_incident_errors (
   incident_error_map_id integer not null primary key auto_increment,
   incident_id integer not null,
   index (incident_id),
-  error_spec text
+  error_spec varchar(255),
+  index (error_spec)
 
 ) TYPE=INNODB;
 
@@ -87,3 +93,5 @@ create table nc_incident_event_audit (
   e_data text,
   note text
 ) TYPE=INNODB;
+
+
