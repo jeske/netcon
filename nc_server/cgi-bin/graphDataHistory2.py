@@ -138,9 +138,14 @@ class GraphImage:
 		else:
 		  data.append(dp)
 
+        if y_max is None: y_max = 0
+        if y_min is None: y_min = 0
+
 	if self.fixed_vscale:
 	  y_max = self.y_max
 	  y_min = self.y_min
+
+        
 
 	maxy = math.ceil(y_max)
 	miny = math.floor(y_min)
@@ -176,10 +181,14 @@ class GraphImage:
 	graph_height = self.height - (top_marginf + bottom_marginf)
 	graph_width = self.width - (left_marginf + right_marginf)
 
-	yscale = (float(graph_height) / float(yrange))
-	xscale = (float(graph_width) / float(xrange))
-
-
+        if yrange == 0:
+            yscale = 1
+        else:
+            yscale = (float(graph_height) / float(yrange))
+        if xrange == 0:
+            xscale = 1
+        else:
+            xscale = (float(graph_width) / float(xrange))
 
 	def wideline( imd, linedata, **param):
 	  for x in range(self.antialias_factor):
