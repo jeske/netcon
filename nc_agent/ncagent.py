@@ -14,7 +14,7 @@ import time
 import nc_cmgr, nc_srvrpc
 
 sys.path.insert(0,"MonitorPlugins/unix")
-import DiskMonitor
+import DiskMonitor, MemMonitor, CpuMonitor
 
 
 def usage(progname):
@@ -27,6 +27,12 @@ def main(argv,stdout,environ):
     nccm = nc_cmgr.NCCollectionManager(hostname)
     
     mon = DiskMonitor.makeMonitor(nccm)
+    mon.collectData()
+
+    mon = MemMonitor.makeMonitor(nccm)
+    mon.collectData()
+
+    mon = CpuMonitor.makeMonitor(nccm)
     mon.collectData()
 
     print nccm.postdata()

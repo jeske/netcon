@@ -12,12 +12,33 @@
    - (done) basic test               #  test.py 
    - (done) first webpage            #  http://c1.neotonic.com/netcon/index.py
    - (done) first agent monitor      #  Disk monitor
-   - agent run-loop (cron or daemon)
-   - agent data-submission
+   - (done) agent cron mode
+   - (done) agent data-submission
    - basic incident notifications
    - basic trigger config
+   - agent daemon run-loop
+   - UI: better display of incident failure
+   - UI: incident notes
+   - UI: resolve/close incident
+   - new data addition optimization (txn?)
 
-2) Server UI
+2) Agent Data Monitors
+
+   - (done) disk usage 
+   - (done) memory usage
+   - (done) cpu usage
+   - ping
+   - innodbtablespace
+   - directory/queue count
+   - http
+   - dns
+   - snmp
+   - process state
+   - tcp chat (connect,request,response)
+   - web (http,https)
+   - oracletablespace
+
+3) Server UI
 
    - incident details / notes
    - resolve incident / watch timeout
@@ -30,7 +51,7 @@
    - role view
    - stat/source history (data/graph)
 
-3) Features / Designs
+4) Features / Designs
 
    - notification config/shifts/user watch/incident watch timer
    - redundant role triggers
@@ -62,17 +83,5 @@
         - shutdown and reboot server
         - remove a server from load balancer
 
-4) Agent Data Monitors
 
-   - ping
-   - dns
-   - directory/queue count
-   - memory usage
-   - cpu usage
-   - innodbtablespace
-   - oracletablespace
-   - snmp
-   - process state
-   - tcp chat (connect,request,response)
-   - http
-   - web (http,https)
+
