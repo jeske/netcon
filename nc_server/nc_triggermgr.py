@@ -4,6 +4,8 @@
 import string,re
 from log import *
 
+import odb
+
 class NCTriggerTest:
     def __init__(self,a_trigger):
 	self._test_type = a_trigger.test_type
@@ -76,10 +78,37 @@ class NCTriggerManager:
 		
 		state = tester.checkMatch(cdata.value)
 
+		# now check trend computations
+
+		if not state and a_trigger.trend_config:
+		    try:
+			unit_mult = { 'd' : 86400, 'h' : 3600, 'm' : 60 }
+			t,unit = string.split(a_trigger.trend_config,":")
+			t = float(t)
+			trend_srv = ndb.services.getService("trigger/%s:seconds" % a_trigger.trigger_id)
+			trend_state = ndb.monitor_state.fetchRow(
+			    [('serv_id', trend_srv.serv_id),
+			     ('source_id', cdata.source_id)])
+
+			log("trend state: %s" % trend_state.value)
+
+			if ( (trend_state.value > 0) and
+			     (trend_state.value < (t * unit_mult.get(unit,0))) ):
+			    state = 1
+			
+			
+		    except odb.eNoMatchingRows:
+			pass
+		    except ValueError:
+			log("invalid trend_config: %s" % a_trigger.trend_config)
+		    
+
+
                 tsrv = ndb.services.getService("trigger/%s:state" % a_trigger.trigger_id)
                 source = ndb.monitor_sources.fetchRow( ('source_id', cdata.source_id) )
                 now = cdata.pend
                 ndb.monitor_state.recordData(tsrv,source,now,state)
 
+		    
 
 

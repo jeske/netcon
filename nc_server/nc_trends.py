@@ -104,6 +104,26 @@ class NCTrendsManager:
 	return time_to_target
 
     def computeAllTrends(self):
+	# find triggers which require trend computation
+
+	triggers = self.ndb.role_triggers.fetchRows( where=["trend_config!=''"] )
+	
+	for trig in triggers:
+	    service = self.ndb.services.fetchRow(
+		('serv_id', trig.serv_id) )
+
+	    ts_service = self.ndb.services.getService("trigger/%s:seconds" % trig.trigger_id)
+	    sources = self.ndb.monitor_state.fetchRows( ('serv_id', service.serv_id) )
+	    for a_source in sources:
+		target = trig.tvalue
+		
+		seconds = self.computeTrendTime_Linear(service.serv_id,
+							a_source.source_id,target)
+		self.ndb.monitor_state.recordData(ts_service,
+						  a_source,time.time(),seconds)
+		
+
+    def testComputeTrends(self):
 
 	# find all disk/size:pct entries
 

@@ -111,12 +111,9 @@ class NCSrv:
 	notification = ""
 	summary = None
 
-	if len(act_inc) > 1:
-	    notification = "[%s incidents] \n" % len(act_inc)
-	    summary = "[%s incidents]" % len(act_inc)
-
 	# compose information about errors...
-
+	active_count = 0
+	
 	for inc in act_inc:
 	    ierrs = inc.getErrors()
 
@@ -138,7 +135,8 @@ class NCSrv:
 	    if bad_count == 0:
 		log("   skipping incident notify...")
 		continue
-	    
+
+	    active_count = active_count + 1
 	    errs = []
 	    for err in ierrs:
 		# figure out the real name of the error!
@@ -151,16 +149,21 @@ class NCSrv:
 	    notification = notification + inc_info + "\n"
 	# compose real msg
 
-        if summary is None:
-            # no notification to send!
-            return
+	if active_count > 1:
+	    notification = "[%s incidents] \n" % len(act_inc)
+	    summary = "[%s incidents]" % len(act_inc)
 
+	if active_count == 0:
+	    # no notifications!
+	    return
+	
 	import sendmail
 	
 	RECIP = ["blong-page@fiction.net", "jeske-pagenc@neotonic.com"]
 
         # for debugging only:
 	RECIP = ["jeske@neotonic.com"]
+	# RECIP = ["jeske-pagenc@neotonic.com"]
 	
 	for recip in RECIP:
 	    bodyp = []

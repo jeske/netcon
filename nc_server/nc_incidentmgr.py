@@ -45,8 +45,12 @@ class NCIncidentManager:
 
 		incident_error_key = ehdf.dump()
 
-		if edata.value == 0:
-		    # no error to report
+		if a_service.type=="state":
+		    if edata.value == 0:
+			# no error to report
+			continue
+		else:
+		    # skip other types...
 		    continue
 
 		log("report error for: %s" % repr(incident_error_key))

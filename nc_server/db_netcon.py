@@ -54,12 +54,15 @@ class NCServicesTable(Table):
 
         # types: total, cur, state, avg, pct
 
-    def getService(self,servicepath):
+    def getService(self,servicepath,create=1):
         namepath,stype = string.split(servicepath,":")
         
         try:
             service = self.fetchRow( [('namepath', namepath), ('type', stype)] )
         except eNoMatchingRows:
+	    if not create:
+		raise
+
             service = self.newRow()
             service.namepath = namepath
             service.type = stype
@@ -231,8 +234,8 @@ class NCRoleTriggerRow(HdfRow):
     def hdfExport(self,prefix,hdf,**x):
 	HdfRow.hdfExport(self,prefix,hdf,**x)
 	try:
-	    time,unit = string.split(self.trend_config,":")
-	    hdf.setValue(prefix + ".trend_config.time",time)
+	    t,unit = string.split(self.trend_config,":")
+	    hdf.setValue(prefix + ".trend_config.time",t)
 	    hdf.setValue(prefix + ".trend_config.unit",unit)
 	except ValueError:
 	    pass
