@@ -13,7 +13,10 @@ import time
 
 import nc_cmgr, nc_srvrpc
 
+# hardcoded path hackery...
+sys.path.insert(0,"/home/jeske/netcon/nc_agent/MonitorPlugins/unix")
 sys.path.insert(0,"/neo/nc_agent/MonitorPlugins/unix")
+
 sys.path.insert(0,"MonitorPlugins/unix")
 import DiskMonitor, MemMonitor, CpuMonitor
 
