@@ -18,7 +18,7 @@ sys.path.insert(0,"/home/jeske/netcon/nc_agent/MonitorPlugins/unix")
 sys.path.insert(0,"/neo/nc_agent/MonitorPlugins/unix")
 
 sys.path.insert(0,"MonitorPlugins/unix")
-import DiskMonitor, MemMonitor, CpuMonitor
+import DiskMonitor, MemMonitor, CpuMonitor, TcpMonitor, DirQueueMonitor
 
 
 def usage(progname):
@@ -34,20 +34,27 @@ def main(argv,stdout,environ):
     config = ncsrv.getConfig()
 
     for module,module_config in config:
-	if module == "disk":
-	    mon = DiskMonitor.makeMonitor(nccm)
-	    mon.collectData(module_config)
-	elif module == "mem":
-	    mon = MemMonitor.makeMonitor(nccm)
-	    mon.collectData(module_config)
-	elif module == "cpu":
-	    mon = CpuMonitor.makeMonitor(nccm)
-	    mon.collectData(module_config)
-	elif module == "tcp":
-	    mon = TcpMonitor.makeMonitor(nccm)
-	    mon.collectData(module_config)
-	else:
-	    print "unknown config: %s %s" % (module,module_config)
+	try:
+	    if module == "Disk":
+		mon = DiskMonitor.makeMonitor(nccm)
+		mon.collectData(module_config)
+	    elif module == "Mem":
+		mon = MemMonitor.makeMonitor(nccm)
+		mon.collectData(module_config)
+	    elif module == "Cpu":
+		mon = CpuMonitor.makeMonitor(nccm)
+		mon.collectData(module_config)
+	    elif module == "Tcp":
+		mon = TcpMonitor.makeMonitor(nccm)
+		mon.collectData(module_config)
+	    elif module == "DirQueue":
+		mon = DirQueueMonitor.makeMonitor(nccm)
+		mon.collectData(module_config)
+	    else:
+		print "unknown config: %s %s" % (module,module_config)
+	except:
+            import handle_error
+            handle_error.handleException()
 		
     print "=================\n" + nccm.postdata() + "\n==============\n"
     

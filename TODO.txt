@@ -16,14 +16,20 @@
    - (done) agent data-submission
    - (done) basic trigger config
    - (done) basic incident notifications
-   - basic ping agent w/ping host configuration
-   - basic queue directory watcher w/dir configuration
+   - (done) basic ping agent w/ping host configuration
+   - (done) basic queue directory watcher w/dir configuration
    - basic role creation/machine assignment
    - UI: show last collection date, and recent history
    - UI: better display of incident failure
    - UI: incident notes
    - UI: resolve/close incident
    - new data addition optimization (txn?)
+
+1) Edge Cases
+
+   - when changing triggers we need to do something with trigger state
+     since old state values get "stuck" if you remove the trigger.
+     (manually clear? automatically clear? rerun?)
 
 2) Agent Data Monitors and Features
 

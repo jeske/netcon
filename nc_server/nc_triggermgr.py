@@ -1,7 +1,7 @@
 
 # trigger manager
 
-
+import string,re
 from log import *
 
 class NCTriggerTest:
@@ -43,16 +43,25 @@ class NCTriggerManager:
             machine_ids = ndb.mach_roles.getMachineIdsInRoleId(a_trigger.role_id)
 
             # fetch all sources for these machines
-            sources = ndb.monitor_sources.fetchForMachineIdList(machine_ids)
+            allsources = ndb.monitor_sources.fetchForMachineIdList(machine_ids)
 
-            # FIXME: cull out sources which don't match our pattern
+            # cull out sources which don't match our pattern
+	    if string.strip(a_trigger.source_pattern):
+		sources = []
+		for a_source in allsources:
+		    if re.match(a_trigger.source_pattern,a_source.source_name):
+                        print "match: '%s' - '%s'" % (a_trigger.source_pattern,
+                                                      a_source.source_name)
+			sources.append(a_source)
+	    else:
+		sources = allsources
             
             # fetch all current data for these sources and our triggered service
-            alldata = None
+            alldata = []
             for a_source in sources:
                 statedata = ndb.monitor_state.fetchRows( [('serv_id', a_trigger.serv_id),
                                                           ('source_id', a_source.source_id)] )
-                if alldata is None:
+                if not alldata:
                     alldata = statedata
                 else:
                     alldata = alldata + statedata
