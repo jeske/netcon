@@ -46,6 +46,18 @@ class NCAgentsTable(Table):
             
         return agent
 
+    def fetchAgentIdsForMachineIdList(self, machine_id_list):
+        allagents = None
+        for mach_id in machine_id_list:
+            agents = self.fetchRows( ('mach_id', mach_id) )
+            if allagents is None:
+                allagents = agents
+            else:
+                allagents = allagents + agents
+
+        return map(lambda x: x.agent_id, allagents)
+
+
 class NCServicesTable(Table):
     def _defineRows(self):
         self.d_addColumn("serv_id",kInteger, primarykey=1,autoincrement=1)
@@ -96,6 +108,19 @@ class NCMonitorSourcesTable(Table):
             else:
                 allsources = allsources + sources
         return allsources
+
+
+
+    def fetchForAgentIdList(self,machine_id_list):
+        allsources = None
+        for mach_id in machine_id_list:
+            sources = self.fetchRows( ('agent_id', mach_id) )
+            if allsources is None:
+                allsources = sources
+            else:
+                allsources = allsources + sources
+        return allsources
+
 
 
     def getSource(self,agent_obj,source_mach_obj,source_name):

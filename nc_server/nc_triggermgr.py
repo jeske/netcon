@@ -37,15 +37,20 @@ class NCTriggerManager:
     def runAllTriggers(self):
         ndb = self.ndb
         # for each trigger, run over "current state" data and see if we have any errors
+        log("runAllTriggers()")
 
         alltriggers = ndb.role_triggers.fetchAllRows()
         for a_trigger in alltriggers:
+            log("run trigger test: %s" % a_trigger.name)
 
             # identify which machines to apply this trigger to
             machine_ids = ndb.mach_roles.getMachineIdsInRoleId(a_trigger.role_id)
 
+            # idenfity which agents are on those machines
+            agent_ids = ndb.agents.fetchAgentIdsForMachineIdList(machine_ids)
+
             # fetch all sources for these machines
-            allsources = ndb.monitor_sources.fetchForMachineIdList(machine_ids)
+            allsources = ndb.monitor_sources.fetchForAgentIdList(agent_ids)
 
             # cull out sources which don't match our pattern
 	    if string.strip(a_trigger.source_pattern):
@@ -74,9 +79,9 @@ class NCTriggerManager:
             for cdata in alldata:
 		# check if data is current!
 		if (cdata.pend + 30*60) < time.time():
-		    continue
-		
-		state = tester.checkMatch(cdata.value)
+                    continue
+                else:
+		    state = tester.checkMatch(cdata.value)
 
 		# now check trend computations
 

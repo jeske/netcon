@@ -5,6 +5,7 @@ Example:
 
 """
 
+import sys
 import socket
 import select
 import string

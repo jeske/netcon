@@ -14,20 +14,26 @@ class TcpMonitor:
         port = string.atoi(sport)
 
 	start = time.time()
-	t = tcp.TCP(host,port)
-	connect_time = time.time() - start
-	t.set_debuglevel(1)
 
-        if port == 80:
-	    t.send("GET / HTTP/1.1\nHost: %s\n\n" % host)
+	success = 0
+	try:
+	    t = tcp.TCP(host,port)
+	    connect_time = time.time() - start
+	    t.set_debuglevel(1)
 
-	if t.valid:
-	    success = 1
-	else:
-	    success = 0
+	    if port == 80:
+		t.send("GET / HTTP/1.1\nHost: %s\n\n" % host)
 
-	print 'Valid: %s' % (t.valid)
-	errcode, errmsg = t.getreply(45)
+            errcode, errmsg = t.getreply(45)
+            
+            print 't.Valid: %s, errcode: %s' % (t.valid,errcode)
+
+	    if t.valid:
+		success = 1
+	except os.error, reason:
+	    pass
+        except:
+            print "unknown error.."
 
 	self.ncc.newData("tcp/connect:state",str(port),success,hostname=host)
 	self.ncc.newData("tcp/connect:time",str(port),connect_time,hostname=host)
