@@ -43,7 +43,7 @@ Collected By <a href="./viewMachine.py?mach_id=<?cs var:agent.mach_id ?>"><?cs v
     <?cs /if ?>
     <?cs /with ?>
     <?cs else ?>
-      <tr><td>&nbsp;&nbsp;no trigger found? <?cs var:srv.serv_id ?>
+      <tr><td>&nbsp;&nbsp;no trigger found? serv_id:<?cs var:srv.serv_id ?> trigger_id:<?cs var:trigger_id ?>
     <?cs /if ?>
     <?cs /with ?>
   <?cs else ?>
