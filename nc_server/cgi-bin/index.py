@@ -160,6 +160,9 @@ class IndexPage(NCPage):
 		pass
     
     def display(self):
+	# current time
+	self.ncgi.hdf.setValue("CGI.CurrentTime",str(int(time.time())))
+	
 	# cur incident
 	q_incident_id = self.ncgi.hdf.getIntValue("Query.incident_id",-1)
 	

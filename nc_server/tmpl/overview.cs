@@ -17,7 +17,13 @@
 <tr><td>ID</td><td>name</td></tr>
 <?cs each:agent=CGI.agents ?>
 <tr><td><?cs var:agent.agent_id ?></td>
-  <td><?cs var:CGI.machines[agent.mach_id].name ?></td></tr>
+  <td><?cs var:CGI.machines[agent.mach_id].name ?>
+   <?cs if:agent.last_check_in == 0 ?>
+    <font color=red>no check in data</font>
+   <?cs elif:(CGI.CurrentTime - agent.last_check_in) > (60*10) ?>
+    <font color=red><?cs var:(CGI.CurrentTime - agent.last_check_in) / 60 ?> minutes old</font>
+   <?cs /if ?>
+  </td></tr>
 <?cs /each ?>
 </table>
 

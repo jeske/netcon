@@ -7,6 +7,8 @@ import string
 from CSPage import Context
 from nc_page import NCPage
 
+import time
+
 import CSPage
 from log import log
 
@@ -48,6 +50,9 @@ class AgentCheckInPage(NCPage):
             self.ncgi.hdf.setValue("CGI.data",data)
 
             self.parse_data(data)
+
+	    agent.last_check_in = int(time.time())
+	    agent.save()
 
 	
 	
