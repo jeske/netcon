@@ -31,6 +31,11 @@ class IndexPage(NCPage):
 	for a_service in services:
 	    a_service.hdfExport("CGI.services.%d" % a_service.serv_id,
 				self.ncgi.hdf)
+	    if not re.match("trigger/[0-9]",a_service.namepath):
+		a_service.hdfExport("CGI.show_services.%d" % a_service.serv_id,
+				    self.ncgi.hdf)
+		
+		
 	
         # load current incidents
         active = self.ndb.incidents.getAllActiveIncidents()
@@ -90,6 +95,7 @@ class IndexPage(NCPage):
         # load agents
         agents = self.ndb.agents.fetchRows()
         agents.hdfExport("CGI.agents",self.ncgi.hdf)
+
  
         
 
