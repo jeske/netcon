@@ -162,8 +162,8 @@ class NCSrv:
 	RECIP = ["blong-page@fiction.net", "jeske-pagenc@neotonic.com"]
 
         # for debugging only:
-	RECIP = ["jeske@neotonic.com"]
-	RECIP = ["jeske-pagenc@neotonic.com"]
+	# RECIP = ["jeske@neotonic.com"]
+	# RECIP = ["jeske-pagenc@neotonic.com"]
 	
 	for recip in RECIP:
 	    bodyp = []
