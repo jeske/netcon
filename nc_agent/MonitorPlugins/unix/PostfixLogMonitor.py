@@ -90,8 +90,8 @@ def test():
         def newData(self,*a):
             print string.join(map(lambda x:str(x),a)," ")
     mon = PostfixLogMonitor(DummyNCC())
-    #mon.collectData('/var/log/maillog')
-    mon.collectData('maillog.2')
+    mon.collectData('/var/log/maillog')
+    # mon.collectData('maillog.2')
 
 if __name__ == "__main__":
     test()

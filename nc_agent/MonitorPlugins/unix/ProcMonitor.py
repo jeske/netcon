@@ -23,7 +23,7 @@ class ProcMonitor:
         state = 0
 
         for a_proc in pl:
-            if re.match(config,a_proc.proc):
+            if re.search(config,a_proc.proc):
                 count = count + 1
                 state = 1
         
