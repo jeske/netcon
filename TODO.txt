@@ -90,6 +90,8 @@
      - delete trigger
      - expire state which was not provided again during the last agent checkin
      - dns monitor
+     - ui to MOVE collector/trigger to another role
+     - trigger ui: make it more obvious that you have to select a service first
 
    - netcon user accounts
      - list of currently active users
