@@ -139,8 +139,10 @@
    - neotonic
      - inject/popinject log
      - search server queries
+     - backup status (?)
    - snmp
  
+   - mysql replication status
    - tcp chat (connect,request,response)
    - ping/packet loss monitor
    - extended http/https (apache server status?)
