@@ -107,7 +107,7 @@ class NCMonitorStateTable(Table):
         self.d_addColumn("source_id", kInteger, primarykey=1)
         self.d_addColumn("pstart", kInteger, int_date=1)
         self.d_addColumn("pend", kInteger, int_date=1)
-        self.d_addColumn("value", kInteger)
+        self.d_addColumn("value", kReal)
 
     def recordData(self,service,source,at_time, value):
         # first get the current value if there is one
@@ -138,7 +138,7 @@ class NCMonitorHistoryTable(Table):
         self.d_addColumn("source_id", kInteger, primarykey=1)
         self.d_addColumn("pstart", kInteger, int_date=1, primarykey=1)
         self.d_addColumn("pend", kInteger, int_date=1, primarykey=1)
-        self.d_addColumn("value", kInteger)
+        self.d_addColumn("value", kReal)
 
     def aggregateData(self,monitor_state_obj):
         # fetch the most recent data

@@ -41,7 +41,7 @@ class NCDataManager:
         if at is None:
             at = int(time.time())
 
-        value = int(float(value))
+        value = float(value)
 
         self.ndb.monitor_state.recordData(service,source,at,value)
 
