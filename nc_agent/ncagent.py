@@ -1,4 +1,4 @@
-#!/usr/bin/python --
+#!/neo/opt/bin/python --
 
 #
 # nc_agent.py - This is the monitoring agent for our system
@@ -20,6 +20,8 @@ sys.path.insert(0,"/neo/nc_agent/MonitorPlugins/unix")
 sys.path.insert(0,"MonitorPlugins/unix")
 import DiskMonitor, MemMonitor, CpuMonitor, TcpMonitor, DirQueueMonitor
 import ProcMonitor
+sys.path.insert(0,"MonitorPlugins/db")
+import InnoTbSpcMonitor
 
 
 def usage(progname):
@@ -53,6 +55,9 @@ def main(argv,stdout,environ):
 		mon.collectData(module_config)
             elif module == "Proc":
                 mon = ProcMonitor.makeMonitor(nccm)
+                mon.collectData(module_config)
+            elif module == "InnoTbSpc":
+                mon = InnoTbSpcMonitor.makeMonitor(nccm)
                 mon.collectData(module_config)
 	    else:
 		print "unknown config: %s %s" % (module,module_config)

@@ -27,7 +27,7 @@ class NCCollectionManager:
         else:
             value = float(value)
 
-        if hostname is None:
+        if (hostname is None) or (hostname=="localhost"):
             hostname = self._myhostname
 
         self._data.append( (int(time.time()), service_name,hostname, source_name,value) )

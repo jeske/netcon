@@ -20,6 +20,7 @@
    - (done) basic queue directory watcher w/dir configuration
    - (done) basic role creation/machine assignment
    - setup entire neotonic QOS config (see below)                
+   - netcon user accounts
    - UI: show last collection date, and recent history
    - UI: better display of incident failure
    - UI: incident notes
@@ -37,20 +38,20 @@
    - (done) disk usage 
    - (done) memory usage
    - (done) cpu usage
-   - ping
-   - innodbtablespace
-   - directory/queue count
-   - RAID status
-   - http
-   - dns
+   - (done) tcp check (hack)
+   - (done) innodbtablespace
+   - (done) directory/queue count
+   - (done) process state
+   - tcp chat (connect,request,response)
+   - extended http/https (apache server status?)
+   - extended dns
+   - RAID status (3ware, promise)
+   - oracletablespace
    - domain check
      - automatically check for secondary DNS, issue warning
      - check for redundant MX, RCPT to acceptance, issue warning
    - snmp
-   - process state
-   - tcp chat (connect,request,response)
-   - web (http,https)
-   - oracletablespace
+   - smtp address delivery (dns,smtp,rcpt to)
    - agent daemon run-loop
 
 3) Server UI
@@ -148,13 +149,6 @@
   - data-resolution reduction
     
 6) Neotonic QOS Config:
-
-   TODO:
-     - (done) proc monitor
-     - innodb monitor
-     - 3ware raid monitor
-     - smtp host check
-     - smtp address delivery (dns,smtp,rcpt to)
 
    Roles:
      - All: cpu,mem,disk,dir(bugs,maildir)

@@ -10,18 +10,22 @@ class TcpMonitor:
         self.ncc = ncc
 
     def collectData(self,config):
-	host,port = string.split(config,":")
+	host,sport = string.split(config,":")
+        port = string.atoi(sport)
 
 	start = time.time()
-	t = tcp.TCP(host,80)
+	t = tcp.TCP(host,port)
 	connect_time = time.time() - start
 	t.set_debuglevel(1)
-	t.send("GET / HTTP/1.1\nHost: %s\n\n" % host)
+
+        if port == 80:
+	    t.send("GET / HTTP/1.1\nHost: %s\n\n" % host)
+
 	print 'Valid: %s' % (t.valid)
 	errcode, errmsg = t.getreply(45)
 
-	self.ncc.newData("tcp/connect:state","80",1,hostname=host)
-	self.ncc.newData("tcp/connect:time","80",connect_time,hostname=host)
+	self.ncc.newData("tcp/connect:state",str(port),1,hostname=host)
+	self.ncc.newData("tcp/connect:time",str(port),connect_time,hostname=host)
 
 
 def makeMonitor(ncc):
