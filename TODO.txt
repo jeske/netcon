@@ -47,19 +47,23 @@ nc_server/ncsrv/ncsrc.py : email addresses to send notifications to
    c) report ping packet loss
    d) agent missed check-in
 
-   e) fix ok/bad labels
-   f) add ok/bad labels to front page
+.) Important
+
+   e) (done) fix ok/bad labels
+   f) (done) add ok/bad labels to front page
    g) expire incidents after good for X time
 
-   h) finite time range for graph default
+   h) (done) finite time range for graph default
    i) add the trend time to info display (graph and time) (service page, and inident detail)
 
    j) viewDataHistory should show trigger history and trend history as well,
       probably should add trigger history to graph (i.e. gray background)
-   k) add info/critical errors and hours
+   k) (done) add info/critical errors and hours
    l) add trend info to page
    m) on incident display, add linked Role, and Trigger details so you know
       why the trigger is happening.
+   o) db config of notification addresses/login
+   p) show previous related incidents on incident details page
 
 .) Bugs!!@!@@!!!
    - total disk space seems to be changing, why? is it "free"?
