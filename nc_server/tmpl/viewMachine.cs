@@ -10,7 +10,7 @@ Collected By <?cs var:agent.mach_id.name ?><p>
 
 <table border=1>
 <?cs each:srv=agent.services ?>
-<tr><td><?cs var:CGI.services[srv.serv_id].namepath ?></td>
+<tr><td><?cs var:CGI.services[srv.serv_id].namepath ?> - <?cs var:CGI.services[srv.serv_id].type ?></td>
 <td>
   <table width=100%>
   <?cs each:src = srv.sources ?>

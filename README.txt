@@ -109,4 +109,27 @@ it part of the incident history.
 
 Check out the TODO.txt file!
 
+* What other programs are available?
+
+  - QOS : a client/server data collection and error notification
+       system. Uses raw files for data, and python for configuration.
+       Simple web-interface for viewing current failures. No graphing.
+
+  - NMIS : a centralized SNMP data collection server with notification
+       and graphing based on RRDTool
+  
+     http://www.sins.com.au/nmis/
+
+  - remstats : uses client collectors and a central server with rrdtool
+
+     http://remstats.sourceforge.net/release/index.html
+
+  - other tools based on RRDTool
+
+     http://people.ee.ethz.ch/~oetiker/webtools/rrdtool/rrdworld/index.html
+     
+
+
+
+
 
