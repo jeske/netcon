@@ -34,8 +34,10 @@
      - (done) incident states (new,viewed,watch,acknowledge,resolved)
      - report on agent checkin failure!
      - incident notes
-     - expire trigger data from errors which are too old
      - improve notification format
+       - add date
+       - severity counts
+     - expire trigger data from errors which are too old
 
    - cleanup
      - show how recent the collected data is (relative)
@@ -46,6 +48,7 @@
      - add units ( disk/inodes:cur/kb ? )
      - delete trigger
      - expire state which was not provided again during the last agent checkin
+     - dns monitor
 
    - disk space trend
      - progressive linear trends
