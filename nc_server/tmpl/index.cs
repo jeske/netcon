@@ -1,6 +1,15 @@
 <?cs include:"header.cs" ?>
 
 <?cs if:!?Query.incident_id ?>
+
+<?cs # --- only do refresh for the sidewide display right now
+     # --- because otherwise we might plow over the user's form data
+     # ?>
+
+<script language="Javascript">
+  self.setTimeout("window.location.reload(true);", (30 * 1000));
+</script>
+
 <?cs include:"actinclist.cs" ?>
 <p>
 <?cs /if ?>
