@@ -1,25 +1,25 @@
 #!/bin/sh
-# init file for QOS
+# init file for Netcon monitoring agent (nc_agent)
 #
 #
-# chkconfig: 345 95 70
-# description: QOS Agent
+# chkconfig: 
+# description: Netcon monitoring agent
 #
-# processname: qos.py
+# processname: nc_agent.py
 # config: 
 
-PREFIX=/neo/qos
+PREFIX=/home/jeske/neotonic/python/examples/netcon/nc_agent
 
 case "$1" in
   start)
-	/bin/echo "Starting qos agent: "
-        /neo/opt/bin/python ${PREFIX}/qosagent/qos.py `cat ${PREFIX}/QOS_Server`
+	/bin/echo "Starting Netcon nc_agent: "
+        /neo/opt/bin/python ${PREFIX}/nc_agent/nc_agent.py \"`cat ${PREFIX}/Netcon_Server`\"
 	echo
 	;;
   stop)
-	/bin/echo "Shutting down qosagent: "
-	kill `cat /var/run/qosagent.pid`
-	rm -f /var/run/qosagent.pid
+	/bin/echo "Shutting down Netcon nc_agent: "
+	kill `cat /var/run/nc_agent.pid`
+	rm -f /var/run/nc_agent.pid
 	echo
 	;;
   restart)
@@ -30,7 +30,7 @@ case "$1" in
         echo "Status is not implemented"
         ;;
   *)
-	echo "Usage: qosagent {start|stop|restart|status}"
+	echo "Usage: nc_agent.init {start|stop|restart|status}"
 	exit 1
 esac
 
