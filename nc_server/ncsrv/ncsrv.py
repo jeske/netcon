@@ -137,19 +137,22 @@ class NCSrv:
 	    log("incident %s:%s,  count=%s,bad_count=%s" %
 		(inc.incident_id,inc.name,count,bad_count))
 		
-
+            # if there are no errors, don't notify
 	    if bad_count == 0:
 		log("   skipping incident notify...")
 		continue
 
+            # if there are no critical errors, don't notify
 	    if (not bad_count_by_severity.get("error",0) and
 		not bad_count_by_severity.get("failure",0) and
-		not bad_count_by_severity.get("warning",0)):
+		not bad_count_by_severity.get("warning",0) and
+                not bad_count_by_severity.get("critical",0)):
 		log("   skipping incident notify2...")
 		continue
 
 	    nowst = time.localtime()
 
+            # if it's nighttime, only notify for critical errors
 	    if (not bad_count_by_severity.get("critical",0) and
 		(nowst.tm_hour in [1,2,3,4,5,6,7])):
 		log("   skipping notify for non-critical night error.")
