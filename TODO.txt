@@ -5,6 +5,42 @@
 *      ---  TODO  ---
 *
 
+---------------------------------------------
+  FIX hard coded configs 
+---------------------------------------------
+
+
+nc_agent/ncagent.py : list of installed collector modules 
+                    : hardcoded path to module directory
+
+   solution - change to 'auto-import' based on config. - make a "par" 
+      python ziparchive and download from server
+
+nc_agent/nc_srvrpc.py : hostname and submit url for agent to checkin at
+
+   solution - specify target host/url on command line or in config file
+
+nc_server/tpaths.py : paths to find clearsilver "base" library
+
+   solution - make clearsilver python webkit into an "installable" python library
+
+nc_server/db_netcon.py : host/login/pw for netcon database
+
+   solution - make server config file, find in path relative from scripts 
+
+nc_server/nc_page.py : paths to ui templates
+
+   solution - auto-construct path relative to where script is located 
+
+nc_server/ncsrv/ncsrc.py : email addresses to send notifications to
+
+   solution - add notification addresses to db
+
+
+---------------------------------------------
+    features
+---------------------------------------------
+
 .) Critical
    a) locking before starting, only one should run at a time
    b) networking should have timeouts (currently does not)
