@@ -16,15 +16,15 @@ Levels {
 }
 
 TrendUnits {
-  0 {
+  d {
     id = d
     name [Lang]= days
   }
-  1 {
+  h {
     id = h
     name [Lang] = hours
   }
-  2 {
+  m {
     id = m
     name [Lang] = minutes
   }

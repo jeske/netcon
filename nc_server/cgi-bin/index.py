@@ -121,8 +121,7 @@ class IndexPage(NCPage):
 	    an_err.hdfExport(eprefix, self.ncgi.hdf)
 
 	    # unpack error info
-	    ehdf = neo_util.HDF()
-	    ehdf.readString(an_err.error_spec)
+	    ehdf = an_err.unpackErrorInfo()
 	    trigger_serv_id = ehdf.getIntValue("trigger_serv_id",-1)
 	    source_id = ehdf.getIntValue("source",-1)
 

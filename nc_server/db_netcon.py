@@ -1,4 +1,4 @@
-#!/neo/opt/bin/python
+#!/neo/opt/bin/pythan
 
 from odb import *
 from log import *
@@ -73,6 +73,12 @@ class NCServicesTable(Table):
     def getMatchingServices(self,prefix_pattern):
         return self.fetchRows( where=["namepath like '%s%%'" % prefix_pattern] )
         
+class NCServiceRow(HdfRow):
+    def hdfExport(self, prefix, hdf, *extra, **extranamed):
+        HdfRow.hdfExport(self, prefix, hdf, *extra, **extranamed)
+        if self.namepath[:8] == "trigger/":
+            tnum = self.namepath[8:]
+            hdf.setValue("%s.namepath.trigger_id" % prefix, tnum)
 
 class NCMonitorSourcesTable(Table):
     def _defineRows(self):
@@ -217,10 +223,12 @@ class NCMachRolesTable(Table):
             pass
 
     def getMachineIdsInRoleId(self,role_id):
-        machine_ids = []
-        for a_row in self.fetchRows( ('role_id', role_id) ):
-            machine_ids.append(a_row.mach_id)
-        return machine_ids
+        rows = self.fetchRows( ('role_id', role_id) )
+        return map(lambda x: x.mach_id, rows)
+
+    def getRoleIdsForMachineId(self, mach_id):
+        rows = self.fetchRows( ('mach_id', mach_id) )
+        return map(lambda x: x.role_id, rows)
 
 class NCRoleConfigTable(Table):
     def _defineRows(self):
@@ -328,6 +336,11 @@ class NCIncidentsTable(Table):
 
 
 class NCIncidentErrorRow(HdfRow):
+    def hdfExport(self, prefix, hdf, *extra, **extranamed):
+        HdfRow.hdfExport(self, prefix, hdf, *extra, **extranamed)
+        ehdf = self.unpackErrorInfo()
+        hdf.setValue(prefix + ".error_spec", "")
+        hdf.copy(prefix + ".error_spec", ehdf)
 
     def unpackErrorInfo(self):
 	# unpack error info
@@ -427,7 +440,7 @@ class NCIncidentEventAuditTable(Table):
         self.d_addColumn("e_type", kVarString,255)
         self.d_addColumn("e_data", kBigString)
         self.d_addColumn("note", kBigString)
-        
+
 class DB(Database):
     def __init__(self, db, debug=0):
         Database.__init__(self,db)
@@ -436,26 +449,22 @@ class DB(Database):
         self.debug = debug
 
 
-        self.machines = NCMachinesTable(self,"nc_machines")
-        self.agents = NCAgentsTable(self,"nc_agents")
-        self.services = NCServicesTable(self,"nc_services")
+        self.addTable("machines", "nc_machines", NCMachinesTable)
+        self.addTable("agents", "nc_agents", NCAgentsTable)
+        self.addTable("services", "nc_services", NCServicesTable, NCServiceRow)
 
-        self.monitor_sources = NCMonitorSourcesTable(self,"nc_monitor_sources")
-        self.monitor_state   = NCMonitorStateTable(self,"nc_monitor_state")
-        self.monitor_history = NCMonitorHistoryTable(self,"nc_monitor_history")
+        self.addTable("monitor_sources", "nc_monitor_sources", NCMonitorSourcesTable)
+        self.addTable("monitor_state", "nc_monitor_state", NCMonitorStateTable)
+        self.addTable("monitor_history", "nc_monitor_history", NCMonitorHistoryTable)
 
-        self.roles = NCRolesTable(self,"nc_roles")
-        self.mach_roles = NCMachRolesTable(self,"nc_mach_roles")
-        self.role_triggers = NCRoleTriggersTable(self,"nc_role_triggers",
-						 rowClass=NCRoleTriggerRow)
-	self.role_config = NCRoleConfigTable(self,"nc_role_config")
+        self.addTable("roles", "nc_roles", NCRolesTable)
+        self.addTable("mach_roles", "nc_mach_roles", NCMachRolesTable)
+        self.addTable("role_triggers", "nc_role_triggers", NCRoleTriggersTable, NCRoleTriggerRow)
+	self.addTable("role_config", "nc_role_config", NCRoleConfigTable)
 
-        self.incidents = NCIncidentsTable(self,"nc_incidents",rowClass=NCIncidentRow)
-        self.incident_errors = NCIncidentErrorsTable(self,"nc_incident_errors",
-						     rowClass=NCIncidentErrorRow)
-        self.incident_event_audit = NCIncidentEventAuditTable(self,
-							      "nc_incident_event_audit",
-                                                     rowClass=NCIncidentEventAuditRow)
+        self.addTable("incidents", "nc_incidents", NCIncidentsTable, NCIncidentRow)
+        self.addTable("incident_errors", "nc_incident_errors", NCIncidentErrorsTable, NCIncidentErrorRow)
+        self.addTable("incident_event_audit", "nc_incident_event_audit", NCIncidentEventAuditTable, NCIncidentEventAuditRow)
 
     def defaultRowClass(self):
         return HdfRow

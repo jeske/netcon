@@ -1,12 +1,17 @@
 
 
 import db_netcon
+import os
 
 from CSPage import CSPage
 
 class NCPage(CSPage):
     def subclassinit(self):
-        self.setPaths(["/home/jeske/netcon/nc_server/tmpl"])
+        cwd = os.getcwd()
+        if cwd.find('blong'):
+            self.setPaths(["/home/blong/netcon/nc_server/tmpl"])
+        else:
+            self.setPaths(["/home/jeske/netcon/nc_server/tmpl"])
 
         self.ndb = db_netcon.netcon_connect()
 
