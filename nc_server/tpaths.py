@@ -6,5 +6,6 @@ def paths(root_dir):
     p.append("/home/jeske/neotonic/python/examples/base") # base
     p.append("/home/jeske/neotonic/python/") # neo_cgi.so
     p.append("%s" % root_dir)
+    p.append("%s/math" % root_dir)
     return p
 

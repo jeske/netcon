@@ -9,7 +9,7 @@ import db_netcon
 import wordwrap
 
 import whrandom
-import nc_datamgr, nc_triggermgr, nc_incidentmgr
+import nc_datamgr, nc_triggermgr, nc_incidentmgr, nc_trends
 
 import neo_cgi, neo_util
 
@@ -20,6 +20,15 @@ class NCSrv:
     def __init__(self):
         # connect
         self.ndb = db_netcon.netcon_connect()
+
+    def run_trends(self):
+	ndb = self.ndb
+
+	print "---------- TREND STAGE -----------------"
+
+	trendsmanager = nc_trends.NCTrendsManager(ndb)
+	trendsmanager.computeAllTrends()
+	
 
     def run_triggers(self):
         ndb = self.ndb
@@ -132,6 +141,8 @@ class NCSrv:
     # main run!!!
 
     def run(self):
+	self.run_trends()
+	
 	self.run_triggers()  # run triggers and generate errors..
 
 	self.run_incident_management() # coalesc errors into incidents
