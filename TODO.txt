@@ -84,6 +84,23 @@
      - http://www.scipy.org/site_content/tutorials/show_doc?input_file=node20.html
      - http://www.scipy.org/site_content/tutorials/show_doc?input_file=index.html
 
+     - http://www.angelfire.com/tx4/cus/regress/python.html
+     - http://astrosun.tn.cornell.edu/staff/loredo/statpy/
+
+     - http://starship.python.net/~hinsen/ScientificPython/
+     - http://www.python.org/topics/scicomp/recipes_in_python.html
+     - http://salstat.sunsite.dk/
+
+     - http://www.r-project.org/
+       - http://cran.r-project.org/
+       - http://www.omegahat.org/RSPython/
+       - http://gestalt-system.sourceforge.net/rpy_demo.html
+       - http://rpy.sourceforge.net/about.html
+
+     - http://homepage2.nifty.com/peco/pybld/pydoc_pybld.html
+     - http://www.geocrawler.com/archives/3/1329/2002/4/0/8525689/
+       - http://stsdas.stsci.edu/numarray/Doc/node54.html
+
   - switch to XML for client/server
      - client -> server : list of monitors, config data for each monitor
      - server -> client : structured configuration
