@@ -113,7 +113,7 @@ class NCSrv:
 	# compose real msg
 
 	import sendmail
-	for recip in ["jeske@neotonic.com", "jeske-pagenc@neotonic.com"]:
+	for recip in ["jeske-pagenc@neotonic.com"]:
 	    bodyp = []
 	    bodyp.append("To: %s" % recip)
 	    bodyp.append("From: netcon@neotonic.com")
