@@ -20,8 +20,10 @@
    - (done) basic queue directory watcher w/dir configuration
    - (done) basic role creation/machine assignment
    - (done) setup entire neotonic QOS config (see below)                
+   - errors should show curent state on index page (red/green)
+   - view data history
    - DEBUG!
-     - errors should show curent state on index page (red/green)
+     - bug w/swap trigger
    - netcon user accounts
    - UI: show last collection date, and recent history
    - UI: better display of incident failure
