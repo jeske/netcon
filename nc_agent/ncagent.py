@@ -12,6 +12,9 @@ import os, sys, string, getopt
 import time
 import socket
 
+SERVER_NAME = "c1.neotonic.com"
+# SERVER_NAME = "netcon.dotfunk.com"
+
 import nc_cmgr, nc_srvrpc
 
 # hardcoded path hackery...
