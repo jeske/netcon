@@ -17,7 +17,12 @@ Collected By <?cs var:agent.mach_id.name ?><br>
   <?cs each:src = srv.sources ?>
    <tr><td><?cs var:src.source_name ?></td>
        <td align=right><?cs each:st=src.states ?><?cs var:st.value ?><?cs /each ?></td>
-       <td width=1% align=right><a href="viewDataHistory.py?serv_id=<?cs var:srv.serv_id ?>&source_id=<?cs var:src.source_id ?>">history</a></td>
+       <td width=1% align=right>
+<a href="viewDataHistory.py?serv_id=<?cs var:srv.serv_id ?>&source_id=<?cs var:src.source_id ?>">
+         <img style="border:1px solid black;" width=40 height=10
+              src="graphDataHistory.py?width=40&height=10&serv_id=<?cs var:srv.serv_id ?>&source_id=<?cs var:src.source_id ?>">
+
+        </a></td>
    </tr>
   <?cs /each ?>
   </table>

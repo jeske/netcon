@@ -26,7 +26,11 @@
       <td><?cs var:CGI.machines[ierr.source.source_mach_id].name ?></td>
       <td><?cs var:ierr.source.source_name ?></td>
       <td><?cs var:ierr.cdata.value ?></td>
-      <td><a href="viewDataHistory.py?serv_id=<?cs var:ierr.cdata.serv_id ?>&source_id=<?cs var:ierr.cdata.source_id ?>">history</a></td>
+      <td>
+<img style="border:1px solid black;" width=100 height=50
+     src="graphDataHistory.py?width=100&height=50&serv_id=<?cs var:ierr.cdata.serv_id ?>&source_id=<?cs var:ierr.cdata.source_id ?>">
+
+<a href="viewDataHistory.py?serv_id=<?cs var:ierr.cdata.serv_id ?>&source_id=<?cs var:ierr.cdata.source_id ?>">history</a></td>
     </tr>
   <?cs /each ?>
 </table>
