@@ -31,6 +31,7 @@
      - show how recent the collected data is (relative)
      - incident notes
      - expire trigger data from errors
+     - change process monitor to re.search()
 
    - index page should show the service namepath/type
    - disk space trend
@@ -45,7 +46,7 @@
      - delete trigger
    - instant data updates
      - change trigger, rerun that trigger
-     - change trigger source, clear data for old source.
+     - change trigger source, set to zero for old source.
      - show the old and new trigger results over time to compare
        before save...
    - switch to XML for client/server
