@@ -44,6 +44,7 @@ def main(argv,stdout,environ):
     config = ncsrv.getConfig()
 
     for module,module_config in config:
+        print "config: %s/%s" % (module,module_config)
 	try:
 	    if module == "Disk":
 		mon = DiskMonitor.makeMonitor(nccm)

@@ -16,13 +16,15 @@ class DiskMonitor:
     def collectData(self,config):
         # Get disk usage
         if 'linux2' == sys.platform or 'linux-i386' == sys.platform:
-            (status, output) = commands.getstatusoutput('/bin/df -kt ext2')
+            (status, output) = commands.getstatusoutput('/bin/df -k -x tmpfs -x swap')
         elif 'freebsd' == sys.platform[:7] or 'openbsd' == sys.platform[:7] or 'netbsd' == sys.platform[:6]:
             (status, output) = commands.getstatusoutput('/bin/df -kt ufs')
         elif 'sunos5' == sys.platform:
             (status, output) = commands.getstatusoutput('/usr/ucb/df -kF ufs')
         elif 'darwin' == sys.platform[:6]:
             (status, output) = commands.getstatusoutput('/bin/df -kt hfs,ufs')
+        else:
+            raise "unknown platform: %s" % sys.platform
 
         lines = string.split(output, "\n")
         # Remove the first line
