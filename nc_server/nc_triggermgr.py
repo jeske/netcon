@@ -4,6 +4,30 @@
 
 from log import *
 
+class NCTriggerTest:
+    def __init__(self,a_trigger):
+	self._test_type = a_trigger.test_type
+	self._tvalue    = float(a_trigger.tvalue)
+
+	if not self._test_type in ['lte','lt','eq','gt','gte']:
+	    log("unknown test type: '%s' on trigger:%s" %
+		(self._test_type, a_trigger.trigger_id))
+	
+    def checkMatch(self,value):
+	value = float(value)
+	if self._test_type == "lte":
+	    return value <= self._tvalue
+	elif self._test_type == "lt":
+	    return value < self._tvalue
+	elif self._test_type == "eq":
+	    return value == self._tvalue
+	elif self._test_type == "gt":
+	    return value > self._tvalue
+	elif self._test_type == "gte":
+	    return value >= self._tvalue
+	else:
+	    raise "unknown test type!"
+
 class NCTriggerManager:
     def __init__(self,ndb):
         self.ndb = ndb
@@ -34,15 +58,15 @@ class NCTriggerManager:
                     alldata = alldata + statedata
 
             # process this data and set the trigger state...
+	    tester = NCTriggerTest(a_trigger)
+	    
             for cdata in alldata:
-                if cdata.value > 100:
-                    state = 1
-                    log("%s: data value %s > 100" % (cdata.source_id,cdata.value))
-                else:
-                    state = 0
+		state = tester.checkMatch(cdata.value)
 
                 tsrv = ndb.services.getService("trigger/%s:state" % a_trigger.trigger_id)
                 source = ndb.monitor_sources.fetchRow( ('source_id', cdata.source_id) )
                 now = cdata.pend
                 ndb.monitor_state.recordData(tsrv,source,now,state)
+
+
 

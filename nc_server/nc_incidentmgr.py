@@ -1,6 +1,8 @@
 import odb
 
 from log import *
+import neo_cgi
+import neo_util
 
 class NCIncidentManager:
     def __init__(self,ndb):
@@ -24,32 +26,42 @@ class NCIncidentManager:
             statedata = ndb.monitor_state.fetchRows( ('serv_id', a_service.serv_id) )
 
             for edata in statedata:
-                incident_error_key = "service=%s(%s:%s),source=%s" % (a_service.serv_id,
-                                                                      a_service.namepath,
-                                                                      a_service.type,
-                                                                      edata.source_id)
+		ehdf = neo_util.HDF()
+		ehdf.setValue("trigger_serv_id", str(a_service.serv_id))
+		ehdf.setValue("source", str(edata.source_id))
+
+		incident_error_key = ehdf.dump()
+
+		if edata.value == 0:
+		    # no error to report
+		    break
+
+		log("report error for: %s" % repr(incident_error_key))
 
                 try:
                     ierror = ndb.incident_errors.findActiveError(incident_error_key)
-                    if edata.value == 1:
-                        incident = ndb.incidents.fetchRow( ('incident_id', ierror.incident_id) )
-                        if edata.pend > incident.end:
-                            incident.end = edata.pend
-                            incident.save()
-                        
+		    log("found active error! %s" % repr(ierror))
+
+		    incident = ndb.incidents.fetchRow(
+			('incident_id', ierror.incident_id) )
+		    
+		    if edata.pend > incident.end:
+			incident.is_active=1
+			incident.end = edata.pend
+			incident.save()
                     
                 except odb.eNoMatchingRows:
-                    if edata.value == 1:
-                        # update the incident
-                        curincident = ndb.incidents.getActiveIncident(create=1,
-                                                                      event_time=edata.pend)
-                        
-                        # create the error
-                        ierror = ndb.incident_errors.newRow()
-                        ierror.incident_id = curincident.incident_id
-                        ierror.error_spec=incident_error_key
-                        ierror.save()
-                
+		    # update the incident
+		    curincident = ndb.incidents.getActiveIncident(create=1,
+								  event_time=edata.pend)
+		    # create the error
+		    ierror = ndb.incident_errors.newRow()
+		    ierror.incident_id = curincident.incident_id
+		    ierror.error_spec=incident_error_key
+		    ierror.save()
+
+		    log("new error: %s" % repr(ierror))
+		    
 
 
 

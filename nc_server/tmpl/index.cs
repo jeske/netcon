@@ -7,7 +7,9 @@
   <tr><td><?cs var:inc.incident_id ?></td>
       <td><?cs var:inc.start.string ?></td>
       <td><?cs var:inc.end.string ?></td>
+      <td><a href="index.py?clear_incident=<?cs var:inc.incident_id ?>">Clear</a></td>
   </tr>
+
   <?cs /each ?>
 </table>
 
@@ -16,7 +18,14 @@
 <b>Errors for Incident <?cs var:inc.incident_id ?></b>
 <table border=1>
   <?cs each:ierr=inc.errors ?>
-    <tr><td><?cs var:ierr.error_spec ?></td></tr>
+    <tr>
+      <td><?cs var:ierr.incident_error_map_id ?></td>
+      <td><?cs var:ierr.trigger.level ?></td>
+      <td><b><?cs var:ierr.trigger.name ?></b></td>
+      <td><?cs var:CGI.machines[ierr.source.source_mach_id].name ?></td>
+      <td><?cs var:ierr.source.source_name ?></td>
+      <td><?cs var:ierr.cdata.value ?></td>
+    </tr>
   <?cs /each ?>
 </table>
 
@@ -25,7 +34,9 @@
 <?cs /if ?>
 
 <p>
-<b>Machines</b>
+<hr>
+
+<b>All Machines</b>
 <table border=1>
   <tr><td>ID</td><td>name</td></tr>
 <?cs each:m=CGI.machines ?>

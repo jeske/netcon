@@ -62,10 +62,14 @@ create table nc_mach_roles (
 
 create table nc_role_triggers (
   trigger_id integer not null primary key auto_increment,
+  name varchar(255),
   role_id integer not null,
   serv_id integer not null,
   source_pattern varchar(255),
-  level varchar(255)
+  level varchar(255),
+
+  test_type varchar(255),
+  tvalue real
 ) TYPE=INNODB;
 
 create table nc_incidents (

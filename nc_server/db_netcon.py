@@ -220,10 +220,14 @@ class NCMachRolesTable(Table):
 class NCRoleTriggersTable(Table):
     def _defineRows(self):
         self.d_addColumn("trigger_id", kInteger, primarykey=1, autoincrement=1)
+	self.d_addColumn("name",kVarString,255)
         self.d_addColumn("role_id", kInteger)
         self.d_addColumn("serv_id", kInteger)
         self.d_addColumn("source_pattern", kVarString, 255)
         self.d_addColumn("level", kVarString, 255)
+
+	self.d_addColumn("test_type", kVarString,255)
+	self.d_addColumn("tvalue", kReal)
 
 class NCIncidentsTable(Table):
     def _defineRows(self):
@@ -251,13 +255,16 @@ class NCIncidentsTable(Table):
                     incident.end = event_time
                     incident.save()
                 return incident
+	else:
+	    log("empty incident list!")
 
         if create:
             new_incident = self.newRow()
             new_incident.start = use_time
-            new_incident.end = use_time
+            new_incident.end = int(time.time())
             new_incident.is_active=1
             new_incident.save()
+	    log("created incident: %d" % new_incident.incident_id)
             return new_incident
 
         raise eNoMatchingRows, "no active incident"

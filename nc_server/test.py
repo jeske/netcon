@@ -42,7 +42,9 @@ class TestNetcon:
             if not cur_triggers:
                 ntrigger = ndb.role_triggers.newRow()
                 ntrigger.role_id = a_role.role_id
-                ntrigger.serv_id = ndb.services.getService("disk/size:cur").serv_id
+                serv_for_trig = ndb.services.getService("disk/size:cur")
+                log("serv_for_trig: %s" % serv_for_trig.serv_id)
+                ntrigger.serv_id = serv_for_trig.serv_id
                 ntrigger.level = "1"
                 ntrigger.source_pattern = "sda1"
                 ntrigger.save()
