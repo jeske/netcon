@@ -85,6 +85,10 @@ class NCTrendsManager:
 	    [ ('serv_id', serv_id),
 	      ('source_id', source_id)] )
 
+        # we have to have data to compute trends!
+        if len(h_data) < 10:
+            return -1
+
         coeff = self._linCoeff(h_data)
 
 	def lin_f(x,par):
