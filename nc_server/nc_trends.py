@@ -16,7 +16,7 @@ class NCTrendsManager:
     def __init__(self,ndb):
 	self.ndb = ndb
 
-    def computeTrendTime(self,serv_id,source_id,target):
+    def computeTrendTime_Simplex(self,serv_id,source_id,target):
 	h_data = self.ndb.monitor_history.fetchRows(
 	    [ ('serv_id', serv_id),
 	      ('source_id', source_id)] )
@@ -33,7 +33,7 @@ class NCTrendsManager:
 	    err = 0.0
 	    for x,y in vals:
 		res = abs(lin_f(x,args) - y)
-		err = err + res
+		err = err + (res * res)
 	    return err
 
 	# m = (y-b) / x
@@ -61,14 +61,14 @@ class NCTrendsManager:
 	return time_to_target
 	
 
-    def computeTrendTime_linreg(self,serv_id,source_id,target):
+    def computeTrendTime_Linear(self,serv_id,source_id,target):
 	# 0. load data
 
 	h_data = self.ndb.monitor_history.fetchRows(
 	    [ ('serv_id', serv_id),
 	      ('source_id', source_id)] )
 
-	vals = map(lambda x: [x.pstart,x.value],h_data)
+	vals = map(lambda x: [x.value,x.pstart],h_data)
 	    
 	coeff = linreg.linearRegression(vals,1)
 	log("linreg coeff = " + repr(coeff))
@@ -94,10 +94,15 @@ class NCTrendsManager:
 	# find all disk/size:pct entries
 
 	service = self.ndb.services.getService("disk/size:pct")
-	t_service = self.ndb.services.getService("disk/size/to90pct:seconds")
+	ts_service = self.ndb.services.getService("disk/size/to90pct-simplex:seconds")
+	tl_service = self.ndb.services.getService("disk/size/to90pct-linear:seconds")
 
 	sources = self.ndb.monitor_state.fetchRows( ('serv_id', service.serv_id) )
 
 	for a_source in sources:
-	    seconds = self.computeTrendTime(service.serv_id,a_source.source_id,90)
-	    self.ndb.monitor_state.recordData(t_service,a_source,time.time(),seconds)
+	    seconds = self.computeTrendTime_Linear(service.serv_id,a_source.source_id,90)
+	    self.ndb.monitor_state.recordData(tl_service,a_source,time.time(),seconds)
+
+	    seconds = self.computeTrendTime_Simplex(service.serv_id,a_source.source_id,90)
+	    self.ndb.monitor_state.recordData(ts_service,a_source,time.time(),seconds)
+

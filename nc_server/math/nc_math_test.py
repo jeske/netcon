@@ -16,7 +16,7 @@ class NCTrends:
 	pass
 
 def try_linreg(h_data):
-    vals = map(lambda x: [x.pstart,x.value],h_data)
+    vals = map(lambda x: [x.value,x.pstart],h_data)
 
     coeff = linreg.linearRegression(vals,1)
     print coeff

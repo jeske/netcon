@@ -44,6 +44,11 @@
      - viewService should show values
      - overview should list trigger names??? (how do I click on "Bug Count"?)
      - INFO LEVEL!
+     - pages should have:  
+       - machine
+       - time
+       - severity
+       - current state, name, last note
 
    - suppression cleanup
      - states: (new, viewed, suppress, resolved)
@@ -93,6 +98,15 @@
 
    - disk space trend
      - progressive linear trends
+     - non-linear regression
+       - least squares
+         - http://www.biostat.wustl.edu/archives/html/s-news/2000-09/msg00153.html
+       - http://plato.la.asu.edu/topics/problems/nlolsq.html
+     - http://magix.fri.uni-lj.si/orange/doc/ofb/
+     - http://www.cohort.com/costatstatistics.html#regression
+     - http://www.cohort.com/costatnonlinearregression.html
+
+
      - linear regression ?
      - http://www.scipy.org/site_content/tutorials/show_doc?input_file=node20.html
      - http://www.scipy.org/site_content/tutorials/show_doc?input_file=index.html
