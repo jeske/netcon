@@ -18,9 +18,9 @@ class TestNetcon:
     def test_setup(self):
         ndb = self.ndb
         # feed in machines
-        c1 = ndb.machines.getMachine("c1")
-        c4 = ndb.machines.getMachine("c4")
-        c5 = ndb.machines.getMachine("c5")
+        t1 = ndb.machines.getMachine("t1")
+        t4 = ndb.machines.getMachine("t4")
+        t5 = ndb.machines.getMachine("t5")
 
         # set machine roles...
         allroles = ndb.roles.fetchAllRows()
@@ -33,9 +33,9 @@ class TestNetcon:
             allroles = [role]
 
         for a_role in allroles:
-            ndb.mach_roles.addMachineRole(c1,a_role)
-            ndb.mach_roles.addMachineRole(c4,a_role)
-            ndb.mach_roles.addMachineRole(c5,a_role)
+            ndb.mach_roles.addMachineRole(t1,a_role)
+            ndb.mach_roles.addMachineRole(t4,a_role)
+            ndb.mach_roles.addMachineRole(t5,a_role)
 
             # create role triggers
             cur_triggers = ndb.role_triggers.fetchRows( ('role_id', a_role.role_id) )
@@ -55,13 +55,13 @@ class TestNetcon:
         datamanager = nc_datamgr.NCDataManager(ndb)    
 
         # add some new data
-        datamanager.handleRawData("c1","disk/size:total","c4","sda1",24232920)
+        datamanager.handleRawData("t1","disk/size:total","t4","sda1",24232920)
 
-        datamanager.handleRawData("c1","disk/size:cur","c4","sda1",100)
-        datamanager.handleRawData("c1","disk/size:cur","c4","sda1",200)
+        datamanager.handleRawData("t1","disk/size:cur","t4","sda1",100)
+        datamanager.handleRawData("t1","disk/size:cur","t4","sda1",200)
 
         curdisk = [1,1,1,1,1,1,1,1,1,1,1,5,5]
-        datamanager.handleRawData("c5","disk/size:cur","c5","sda1",whrandom.choice(curdisk))
+        datamanager.handleRawData("t5","disk/size:cur","t5","sda1",whrandom.choice(curdisk))
 
     def test_triggers(self):
         ndb = self.ndb
