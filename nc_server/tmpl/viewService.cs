@@ -1,11 +1,12 @@
 <?cs include:"header.cs" ?>
 
-viewService
+<p>
+<b>viewService '<?cs var:CGI.service.namepath ?>:<?cs var:CGI.service.type ?>'</b><br>
 
 <table border=1>
 <?cs each:cdata=CGI.cdata ?>
   <tr>
-   <td><?cs var:CGI.sources[cdata.source_id].machine.name ?></td>
+   <td><a href="viewMachine.py?mach_id=<?cs var:CGI.sources[cdata.source_id].source_mach_id ?>"><?cs var:CGI.sources[cdata.source_id].machine.name ?></A></td>
    <td><?cs var:CGI.sources[cdata.source_id].source_name ?></td>
    <td><?cs var:cdata.value ?></td>
    <td>
