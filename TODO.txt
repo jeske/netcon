@@ -45,7 +45,7 @@
      - overview should list trigger names??? (how do I click on "Bug Count"?)
      - INFO LEVEL!
      - pages should have:  
-       - machine
+       - (done) machine
        - time
        - severity
        - current state, name, last note
@@ -66,7 +66,7 @@
        - show the old and new trigger results over time to compare
          before save...
        - machine role removal -- clear old data..
-     - incident notes
+     - (done) incident notes
 
    - netcon user accounts
      - name, user, password, last login, last activity
@@ -99,36 +99,11 @@
      - (see notification schedule/escelation)
 
    - disk space trend
+     - (done) linear trends (linear and non-linear regression)
+     - (done) configuration
+     - ignore values with high-error rates
+     - proper handling of lt/gt/lte/gte tests
      - progressive linear trends
-     - non-linear regression
-       - least squares
-         - http://www.biostat.wustl.edu/archives/html/s-news/2000-09/msg00153.html
-       - http://plato.la.asu.edu/topics/problems/nlolsq.html
-     - http://magix.fri.uni-lj.si/orange/doc/ofb/
-     - http://www.cohort.com/costatstatistics.html#regression
-     - http://www.cohort.com/costatnonlinearregression.html
-
-
-     - linear regression ?
-     - http://www.scipy.org/site_content/tutorials/show_doc?input_file=node20.html
-     - http://www.scipy.org/site_content/tutorials/show_doc?input_file=index.html
-
-     - http://www.angelfire.com/tx4/cus/regress/python.html
-     - http://astrosun.tn.cornell.edu/staff/loredo/statpy/
-
-     - http://starship.python.net/~hinsen/ScientificPython/
-     - http://www.python.org/topics/scicomp/recipes_in_python.html
-     - http://salstat.sunsite.dk/
-
-     - http://www.r-project.org/
-       - http://cran.r-project.org/
-       - http://www.omegahat.org/RSPython/
-       - http://gestalt-system.sourceforge.net/rpy_demo.html
-       - http://rpy.sourceforge.net/about.html
-
-     - http://homepage2.nifty.com/peco/pybld/pydoc_pybld.html
-     - http://www.geocrawler.com/archives/3/1329/2002/4/0/8525689/
-       - http://stsdas.stsci.edu/numarray/Doc/node54.html
 
   - switch to XML for client/server
      - client -> server : list of monitors, config data for each monitor
