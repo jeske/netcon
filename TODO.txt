@@ -29,17 +29,29 @@
    - (done) data graph
    - (done) resolve/close incident
 
-   - replace QOS!!!
+   - replace Neotonic QOS!!!
      - (done) split items onto new incidents (disk/swap->new incident)
      - (done) incident states (new,viewed,watch,acknowledge,resolved)
      - report on agent checkin failure!
-     - incident notes
-     - improve notification format
+     - reliability testing
+       - improve notification format
        - add date
        - severity counts
-     - expire trigger data from errors which are too old
+     - add render time to all pages
+     - fix incident form post from sidekick
+     - fix graph time-range problem
 
    - cleanup
+     - instant data updates
+       - change trigger, rerun that trigger
+       - change trigger source, set to zero for old source.
+       - show the old and new trigger results over time to compare
+         before save...
+       - machine role removal -- clear old data..
+
+     - move extra data to overview page
+     - incident notes
+     - expire trigger data from errors which are too old
      - show how recent the collected data is (relative)
      - change process monitor to re.search()
      - index page should show the service namepath/type
@@ -60,12 +72,6 @@
      - currently active user support
      - audit log of config changes
      - (see notification schedule/escelation)
-
-   - instant data updates
-     - change trigger, rerun that trigger
-     - change trigger source, set to zero for old source.
-     - show the old and new trigger results over time to compare
-       before save...
 
    - switch to XML for client/server
      - client -> server : list of monitors, config data for each monitor
@@ -125,17 +131,26 @@
    - (done) innodbtablespace
    - (done) directory/queue count
    - (done) process state
+
+   - mysql status (mysqladmin status)
+   - maillog processing (# messages sent/received)
+   - webaccess/error log/server-status (# hits, # errors)
+   - RAID status (3ware, promise)
+   - neotonic
+     - inject/popinject log
+     - search server queries
+   - snmp
+ 
    - tcp chat (connect,request,response)
    - ping/packet loss monitor
    - extended http/https (apache server status?)
-   - extended dns
-   - RAID status (3ware, promise)
+   - dns
    - oracletablespace
    - domain check
      - automatically check for secondary DNS, issue warning
      - check for redundant MX, RCPT to acceptance, issue warning
-   - snmp
    - smtp address delivery (dns,smtp,rcpt to)
+   - postfix raw queue monitor
    - agent daemon run-loop
 
 3) Server UI
@@ -229,9 +244,13 @@
         - provide a query interface so tools can use this data easily.
           - ex, "./powercycle.py c1" finds out what apc port c1 is on from netcon
             - Provide these plugin tools inside Netcon server
+  - data-resolution reduction
+
   - Idea: revive Brandon's old "exception browser" concept for storing
     and browsing exceptions and other state messages
-  - data-resolution reduction
+
+  - Idea: revive Brandon's old "cron status" concept
+
   - Idea: give vendors their own private access pages to see status
       for their sites. (i.e. "info about gator.trakken.com")
     

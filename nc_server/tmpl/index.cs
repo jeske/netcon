@@ -22,7 +22,7 @@
 <form method=post action="index.py">
 <input type=hidden name="incident_id" value="<?cs var:Query.incident_id ?>">
 <tr><td valign=top>
-<b>Incident <?cs var:inc.incident_id ?></b> (4 hours old)<br>
+<b>Incident <?cs var:inc.incident_id ?></b> (xx hours old)<br>
 <table border=1>
 <tr <?cs if:!?inc.name ?>BGCOLOR=#FFCCCC<?cs /if ?>><td align=right><b>Name</b></td>  
     <td><input size=30 style="width:200;" type=text name="inc_name" value="<?cs var:html_escape(inc.name) ?>"></td></tr>
