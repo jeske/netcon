@@ -41,6 +41,10 @@
      - fix incident form post from sidekick
      - fix graph time-range problem
 
+     - viewService should show values
+     - overview should list trigger names??? (how do I click on "Bug Count"?)
+     - INFO LEVEL!
+
    - suppression cleanup
      - states: (new, viewed, suppress, resolved)
      - per-user "incident_sub", w/last notification state, and ack/view state
