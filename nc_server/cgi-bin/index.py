@@ -216,10 +216,13 @@ class IndexPage(NCPage):
 		    tdata = self.ndb.monitor_state.fetchRow(
 			[ ('source_id', source_id),
 			  ('serv_id', tsrc.serv_id) ])
-		    if tdata.value:
+		    if tdata.value == 1:
 			bad_count = bad_count + 1
-		    else:
+		    elif tdata.value == 0:
 			good_count = good_count + 1
+		    else:
+			log("!!!!! trigger is not 1/0")
+
 		except odb.eNoMatchingRows:
 		    pass
 

@@ -133,7 +133,7 @@ No such Incident Id '<?cs var:CGI.Error.no_such_incident_id ?>'<br>
     <tr>
       <td bgcolor=#eeeeee><input type=checkbox name="mverr.<?cs var:ierr.incident_error_map_id ?>" value="1"></td>
       <td><?cs var:ierr.incident_error_map_id ?></td>
-      <td><?cs if:ierr.tdata.value=="1.0" ?><font color=red>err</font><?cs else ?><font color=green>ok</font><?cs /if ?>
+      <td><?cs if:#ierr.tdata.value==#1 ?><font color=red>err</font><?cs else ?><font color=green>ok</font><?cs /if ?>
       <td><?cs var:ierr.trigger.level ?></td>
       <td><b><?cs var:ierr.trigger.name ?></b></td>
       <td><a href="viewMachine.py?mach_id=<?cs var:ierr.source.source_mach_id ?>"><?cs var:CGI.machines[ierr.source.source_mach_id].name ?></a></td>
