@@ -17,6 +17,7 @@
    - (done) basic trigger config
    - (done) basic incident notifications
    - basic ping agent w/ping host configuration
+   - basic queue directory watcher w/dir configuration
    - UI: show last collection date, and recent history
    - UI: better display of incident failure
    - UI: incident notes
