@@ -87,12 +87,15 @@ class IndexPage(NCPage):
 
 		
 
-	    
-
         # load machines
-        machines = self.ndb.machines.fetchAllRows()
+        machines = self.ndb.machines.fetchRows(order_by=['name'])
 	for a_mach in machines:
 	    a_mach.hdfExport("CGI.machines.%d" % a_mach.mach_id,self.ncgi.hdf)
+
+        # load agents
+        agents = self.ndb.agents.fetchAllRows()
+        agents.hdfExport("CGI.agents",self.ncgi.hdf)
+ 
         
 
 if __name__ == "__main__":

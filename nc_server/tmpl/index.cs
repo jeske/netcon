@@ -36,6 +36,10 @@
 <p>
 <hr>
 
+<table width=100%>
+<tr>
+<td width=50% valign=top>
+
 <b>All Machines</b>
 <table border=1>
   <tr><td>ID</td><td>name</td></tr>
@@ -44,6 +48,18 @@
 <?cs /each ?>
 
 </table>
+
+</td><td width=50% valign=top>
+<b>All Agents</b>
+<table border=1>
+<tr><td>ID</td><td>name</td></tr>
+<?cs each:agent=CGI.agents ?>
+<tr><td><?cs var:agent.agent_id ?></td>
+  <td><?cs var:CGI.machines[agent.mach_id].name ?></td></tr>
+<?cs /each ?>
+</table>
+
+</td></tr></table>
 
 
 

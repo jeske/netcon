@@ -16,8 +16,9 @@ class AgentCheckInPage(NCPage):
     def display(self):
         record_host = self.ncgi.hdf.getValue("Query.hostname","unknown")
 
-	# find machine
+	# find machine/agent
 	mach = self.ndb.machines.getMachine(record_host)
+        agent = self.ndb.agents.getAgent(mach)
 
 	# build config response...
 	roles = self.ndb.mach_roles.fetchRows(

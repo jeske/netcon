@@ -177,3 +177,13 @@
      - c9: All, stdproc
      - c12: All, stdproc, dns, mailcheck, webcheck
      - g3: All, stdproc, trakproc, trakdb
+
+
+export CVS_RSH=ssh
+cvs -d ":ext:jeske@cvs.neotonic.com:/d2/cvsroot" co -d nc_agent netcon/nc_agent
+*/5 * * * * (cd /neo/nc_agent;./ncagent.py) 2>&1 >> /neo/log/ncagent.log
+
+
+
+
+
