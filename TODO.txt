@@ -9,7 +9,6 @@
   FIX hard coded configs 
 ---------------------------------------------
 
-
 nc_agent/ncagent.py : list of installed collector modules 
                     : hardcoded path to module directory
 
@@ -46,6 +45,14 @@ nc_server/ncsrv/ncsrc.py : email addresses to send notifications to
    b) networking should have timeouts (currently does not)
    c) report ping packet loss
    d) agent missed check-in
+
+.) Definition of stat types...
+
+   inc - ?
+   total - 
+   cur - 
+   seconds -
+   ??
 
 .) Important
 
