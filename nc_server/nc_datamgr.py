@@ -17,7 +17,7 @@ class NCDataManager:
     #  value       = 24232920
 
 
-    def handleRawData(self,agent_host,servicepath,source_host,source_path,value):
+    def handleRawData(self,agent_host,servicepath,source_host,source_path,value,at=None):
 
         # lookup machines
 
@@ -38,7 +38,11 @@ class NCDataManager:
 
         # add data
 
-        now = int(time.time())
-        self.ndb.monitor_state.recordData(service,source,now,value)
+        if at is None:
+            at = int(time.time())
+
+        value = int(float(value))
+
+        self.ndb.monitor_state.recordData(service,source,at,value)
 
         
