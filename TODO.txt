@@ -48,9 +48,20 @@
        - show the old and new trigger results over time to compare
          before save...
        - machine role removal -- clear old data..
-
-     - move extra data to overview page
      - incident notes
+
+   - netcon user accounts
+     - name, user, password, last login, last activity
+     - user notification methods
+       - email, pager, hiptop
+       - which severity levels should be sent to which devices
+         (on which frequency?)
+     - incident actions/notes should include user
+
+ ----- RELEASE v0.1 --------------------------
+
+   - cleanup
+     - move extra data to overview page
      - expire trigger data from errors which are too old
      - show how recent the collected data is (relative)
      - change process monitor to re.search()
@@ -62,18 +73,18 @@
      - expire state which was not provided again during the last agent checkin
      - dns monitor
 
+   - netcon user accounts
+     - list of currently active users
+     - audit log of config changes
+     - (see notification schedule/escelation)
+
    - disk space trend
      - progressive linear trends
      - linear regression ?
      - http://www.scipy.org/site_content/tutorials/show_doc?input_file=node20.html
      - http://www.scipy.org/site_content/tutorials/show_doc?input_file=index.html
 
-   - netcon user accounts
-     - currently active user support
-     - audit log of config changes
-     - (see notification schedule/escelation)
-
-   - switch to XML for client/server
+  - switch to XML for client/server
      - client -> server : list of monitors, config data for each monitor
      - server -> client : structured configuration
 
