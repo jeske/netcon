@@ -24,6 +24,7 @@ class NCTrendsManager:
 	now = time.time()
 	# vals = map(lambda x: ((x.pstart - (now-86400))*200,x.value),h_data)
 	vals = map(lambda x: (x.pstart,x.value),h_data)
+        vals = vals + map(lambda x: (x.pend,x.value),h_data)
 
 	def lin_f(x,par):
 	    m,b = par
@@ -32,7 +33,7 @@ class NCTrendsManager:
 	def simplex_f(args):
 	    err = 0.0
 	    for x,y in vals:
-		res = abs(lin_f(x,args) - y)
+		res = abs(lin_f(x,args) - y) + 1
 		err = err + (res * res)
 	    return err
 
@@ -43,6 +44,10 @@ class NCTrendsManager:
 	initial = [ i_m, i_b ]
 
 	initial = [random.random(),random.random()]
+
+        # use the linear regression to compute intial coefficients
+        b,m = self._linCoeff(h_data) 
+        initial = [ m, b ]
 
 	s = Simplex(simplex_f,initial,
 		    [random.random(),random.random()])
@@ -61,6 +66,18 @@ class NCTrendsManager:
 	return time_to_target
 	
 
+    def _linCoeff(self,h_data):
+	vals = map(lambda x: [x.value,x.pstart],h_data)
+        vals = vals + map(lambda x: [x.value,x.pend],h_data)
+	    
+	coeff = linreg.linearRegression(vals,1)
+	log("linreg coeff = " + repr(coeff))
+
+        # y = mx + b
+	# b,m = coeff
+        return coeff
+
+
     def computeTrendTime_Linear(self,serv_id,source_id,target):
 	# 0. load data
 
@@ -68,10 +85,7 @@ class NCTrendsManager:
 	    [ ('serv_id', serv_id),
 	      ('source_id', source_id)] )
 
-	vals = map(lambda x: [x.value,x.pstart],h_data)
-	    
-	coeff = linreg.linearRegression(vals,1)
-	log("linreg coeff = " + repr(coeff))
+        coeff = self._linCoeff(h_data)
 
 	def lin_f(x,par):
 	    m,b = par
