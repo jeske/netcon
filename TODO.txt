@@ -26,6 +26,9 @@
    - archive state which was not provided during the last agent checkin
    - DEBUG!
      - bug w/swap trigger
+     - fix graphs to use time properly
+       - should align time for all graphs on a page!
+     - total disk space seems to be changing, why? is it "free"?
    - netcon user accounts
    - better display of incident failure
    - incident notes

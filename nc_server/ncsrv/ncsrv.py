@@ -51,6 +51,11 @@ class NCSrv:
 	return trigger.name
         
         
+##     Subject: NC- 2 critical, 10 error, 3 warning
+##     (8/15 12:05am)
+##     2 critical: Web(www.trakken.com), Web(www.neotonic.com)...
+##     10 error: Disk(c1), Disk(c4)...
+##     3 warning: Mem(c1), Mem(c4), Bugs(c9)
         
     def run_notification(self):
         ndb = self.ndb
