@@ -16,15 +16,14 @@
    - (done) agent data-submission
    - (done) basic trigger config
    - (done) basic incident notifications
-   - agent daemon run-loop
+   - basic ping agent w/ping host configuration
    - UI: show last collection date, and recent history
    - UI: better display of incident failure
    - UI: incident notes
    - UI: resolve/close incident
    - new data addition optimization (txn?)
-   - data-resolution reduction
 
-2) Agent Data Monitors
+2) Agent Data Monitors and Features
 
    - (done) disk usage 
    - (done) memory usage
@@ -43,6 +42,7 @@
    - tcp chat (connect,request,response)
    - web (http,https)
    - oracletablespace
+   - agent daemon run-loop
 
 3) Server UI
 
@@ -110,4 +110,5 @@
             - Provide these plugin tools inside Netcon server
   - Idea: revive Brandon's old "exception browser" concept for storing
     and browsing exceptions and other state messages
+  - data-resolution reduction
     
