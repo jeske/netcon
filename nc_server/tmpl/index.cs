@@ -104,7 +104,7 @@
      <option value="new">New Incident
      <?cs each:inc=CGI.active_incidents ?>
       <?cs if:inc.incident_id != Query.incident_id ?>
-       <option value="<?cs var:inc.incident_id ?>"><?cs var:inc.incident_id ?> - 
+       <option value="<?cs var:inc.incident_id ?>"><?cs var:inc.incident_id ?> - <?cs var:inc.name ?>
       <?cs /if ?>
      <?cs /each ?>
    </SELECT>

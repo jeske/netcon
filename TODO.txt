@@ -257,6 +257,10 @@ cvs -d ":ext:jeske@cvs.neotonic.com:/d2/cvsroot" co -d nc_agent netcon/nc_agent
 */5 * * * * (cd /neo/nc_agent;./ncagent.py) 2>&1 >> /neo/log/ncagent.log
 
 
+7) References
 
-
+  - Netcool
+    http://www.micromuse.com/products_sols/product_information.html
+  - SMARTS
+    http://www.smarts.com/
 
