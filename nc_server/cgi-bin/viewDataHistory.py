@@ -48,7 +48,8 @@ class ViewDataHistoryPage(NCPage):
 
 	  h_data = self.ndb.monitor_history.fetchRows(
 	      [ ('serv_id', q_service_id),
-		('source_id', q_source_id)] )
+		('source_id', q_source_id)], limit_to=200,
+                order_by =['pstart desc'] )
 
 	  h_data.hdfExport(prefix + ".history", self.ncgi.hdf)
 	
