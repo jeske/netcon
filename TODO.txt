@@ -35,6 +35,7 @@
      - report on agent checkin failure!
      - incident notes
      - expire trigger data from errors which are too old
+     - improve notification format
 
    - cleanup
      - show how recent the collected data is (relative)
