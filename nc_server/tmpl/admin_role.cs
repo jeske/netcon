@@ -1,6 +1,6 @@
 <?cs include:"header.cs" ?>
 
-<b>Admin Role '<?cs var:CGI.role.name ?>'</b><p>
+<b>Admin Role '<?cs var:CGI.role.name ?>'</b> <a href="admin_edit_role.py?role_id=<?cs var:CGI.role.role_id ?>">edit</a><p>
 
 <b>collector config</b> <a href="admin_edit_config.py?role_id=<?cs var:CGI.role.role_id ?>">Edit</a><br>
 <table border=1>
@@ -29,8 +29,9 @@
 
 </table>
 
+<p>
 
-<b>machines</b><br>
+<b>machines</b> <a href="admin_edit_role_machines.py?role_id=<?cs var:CGI.role.role_id ?>">edit machines</a><br>
 <table border=1>
 <?cs each:mach=CGI.role_machines ?>
  <tr><Td><?cs var:mach.name ?></td></tr>

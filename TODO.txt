@@ -18,7 +18,7 @@
    - (done) basic incident notifications
    - (done) basic ping agent w/ping host configuration
    - (done) basic queue directory watcher w/dir configuration
-   - basic role creation/machine assignment
+   - (done) basic role creation/machine assignment
    - UI: show last collection date, and recent history
    - UI: better display of incident failure
    - UI: incident notes
