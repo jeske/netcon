@@ -76,12 +76,14 @@ class NCSrv:
         
     def run_notification(self):
         ndb = self.ndb
+        log("----- notifications ---- ")
 
 	# this needs to be changed to retain state per user
         
 	# for all active incidents...
 	act_inc = ndb.incidents.getIncidentsForNotification()
 
+        log("%d incidents to notify about" % len(act_inc))
 
 	if not act_inc:
 	    return
@@ -111,7 +113,7 @@ class NCSrv:
 	# compose real msg
 
 	import sendmail
-	for recip in ["jeske@neotonic.com"]:
+	for recip in ["jeske@neotonic.com", "jeske-pagenc@neotonic.com"]:
 	    bodyp = []
 	    bodyp.append("To: %s" % recip)
 	    bodyp.append("From: netcon@neotonic.com")

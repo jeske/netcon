@@ -261,8 +261,10 @@ class NCIncidentsTable(Table):
 			 enum_values=kState_enum)
 	self.d_addColumn("until",kInteger, int_date=1) # 0 = none
 
-    def _activeWhere(self):
+    def _appendToWhere(self):
 	return 'state in (%s)' % string.join(map(lambda x:str(x),[kStateNew,kStateViewed]),",")
+    def _activeWhere(self):
+	return 'state in (%s)' % string.join(map(lambda x:str(x),[kStateNew,kStateViewed, kStateAck]),",")
 
     def getIncidentsForNotification(self):
         return self.fetchRows(
@@ -275,7 +277,7 @@ class NCIncidentsTable(Table):
     def getActiveIncident(self,create=0,event_time=None):
         incident_list = self.fetchRows(
 	    ('is_active', 1), order_by = ['end desc'], limit_to=1,
-	    where=[self._activeWhere()])
+	    where=[self._appendToWhere()])
 
         if event_time is None:
             use_time = int(time.time())
