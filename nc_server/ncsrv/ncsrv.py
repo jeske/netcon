@@ -17,11 +17,15 @@ class NCSrv:
     def run_triggers(self):
         ndb = self.ndb
 
+        print "---------- TRIGGER STAGE -----------------"
+
         triggermanager = nc_triggermgr.NCTriggerManager(ndb)
         triggermanager.runAllTriggers()
         
     def run_incident_management(self):
         ndb = self.ndb
+
+        print "---------- INCIDENT STAGE -----------------"
 
         incidentmanager = nc_incidentmgr.NCIncidentManager(ndb)
         incidentmanager.updateIncidents()

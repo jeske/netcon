@@ -4,6 +4,9 @@ from log import *
 import neo_cgi
 import neo_util
 
+import odb
+import re
+
 class NCIncidentManager:
     def __init__(self,ndb):
         self.ndb = ndb
@@ -17,11 +20,19 @@ class NCIncidentManager:
         # fetch out all trigger/* services
         services = ndb.services.getMatchingServices("trigger/")
 
-        log("scan errors (%s)" % len(services))
+        log("scan state for (%s) triggers" % len(services))
 
         # fetch out recent data for these services to find current errors
         for a_service in services:
-            log("check service: %s" % repr(a_service))
+            m = re.match("trigger/([0-9]+)",a_service.namepath)
+            if not m: raise "bad trigger service name: %s" % a_service.namepath
+            trigger_id = int(m.group(1))
+            try:
+                trigger = ndb.role_triggers.fetchRow( ('trigger_id', trigger_id) )
+            except odb.eNoMatchingRows:
+                log("no such trigger_id: %s" % trigger_id)
+                continue
+            log("--[ check service: (%s) %s ]--" % (a_service.namepath,trigger.name))
 
             statedata = ndb.monitor_state.fetchRows( ('serv_id', a_service.serv_id) )
 
@@ -34,7 +45,7 @@ class NCIncidentManager:
 
 		if edata.value == 0:
 		    # no error to report
-		    break
+		    continue
 
 		log("report error for: %s" % repr(incident_error_key))
 

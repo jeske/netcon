@@ -50,8 +50,8 @@ class NCTriggerManager:
 		sources = []
 		for a_source in allsources:
 		    if re.match(a_trigger.source_pattern,a_source.source_name):
-                        print "match: '%s' - '%s'" % (a_trigger.source_pattern,
-                                                      a_source.source_name)
+                        # print "match: '%s' - '%s'" % (a_trigger.source_pattern,
+                        #                               a_source.source_name)
 			sources.append(a_source)
 	    else:
 		sources = allsources

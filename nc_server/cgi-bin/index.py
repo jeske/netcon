@@ -93,7 +93,7 @@ class IndexPage(NCPage):
 	    a_mach.hdfExport("CGI.machines.%d" % a_mach.mach_id,self.ncgi.hdf)
 
         # load agents
-        agents = self.ndb.agents.fetchAllRows()
+        agents = self.ndb.agents.fetchRows()
         agents.hdfExport("CGI.agents",self.ncgi.hdf)
  
         
