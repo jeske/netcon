@@ -2,6 +2,7 @@
 
 from odb import *
 from log import *
+from hdfhelp import HdfRow, HdfItemList
 import profiler
 import socket
 
@@ -227,9 +228,12 @@ class NCRoleTriggersTable(Table):
 class NCIncidentsTable(Table):
     def _defineRows(self):
         self.d_addColumn("incident_id",kInteger, primarykey=1, autoincrement=1)
-        self.d_addColumn("start",kInteger)
-        self.d_addColumn("end",kInteger)
+        self.d_addColumn("start",kInteger,int_date=1)
+        self.d_addColumn("end",kInteger,int_date=1)
         self.d_addColumn("is_active",kInteger,indexed=1)
+
+    def getAllActiveIncidents(self):
+        return self.fetchRows( ('is_active', 1) )
 
     def getActiveIncident(self,create=0,event_time=None):
         incident_list = self.fetchRows( ('is_active', 1),
@@ -319,6 +323,12 @@ class DB(Database):
         self.incident_errors = NCIncidentErrorsTable(self,"nc_incident_errors")
         self.incident_event_audit = NCIncidentEventAuditTable(self,"nc_incident_event_audit")
 
+    def defaultRowClass(self):
+        return HdfRow
+    def defaultRowListClass(self):
+	return HdfItemList
+
+        
     def defaultCursor(self):
         # share one cursor for this db object!
         if self._cursor is None:
