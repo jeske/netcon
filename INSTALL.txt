@@ -1,0 +1,64 @@
+
+*******************************
+*
+* Netcon  -  INSTALL.txt
+* 
+*  David Jeske <jeske@chat.net>
+*
+
+You're looking at an alpha version of Netcon. Things
+are still very rough. If you're looking for a quick
+out of the box install you need to wait a few releases.
+
+In order to install this version, you'll need to do 
+something like the following:
+
+1) Install Mysql, Python2.2, Apache, Python PIL
+
+2) create a "netcon" database
+
+3) run the netcon.sql table create script
+    mysql netcon < netcon.sql
+
+4) download and compile clearsilver (>=0.9.4)
+    http://www.clearsilver.net/downloads/
+
+5) Edit a bunch of #!/neo/opt/bin/python lines to 
+   match your local python location
+
+6) Add an apache config to point at your cgi directory
+
+  Alias /netcon/ /home/netcon/netcon/nc_server/cgi-bin/
+  <Directory /home/netcon/netcon/nc_server/cgi-bin>
+    Options ExecCGI
+  </Directory>
+
+7) Edit the nc_agent submit url to match the location where 
+   your server is running in nc_agent/nc_srvrpc.py
+
+8) add a cron entry for the netcon server tasks
+
+*/8 * * * * (cd /home/netcon/netcon/nc_server/ncsrv; ./ncsrv.py) >> /neo/log/ncsrv.log 2>&1
+
+9) distribute nc_agent to the proper machines, and
+   add a cron entry for it
+
+*/5 * * * * (cd /home/netcon/netcon/nc_agent; ./ncagent.py) >> /neo/log/ncagent.log 2>&1
+
+10) load up the HTML UI, and:
+   a) create a role
+   b) add collector configs to the role
+
+       Mem
+       Cpu  
+       DirQueue /neo/live/Maildir 
+       DirQueue /neo/data/bugs 
+       Proc /httpd/bin/httpd
+       InnoTbSpc root%@localhost:netcon 
+       Proc ntpd
+       Proc master
+
+  c) add machines to the role (machines are automatically
+     available as soon as their agents checkin)
+
+
