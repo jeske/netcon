@@ -4,6 +4,7 @@ import tstart
 
 from CSPage import Context
 from nc_page import NCPage
+import math
 
 
 class ViewMachinePage(NCPage):
@@ -43,9 +44,9 @@ class ViewMachinePage(NCPage):
 		    self.ncgi.hdf.setValue(prefix + ".services.%d.serv_id" % (a_state.serv_id),str(a_state.serv_id))
 		    a_source.hdfExport(prefix + ".services.%d.sources.%d" % (a_state.serv_id,a_state.source_id),self.ncgi.hdf)
 		    a_state.hdfExport(prefix + ".services.%d.sources.%d.states.%s" % (a_state.serv_id,a_state.source_id,stn),self.ncgi.hdf)
-		    self.ncgi.hdf.setValue(prefix + ".services.%d.sources.%d.states.%s.value" % (a_state.serv_id,a_state.source_id,stn),str(a_state.value))
-		    
-
+                    fp_str = "%f" % a_state.value
+                    while fp_str[-1] in ('0','.'): fp_str = fp_str[:-1]
+		    self.ncgi.hdf.setValue(prefix + ".services.%d.sources.%d.states.%s.value" % (a_state.serv_id,a_state.source_id,stn),fp_str)
 	    # export services
 
 	    services = self.ndb.services.fetchAllRows()
