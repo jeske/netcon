@@ -220,6 +220,8 @@
   - Idea: revive Brandon's old "exception browser" concept for storing
     and browsing exceptions and other state messages
   - data-resolution reduction
+  - Idea: give vendors their own private access pages to see status
+      for their sites. (i.e. "info about gator.trakken.com")
     
 6) Neotonic QOS Config:
 
