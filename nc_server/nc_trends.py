@@ -98,9 +98,12 @@ class NCTrendsManager:
 	b,m = coeff
 	values = m,b
 
-	at = lin_fsolve(float(target),values)
-        time_to_target = (at - time.time())
-        log("time_to_target = " + str(time_to_target))
+        try:
+	    at = lin_fsolve(float(target),values)
+            time_to_target = (at - time.time())
+            log("time_to_target = " + str(time_to_target))
+        except ZeroDivisionError:
+            time_to_target = -1
 	return time_to_target
 
     def computeAllTrends(self):
