@@ -21,10 +21,15 @@ class TcpMonitor:
         if port == 80:
 	    t.send("GET / HTTP/1.1\nHost: %s\n\n" % host)
 
+	if t.valid:
+	    success = 1
+	else:
+	    success = 0
+
 	print 'Valid: %s' % (t.valid)
 	errcode, errmsg = t.getreply(45)
 
-	self.ncc.newData("tcp/connect:state",str(port),1,hostname=host)
+	self.ncc.newData("tcp/connect:state",str(port),success,hostname=host)
 	self.ncc.newData("tcp/connect:time",str(port),connect_time,hostname=host)
 
 
