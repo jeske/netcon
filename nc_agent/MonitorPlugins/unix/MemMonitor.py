@@ -15,17 +15,6 @@ class MemMonitor:
         self.sused  = 0
         self.sfree  = 0
 
-    def doCollectDataWin32(self):
-        import win32pdh
-        from win32pdhwrapper import *
-        self.used = getPdhValueLong("Memory", "Pool Paged Bytes", None, 0)/1024
-        self.free = getPdhValueLong("Memory", "Available KBytes", None, 0)
-        self.total = self.used + self.free
-        # this is not all of it, unfortunately
-        self.sused = getPdhValueLong("Process", "Page File Bytes", "_Total", 0)/1024
-        self.sfree = 0
-        self.total = self.used + self.free
-
     def collectData(self,config):
 
         # Get the 5 min load average
