@@ -2,6 +2,8 @@
 
 import tstart
 
+import time
+
 from log import *
 import time, string
 import db_netcon
@@ -117,23 +119,40 @@ class NCSrv:
 	for inc in act_inc:
 	    ierrs = inc.getErrors()
 
-	    # find out the current states of the errors
+	    # find out the current states of the errors by severity
 	    count = 0
 	    bad_count = 0
+	    bad_count_by_severity = {}
 	    for err in ierrs:
 		try:
 		    state = err.getStateRow()
 		    count = count + 1
 		    if state.value != 0:
 			bad_count = bad_count + 1
+			trig = err.getTriggerRow()
+			bad_count_by_severity[trig.level] = bad_count_by_severity.get(trig.level,0) + 1
 		except odb.eNoMatchingRows:
 		    pass
 
 	    log("incident %s:%s,  count=%s,bad_count=%s" %
 		(inc.incident_id,inc.name,count,bad_count))
 		
+
 	    if bad_count == 0:
 		log("   skipping incident notify...")
+		continue
+
+	    if (not bad_count_by_severity.get("error",0) and
+		not bad_count_by_severity.get("failure",0) and
+		not bad_count_by_severity.get("warning",0)):
+		log("   skipping incident notify2...")
+		continue
+
+	    nowst = time.localtime()
+
+	    if (not bad_count_by_severity.get("critical",0) and
+		(nowst.tm_hour in [1,2,3,4,5,6,7])):
+		log("   skipping notify for non-critical night error.")
 		continue
 
 	    active_count = active_count + 1
