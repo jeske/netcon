@@ -13,6 +13,7 @@ import time
 
 import nc_cmgr, nc_srvrpc
 
+sys.path.insert(0,"/neo/nc_agent/MonitorPlugins/unix")
 sys.path.insert(0,"MonitorPlugins/unix")
 import DiskMonitor, MemMonitor, CpuMonitor
 
