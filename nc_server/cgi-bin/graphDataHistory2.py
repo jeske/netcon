@@ -65,8 +65,8 @@ class GraphImage:
       dataset.addData(data)
 
     def setMinMax(self,min,max):
-	self.y_min = y_min
-	self.y_max = y_max
+	self.y_min = min
+	self.y_max = max
 	self.fixed_vscale = 1
 
     def makeImage(self):
@@ -94,16 +94,49 @@ class GraphImage:
 
 	datasets = self.datasets.values()
 
+	## find the range of the X axis
+
 	x_max = datasets[0].x_max
 	x_min = datasets[0].x_min
-	y_max = datasets[0].y_max
-	y_min = datasets[0].y_min
 
 	for dataset in datasets[1:]:
 	  x_max = max(dataset.x_max, x_max)
 	  x_min = min(dataset.x_min, x_min)
-	  y_max = max(dataset.y_max, y_max)
-	  y_min = min(dataset.y_min, y_min)
+
+	maxx = x_max
+	minx = x_max - (3600*24)
+	xrange = maxx - minx
+
+
+	## clip the datasets
+
+	y_max = None
+	y_min = None
+
+	clipped_datasets = []
+
+	for dataset in datasets:
+	  data = []
+	  clipped_datasets.append(data)
+	  for dp in dataset.data:
+	    if dp.pend < minx or dp.pstart > maxx:
+	      pass
+	    elif dp.pstart >= minx and dp.pend <= maxx:
+	      data.append(dp)
+	      y_max = max(dp.value, y_max)
+	      if y_min is None: y_min = dp.value
+	      y_min = min(dp.value, y_min)
+
+	    else:
+	      x1 = max(minx, dp.pstart)
+	      x2 = min(maxx, dp.pend)
+
+	      if x1 >= minx and x2 <= maxx:
+		if x1 != dp.pstart or x2 != dp.pend:
+		  p = Point(dp.value, x1, x2)
+		  data.append(p)
+		else:
+		  data.append(dp)
 
 	if self.fixed_vscale:
 	  y_max = self.y_max
@@ -113,10 +146,8 @@ class GraphImage:
 	miny = math.floor(y_min)
 	yrange = maxy-miny
 
-	maxx = x_max
-	minx = x_max - (3600*24)
-#	minx = x_min
-	xrange = maxx - minx
+
+
 
 	height = self.height / self.antialias_factor
 	width = self.width / self.antialias_factor
@@ -159,34 +190,12 @@ class GraphImage:
 
 	## clip the data to the X boundaries
 
-	class P:
-	  pass
 
-	colors = [(180, 255, 180), (255, 180, 180), (180, 180, 255)]
+	colors = [(0xee, 0xdd, 0x99), (255, 180, 180), (180, 180, 255)]
 	linecolors = [(255,0,0), (0,128,128), (0,0, 255)]
 
 	nset = 0
-	for dataset in datasets:
-	  data = []
-	  for dp in dataset.data:
-	    if dp.pend < minx or dp.pstart > maxx:
-	      pass
-	    elif dp.pstart >= minx and dp.pend <= maxx:
-		data.append(dp)
-	    else:
-	      x1 = max(minx, dp.pstart)
-	      x2 = min(maxx, dp.pend)
-
-	      if x1 >= minx and x2 <= maxx:
-		if x1 != dp.pstart or x2 != dp.pend:
-		  p = P()
-		  p.value = dp.value
-		  p.pstart=x1
-		  p.pend=x2
-		  data.append(p)
-		else:
-		  data.append(dp)
-
+	for data in clipped_datasets:
 	  if len(data):
 	      lastx = (data[0].pstart-minx) * xscale
 	      lasty = (data[0].value-miny) * yscale
@@ -228,8 +237,12 @@ class GraphImage:
 	  nset=nset+1
 
         
-	im = im.resize((self.width/self.antialias_factor,self.height/self.antialias_factor),Image.ANTIALIAS)
+	im = im.resize((width, height),Image.ANTIALIAS)
 	imd = ImageDraw.Draw(im)
+
+	grid_im = Image.new("RGB",(width,height),(255,255,255))
+	grid_imd = ImageDraw.Draw(grid_im)
+
 
 	## draw graph border
 
@@ -254,14 +267,8 @@ class GraphImage:
 	  (sw, sh) = font.getsize(str)
 	  imd.text((gx1-sw-10, dy-(sh/2)), str, fill=0)
 
-	  for x in range(gx1+1, gx2-1, 1):
-	    c = im.getpixel((x, dy))
+	  grid_imd.line((gx1+1, dy, gx2-1, dy), fill=0)
 
-	    r = int(c[0]* .8)
-	    g = int(c[1]* .8)
-	    b = int(c[2]* .8)
-
-	    imd.point((x, dy), fill=(r,g,b))
 
 	## draw the X axis grid lines and axis labels
 
@@ -275,16 +282,12 @@ class GraphImage:
  	  (sw, sh) = font.getsize(str)
 	  imd.text((dx-(sw/2), gy2+(sh/2)), str, fill=0)
 
-	  for y in range(gy1+1, gy2, 1):
-	    c = im.getpixel((dx, y))
+	  grid_imd.line((dx, gy1+1, dx, gy2), fill=0)
 
-	    r = int(c[0] * .8)
-	    g = int(c[1] * .8)
-	    b = int(c[2] * .8)
 
-	    imd.point((dx, y), fill=(r,g,b))
+	im2 = Image.blend(im, grid_im, .1)
 	
-	return im
+	return im2
 
 class GraphDataHistoryPage(NCPage):
     def display(self):
