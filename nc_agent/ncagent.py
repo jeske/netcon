@@ -1,4 +1,4 @@
-#!/neo/opt/bin/python --
+#!/usr/bin/env python
 
 #
 # nc_agent.py - This is the monitoring agent for our system

@@ -1,4 +1,4 @@
-#!/neo/opt/bin/python
+#!/usr/bin/env python
 
 import tstart
 
@@ -50,7 +50,13 @@ class GraphImage:
                 self.min = 0
 	    
 	# vertical scaling
-	vscale = (float(self.height) / float(self.max - self.min))
+        if (self.max != self.min):
+	    vscale = (float(self.height) / float(self.max - self.min))
+        else:
+            if self.max:
+                vscale = float(self.height) / self.max
+            else:
+                vscale = 1
 	im = Image.new("RGB",(self.width,self.height),(255,255,255))
 	imd = ImageDraw.Draw(im)
 

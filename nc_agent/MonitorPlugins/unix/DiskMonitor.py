@@ -50,7 +50,7 @@ class DiskMonitor:
 
         # Get disk inode usage
         if 'linux2' == sys.platform or 'linux-i386' == sys.platform:
-            (status, output) = commands.getstatusoutput('/bin/df -it ext2')
+            (status, output) = commands.getstatusoutput('/bin/df -it ext2 -t ext3')
         elif 'freebsd' == sys.platform[:7]:
             (status, output) = commands.getstatusoutput('/bin/df -it ufs')
         elif 'sunos5' == sys.platform:
