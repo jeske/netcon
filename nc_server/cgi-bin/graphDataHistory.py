@@ -66,14 +66,14 @@ class GraphImage:
 			break
 		    pos = (dp-self.min) * vscale
 
-		    wideline(imd,(self.width-(curx*hscale),self.height-cury,
-				  self.width-((curx+1)*hscale),self.height-pos) , fill=128)
+		    wideline(imd,((curx*hscale),self.height-cury,
+				  ((curx+1)*hscale),self.height-pos) , fill=128)
 		    curx = curx + 1
 		    cury = pos
 	    else:
 		hscale = float(self.width)
-		wideline(imd,(self.width-(curx*hscale),self.height-cury,
-			      self.width-((curx+1)*hscale),self.height-cury),fill=128)
+		wideline(imd,((curx*hscale),self.height-cury,
+			      ((curx+1)*hscale),self.height-cury),fill=128)
 
         
 	return im.resize((self.width/4,self.height/4),Image.ANTIALIAS)
