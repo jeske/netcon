@@ -9,30 +9,34 @@ Disk Usage, as well as services such as HTTP, and MySQL. When any of
 the reported data for these services meets a set of pre-determined
 triggers, the people responsible for those services can be notified.
 
-* Why write Netcon?
+## What is different about Netcon?
 
-Netcon is unique in that one of the primary goals is to separate the
-discovery of individual errors from the notification process. Some
-systems do this by layering a notification suppression system on top
-of a montoring and notification system (see QOS/Giraffe). However, in
-Netcon these two components understand each other and work together.
-
-The result is simple. Instead of receiving individual notifications
+One of Netcon's primary goals is to separate the discovery of individual 
+errors from the notification process.  Instead of receiving individual notifications
 about service problems, which can often include tens or hundreds of
 notifications, with Netcon the user receives strictly time-periodic
 updates of the system state during an incident. For example, you might
-receive one page every five minutes during an incident, each one
+receive one notification every five minutes during an incident, each one
 telling you how many service failures are still pending on that
-incident, followed by a page indicating that the incident is resolved
+incident, followed by a notification when the incident is resolved
 and cleared.
 
-The Netcon server uses a uniform and extendable metric naming 
-scheme.  The same history that records the CPU usage of a machine 
-over time is used to record the duration of a trigger or 
-failure -- allowing either to leverage display or graphing capabilities. 
-This makes it easy to build up many layers to the system.  For example, 
-by indicating to Netcon the user-impact of an incident, Netcon can 
-report on the user-percieved impact of failures over time.
+Another primary goal of Netcon is to configure failure conditions not only 
+in terms of discerete failure events (such as service-down), but also in terms of 
+the predicted time to reach a failure threshold. For example, Netcon can be
+configured to alert you when it's predicted that available diskspace 
+will reach <10% in less than 12 hours. To do this prediction, it uses a simple 
+linear regression of available disk-space over a few time periods.
+
+## What else does Netcon do?
+
+The Netcon data collection uses a uniform and extendable naming 
+scheme for storing service status metrics.  The same history that records 
+the CPU usage of a machine over time is used to record the duration of a
+trigger or failure -- allowing both to leverage the same display and graphing 
+capabilities. This makes it easy to build up many layers to the system.  
+For example, by setting up an agent to report to Netcon the user-impact 
+of an incident, Netcon can report on the user-percieved impact of failures over time.
 
 Netcon's basic architecture borrows my favorite features from other
 tools. Like QOS, it has a lightweight data-collection agent which
