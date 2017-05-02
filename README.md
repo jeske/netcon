@@ -1,12 +1,7 @@
-**************************************************
-*
-* Netcon - Network Condition Monitoring Tool
-*
-* by David Jeske
-*
-**************************************************
+# Netcon - Network Condition Monitoring Tool
+#### by David Jeske
 
-* What is Netcon?
+## What is Netcon?
 
 Netcon is an operational machine and service monitoring tool. It
 allows you to setup monitoring for machine paramaters such as CPU, and
@@ -50,7 +45,7 @@ easy to configure, and since this configuration is stored in the
 database, this means it is easy to write scripts which modify 
 configuration without fear of breaking a big configuration file. 
 
-* What are the other basic features of Netcon?
+## What are the other basic features of Netcon?
 
 - data is stored in a MySQL database
 - monitoring is performed by a lightweight data-collection client
@@ -62,7 +57,7 @@ configuration without fear of breaking a big configuration file.
 - hierarchial redundant trigger suppression
 - services are specified in role-groups and applied to a set of machines
 
-* How does Netcon work?
+## How does Netcon work?
 
 One way to understand Netcon is to consider the flow of monitored data
 through the system. Here is a description of the cycle of data
@@ -105,11 +100,11 @@ well as the length of time this incident should be watched for. After
 the watch timeout has expired, Netcon will clear the incident and make
 it part of the incident history.
 
-* What is there left to work on?
+## What is there left to work on?
 
 Check out the TODO.txt file!
 
-* What other programs are available?
+## What other programs are available?
 
   - QOS : a client/server data collection and error notification
        system. Uses raw files for data, and python for configuration.
@@ -128,8 +123,19 @@ Check out the TODO.txt file!
 
      http://people.ee.ethz.ch/~oetiker/webtools/rrdtool/rrdworld/index.html
      
+## What does Netcon look like?
 
+![Main Overview](https://raw.githubusercontent.com/jeske/netcon/master/docs/images/main.gif)
 
+![Active Incidents](https://raw.githubusercontent.com/jeske/netcon/master/docs/images/v0_2_blinkenlights.gif)
 
+![Host Summary](https://raw.githubusercontent.com/jeske/netcon/master/docs/images/host_summary.gif)
 
+![Incident Details](https://raw.githubusercontent.com/jeske/netcon/master/docs/images/incident_details.gif)
+
+![Role Config](https://raw.githubusercontent.com/jeske/netcon/master/docs/images/role_config.gif)
+
+![Service Summary](https://raw.githubusercontent.com/jeske/netcon/master/docs/images/service_summary.gif)
+
+![New Status Graph](https://raw.githubusercontent.com/jeske/netcon/master/docs/images/v0_2_newgraphs.gif)
 
