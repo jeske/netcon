@@ -1,5 +1,7 @@
 # Netcon - Network Condition Monitoring Tool
-#### by David Jeske
+#### Written by David Jeske, (C) Copyright 2004,2005. 
+
+Released under Apache License v1.1. See LICENSE.txt
 
 ## What is Netcon?
 
